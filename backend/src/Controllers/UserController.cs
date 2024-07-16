@@ -12,18 +12,18 @@ public class UserController(UserService userService) : ControllerBase {
     private readonly UserService userService = userService;
 
     [HttpGet]
-    public IActionResult GetAllUsers() {
+    public async Task<IActionResult> GetAllUsers() {
 
-        List<User> users = userService.GetAll();
+        List<User> users = await userService.GetAll();
 
         return Ok(users);
 
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetUserById([FromRoute] int id) {
+    public async Task<IActionResult> GetUserById([FromRoute] int id) {
 
-        User? user = userService.GetUserByID(id);
+        User? user = await userService.GetUserByID(id);
 
         if(user == null) {
             return NotFound();
@@ -34,9 +34,9 @@ public class UserController(UserService userService) : ControllerBase {
     }
 
     [HttpPost]
-    public IActionResult CreateUser([FromBody] CreateUserBody body) {
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserBody body) {
 
-        User? user = userService.CreateUser(body.username, body.password, body.fullName, body.email, body.phoneNumber, body.role);
+        User? user = await userService.CreateUser(body.username, body.password, body.fullName, body.email, body.phoneNumber, body.role);
 
         if(user == null) {
             return BadRequest();
@@ -47,9 +47,9 @@ public class UserController(UserService userService) : ControllerBase {
     }
 
     [HttpPut("{id}")]
-    public IActionResult UpdateUser([FromRoute] int id, [FromBody] UpdateUserBody body) {
+    public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UpdateUserBody body) {
 
-        User? user = userService.UpdateUser(id, body.username, body.password, body.fullName, body.email, body.phoneNumber, body.role);
+        User? user = await userService.UpdateUser(id, body.username, body.password, body.fullName, body.email, body.phoneNumber, body.role);
 
         if(user == null) {
             return BadRequest();
@@ -60,9 +60,9 @@ public class UserController(UserService userService) : ControllerBase {
     }
     
     [HttpDelete("{id}")]
-    public IActionResult DeleteUser([FromRoute] int id) {
+    public async Task<IActionResult> DeleteUser([FromRoute] int id) {
 
-        User? user = userService.DeleteUser(id);
+        User? user = await userService.DeleteUser(id);
 
         if(user == null) {
             return BadRequest();

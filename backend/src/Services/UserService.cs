@@ -1,5 +1,6 @@
 using API.Entities;
 using API.Types;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Services;
 
@@ -8,23 +9,23 @@ public class UserService(ApplicationDBContext context)
 
     private readonly ApplicationDBContext context = context;
 
-    public List<User> GetAll() {
+    public async Task<List<User>> GetAll() {
 
-        List<User> users = context.users.ToList();
+        List<User> users = await context.users.ToListAsync();
 
         return users;
 
     }
 
-    public User? GetUserByID(int id) {
+    public async Task<User?> GetUserByID(int id) {
 
-        User? user = context.users.Find(id);
+        User? user = await context.users.FindAsync(id);
 
         return user;
 
     }
 
-    public User? CreateUser(string username, string password, string fullName, string email, string phoneNumber, Role role) {
+    public async Task<User?> CreateUser(string username, string password, string fullName, string email, string phoneNumber, Role role) {
 
         User user = new User {
             username = username,
@@ -36,8 +37,8 @@ public class UserService(ApplicationDBContext context)
         };
 
         try {
-            context.users.Add(user);
-            context.SaveChanges();
+            await context.users.AddAsync(user);
+            await context.SaveChangesAsync();
             return user;
         } catch {
             return null;
@@ -45,9 +46,9 @@ public class UserService(ApplicationDBContext context)
 
     }
 
-    public User? UpdateUser(int id, string? username, string? password, string? fullName, string? email, string? phoneNumber, Role? role) {
+    public async Task<User?> UpdateUser(int id, string? username, string? password, string? fullName, string? email, string? phoneNumber, Role? role) {
 
-        User? user = context.users.FirstOrDefault(u => u.id == id);
+        User? user = await context.users.FirstOrDefaultAsync(u => u.id == id);
 
         if(user == null) {
             return null;
@@ -65,7 +66,7 @@ public class UserService(ApplicationDBContext context)
         user.role = role ?? user.role;
 
         try {
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             return user;
         } catch {
             return null;
@@ -73,9 +74,9 @@ public class UserService(ApplicationDBContext context)
 
     }
 
-    public User? DeleteUser(int id) {
+    public async Task<User?> DeleteUser(int id) {
 
-        User? user = context.users.FirstOrDefault(u => u.id == id);
+        User? user = await context.users.FirstOrDefaultAsync(u => u.id == id);
 
         if(user == null) {
             return null;
@@ -83,7 +84,7 @@ public class UserService(ApplicationDBContext context)
 
         try {
             context.users.Remove(user);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
             return user;
         } catch {
             return null;

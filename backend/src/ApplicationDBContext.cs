@@ -5,6 +5,8 @@ namespace API;
 
 public class ApplicationDBContext : DbContext {
 
-    public ApplicationDBContext(DbContextOptions options) : base(options) { }
+    public ApplicationDBContext(DbContextOptions options) : base(options) {}
+
+    public DbSet<User> users {get; set;}
 
 }

@@ -6,28 +6,37 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Entities;
 
 [Table("user")]
-[PrimaryKey("id")]
+[PrimaryKey("Id")]
 public class User {
 
     [Column("user_id", TypeName = "int")]
-    public int id { get; set; }
+    public int Id { get; set; }
 
     [Column("username", TypeName = "varchar")]
-    public string username { get; set; } = string.Empty;
+    public string Username { get; set; } = string.Empty;
 
     [Column("password", TypeName = "varchar")]
     [JsonIgnore]
-    public string password { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
 
     [Column("full_name", TypeName = "varchar")]
-    public string fullName { get; set; } = string.Empty;
+    public string FullName { get; set; } = string.Empty;
 
     [Column("email", TypeName = "varchar")]
-    public string email { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
 
     [Column("phone_number", TypeName = "varchar")]
-    public string phoneNumber { get; set; } = string.Empty;
+    public string PhoneNumber { get; set; } = string.Empty;
 
     [Column("role", TypeName = "enum")]
-    public Role role { get; set; }
+    public Role Role { get; set; }
+
+    public List<Building> Buildings {get; set;} = [];
+
+    public List<Resident> Residencies {get; set;} = [];
+
+    public List<Repair> Repairs {get; set;} = [];
+
+    public List<Vote> Votes {get; set;} = [];
+
 }

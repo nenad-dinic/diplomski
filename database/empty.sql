@@ -24,9 +24,13 @@ USE `residential_community`;
 DROP TABLE IF EXISTS `apartment`;
 CREATE TABLE IF NOT EXISTS `apartment` (
   `apartment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `building_id` int(10) unsigned NOT NULL,
   `number` int(10) unsigned NOT NULL,
   `size` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`apartment_id`)
+  `number_of_residents` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`apartment_id`),
+  KEY `fk_apartment_building_id` (`building_id`),
+  CONSTRAINT `fk_apartment_building_id` FOREIGN KEY (`building_id`) REFERENCES `building` (`building_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.
@@ -40,7 +44,6 @@ CREATE TABLE IF NOT EXISTS `bill` (
   `month` int(11) unsigned NOT NULL,
   `file_name` varchar(256) NOT NULL,
   `file_path` varchar(256) NOT NULL,
-  `is_paid` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`bill_id`),
   KEY `fk_bill_apartment_id` (`apartment_id`),
   KEY `fk_bill_bill_type_id` (`bill_type_id`),
@@ -64,8 +67,11 @@ CREATE TABLE IF NOT EXISTS `bill_type` (
 DROP TABLE IF EXISTS `building`;
 CREATE TABLE IF NOT EXISTS `building` (
   `building_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `manager_id` int(10) unsigned NOT NULL,
   `address` varchar(256) NOT NULL,
-  PRIMARY KEY (`building_id`)
+  PRIMARY KEY (`building_id`),
+  KEY `fk_building_manager_id` (`manager_id`),
+  CONSTRAINT `fk_building_manager_id` FOREIGN KEY (`manager_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.
@@ -75,7 +81,7 @@ DROP TABLE IF EXISTS `meeting`;
 CREATE TABLE IF NOT EXISTS `meeting` (
   `meeting_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `building_id` int(10) unsigned NOT NULL,
-  `datetime` datetime NOT NULL,
+  `date_time` datetime NOT NULL,
   `length` int(11) NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`meeting_id`),
@@ -123,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `resident` (
   `user_id` int(10) unsigned NOT NULL,
   `apartment_id` int(10) unsigned NOT NULL,
   `expires` date NOT NULL,
-  `is_owner` tinyint(1) unsigned NOT NULL DEFAULT 1,
+  `is_owner` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`resident_id`),
   KEY `fk_resident_user_id` (`user_id`),
   KEY `fk_resident_apartment_id` (`apartment_id`),
@@ -155,9 +161,12 @@ DROP TABLE IF EXISTS `vote`;
 CREATE TABLE IF NOT EXISTS `vote` (
   `vote_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
+  `poll_id` int(10) unsigned NOT NULL,
   `result` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`vote_id`),
   KEY `fk_vote_user_id` (`user_id`),
+  KEY `fk_vote_poll_id` (`poll_id`),
+  CONSTRAINT `fk_vote_poll_id` FOREIGN KEY (`poll_id`) REFERENCES `poll` (`poll_id`) ON UPDATE CASCADE,
   CONSTRAINT `fk_vote_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

@@ -1,3 +1,5 @@
+namespace API.Interfaces;
+
 public interface IRepository<T> {
 
     Task<List<T>> GetAll();

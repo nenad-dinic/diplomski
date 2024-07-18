@@ -9,8 +9,6 @@ namespace API.Controllers;
 [ApiController]
 public class UserController(UserService userService) : ControllerBase {
 
-    private readonly UserService userService = userService;
-
     [HttpGet]
     public async Task<IActionResult> GetAllUsers() {
 

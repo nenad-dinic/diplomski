@@ -1,4 +1,6 @@
 using API;
+using API.Interfaces;
+using API.Repositories;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +17,9 @@ builder.Services.AddControllers();
 
 // Services
 builder.Services.AddScoped<UserService>();
+
+// Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 WebApplication app = builder.Build();
 

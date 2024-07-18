@@ -1,17 +1,15 @@
 using API.Entities;
+using API.Interfaces;
 using API.Types;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Services;
 
-public class UserService(ApplicationDBContext context)
+public class UserService(IUserRepository userRepository)
 {
-
-    private readonly ApplicationDBContext context = context;
 
     public async Task<List<User>> GetAll() {
 
-        List<User> users = await context.Users.ToListAsync();
+        List<User> users = await userRepository.GetAll();
 
         return users;
 
@@ -19,7 +17,7 @@ public class UserService(ApplicationDBContext context)
 
     public async Task<User?> GetUserByID(int id) {
 
-        User? user = await context.Users.FindAsync(id);
+        User? user = await userRepository.GetById(id);
 
         return user;
 
@@ -27,7 +25,7 @@ public class UserService(ApplicationDBContext context)
 
     public async Task<User?> CreateUser(string username, string password, string fullName, string email, string phoneNumber, Role role) {
 
-        User user = new User {
+        User user = new() {
             Username = username,
             Password = BCrypt.Net.BCrypt.HashPassword(password, 10),
             FullName = fullName,
@@ -37,9 +35,7 @@ public class UserService(ApplicationDBContext context)
         };
 
         try {
-            await context.Users.AddAsync(user);
-            await context.SaveChangesAsync();
-            return user;
+            return await userRepository.Create(user);
         } catch {
             return null;
         }
@@ -48,7 +44,7 @@ public class UserService(ApplicationDBContext context)
 
     public async Task<User?> UpdateUser(int id, string? username, string? password, string? fullName, string? email, string? phoneNumber, Role? role) {
 
-        User? user = await context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        User? user = await userRepository.GetById(id);
 
         if(user == null) {
             return null;
@@ -66,8 +62,7 @@ public class UserService(ApplicationDBContext context)
         user.Role = role ?? user.Role;
 
         try {
-            await context.SaveChangesAsync();
-            return user;
+            return await userRepository.Update(user);
         } catch {
             return null;
         }
@@ -76,16 +71,14 @@ public class UserService(ApplicationDBContext context)
 
     public async Task<User?> DeleteUser(int id) {
 
-        User? user = await context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        User? user = await userRepository.GetById(id);
 
         if(user == null) {
             return null;
         }
 
         try {
-            context.Users.Remove(user);
-            await context.SaveChangesAsync();
-            return user;
+            return await userRepository.Delete(user);
         } catch {
             return null;
         }

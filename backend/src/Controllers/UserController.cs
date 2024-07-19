@@ -34,7 +34,7 @@ public class UserController(UserService userService) : ControllerBase {
     [HttpPost]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserBody body) {
 
-        User? user = await userService.CreateUser(body.username, body.password, body.fullName, body.email, body.phoneNumber, body.role);
+        User? user = await userService.CreateUser(body.Username, body.Password, body.FullName, body.Email, body.PhoneNumber, body.Role);
 
         if(user == null) {
             return BadRequest();
@@ -47,7 +47,7 @@ public class UserController(UserService userService) : ControllerBase {
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateUser([FromRoute] int id, [FromBody] UpdateUserBody body) {
 
-        User? user = await userService.UpdateUser(id, body.username, body.password, body.fullName, body.email, body.phoneNumber, body.role);
+        User? user = await userService.UpdateUser(id, body.Username, body.Password, body.FullName, body.Email, body.PhoneNumber, body.Role);
 
         if(user == null) {
             return BadRequest();

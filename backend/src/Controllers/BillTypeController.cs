@@ -34,7 +34,7 @@ public class BillTypeController(BillTypeService billTypeService) : ControllerBas
     [HttpPost]
     public async Task<IActionResult> CreateBillType([FromBody] CreateBillTypeBody body) {
 
-        BillType? billType = await billTypeService.CreateBillType(body.name);
+        BillType? billType = await billTypeService.CreateBillType(body.Name);
 
         if(billType == null) {
             return BadRequest();
@@ -47,7 +47,7 @@ public class BillTypeController(BillTypeService billTypeService) : ControllerBas
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateBillType([FromRoute] int id, [FromBody] UpdateBillTypeBody body) {
 
-        BillType? billType = await billTypeService.UpdateBillType(id, body.name);
+        BillType? billType = await billTypeService.UpdateBillType(id, body.Name);
 
         if(billType == null) {
             return BadRequest();

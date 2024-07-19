@@ -1,4 +1,4 @@
-using API.DTOS;
+using API.Dtos.User;
 using API.Entities;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +21,7 @@ public class UserController(UserService userService) : ControllerBase {
     [HttpGet("{id}")]
     public async Task<IActionResult> GetUserById([FromRoute] int id) {
 
-        User? user = await userService.GetUserByID(id);
+        User? user = await userService.GetUserById(id);
 
         if(user == null) {
             return NotFound();

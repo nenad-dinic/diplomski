@@ -16,9 +16,11 @@ builder.Services.AddDbContext<ApplicationDBContext>(options => {
 builder.Services.AddControllers();
 
 // Services
+builder.Services.AddScoped<BillTypeService>();
 builder.Services.AddScoped<UserService>();
 
 // Repositories
+builder.Services.AddScoped<IBillTypeRepository, BillTypeRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 WebApplication app = builder.Build();

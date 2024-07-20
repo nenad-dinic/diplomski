@@ -14,7 +14,7 @@ public class Poll {
     public int BuildingId {get; set;}
 
     [Column("title", TypeName = "varchar")]
-    public int Title {get; set;}
+    public string Title {get; set;} = string.Empty;
 
     [Column("is_active", TypeName = "tinyint")]
     public bool IsActive {get; set;} = true;

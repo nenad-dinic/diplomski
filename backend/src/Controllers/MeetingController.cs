@@ -50,7 +50,7 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
         Meeting? meeting = await meetingService.UpdateMeeting(id, body.BuildingId, body.DateTime, body.Length, body.Description);
 
         if(meeting == null) {
-            return NotFound();
+            return BadRequest();
         }
 
         return Ok(meeting);
@@ -63,7 +63,7 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
         Meeting? meeting = await meetingService.DeleteMeeting(id);
 
         if(meeting == null) {
-            return NotFound();
+            return BadRequest();
         }
 
         return Ok(meeting);

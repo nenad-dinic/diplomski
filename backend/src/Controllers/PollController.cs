@@ -33,8 +33,8 @@ public class PollController(PollService pollService) : ControllerBase {
 
     [HttpPost]
     public async Task<IActionResult> CreatePoll([FromBody] CreatePollBody body) {
-        
-        Poll? poll = await pollService.CreatePoll(body.BuildingId, body.Title, body.IsActive);
+
+        Poll? poll = await pollService.CreatePoll(body.BuildingId, body.Title, true);
 
         if(poll == null) {
             return BadRequest();

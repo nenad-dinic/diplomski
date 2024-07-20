@@ -19,12 +19,14 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<ApartmentService>();
 builder.Services.AddScoped<BillTypeService>();
 builder.Services.AddScoped<BuildingService>();
+builder.Services.AddScoped<MeetingService>();
 builder.Services.AddScoped<UserService>();
 
 // Repositories
 builder.Services.AddScoped<IApartmentRepository, ApartmentRepository>();
 builder.Services.AddScoped<IBillTypeRepository, BillTypeRepository>();
 builder.Services.AddScoped<IBuildingRepository, BuildingRepository>();
+builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 WebApplication app = builder.Build();

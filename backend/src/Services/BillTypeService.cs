@@ -23,7 +23,7 @@ public class BillTypeService(IBillTypeRepository billTypeRepository) {
 
     public async Task<BillType?> CreateBillType(string name) {
 
-        BillType? billType = new() {
+        BillType billType = new() {
             Name = name
         };
 

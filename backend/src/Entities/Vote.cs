@@ -13,6 +13,9 @@ public class Vote {
     [Column("user_id", TypeName = "int")]
     public int UserId {get; set;}
 
+    [Column("poll_id", TypeName = "int")]
+    public int PollId {get; set;}
+
     [Column("result", TypeName = "tinyint")]
     public bool Result {get; set;}
 

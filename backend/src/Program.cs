@@ -24,6 +24,7 @@ builder.Services.AddScoped<PollService>();
 builder.Services.AddScoped<RepairService>();
 builder.Services.AddScoped<ResidentService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<VoteService>();
 
 // Repositories
 builder.Services.AddScoped<IApartmentRepository, ApartmentRepository>();
@@ -34,6 +35,7 @@ builder.Services.AddScoped<IPollRepository, PollRepository>();
 builder.Services.AddScoped<IRepairRepository, RepairRepository>();
 builder.Services.AddScoped<IResidentRepository, ResidentRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 
 WebApplication app = builder.Build();
 

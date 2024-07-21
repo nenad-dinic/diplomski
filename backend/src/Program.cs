@@ -1,3 +1,4 @@
+using Api.Services;
 using API;
 using API.Interfaces;
 using API.Repositories;
@@ -17,6 +18,7 @@ builder.Services.AddControllers();
 
 // Services
 builder.Services.AddScoped<ApartmentService>();
+builder.Services.AddScoped<BillService>();
 builder.Services.AddScoped<BillTypeService>();
 builder.Services.AddScoped<BuildingService>();
 builder.Services.AddScoped<MeetingService>();
@@ -26,8 +28,11 @@ builder.Services.AddScoped<ResidentService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<VoteService>();
 
+builder.Services.AddScoped<FileService>();
+
 // Repositories
 builder.Services.AddScoped<IApartmentRepository, ApartmentRepository>();
+builder.Services.AddScoped<IBillRepository, BillRepository>();
 builder.Services.AddScoped<IBillTypeRepository, BillTypeRepository>();
 builder.Services.AddScoped<IBuildingRepository, BuildingRepository>();
 builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();

@@ -4,6 +4,7 @@ using API.Interfaces;
 using API.Repositories;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,9 @@ builder.Services.AddDbContext<ApplicationDBContext>(options => {
 });
 
 // Controllers
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options => {
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+});
 
 // Services
 builder.Services.AddScoped<ApartmentService>();

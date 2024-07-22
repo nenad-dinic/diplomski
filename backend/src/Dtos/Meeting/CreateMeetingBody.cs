@@ -1,10 +1,22 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace API.Dtos.Meeting;
 
 public class CreateMeetingBody {
 
-    public int BuildingId {get; set;}
-    public DateTime DateTime {get; set;}
-    public int Length {get; set;}
-    public string Description {get; set;} = string.Empty;
+    [Required]
+    [Range(1, int.MaxValue)]
+    public required int BuildingId {get; set;}
+
+    [Required]
+    public required DateTime DateTime {get; set;}
+
+    [Required]
+    [Range(1, int.MaxValue)]
+    public required int Length {get; set;}
+
+    [Required]
+    [MinLength(1)]
+    public required string Description {get; set;}
 
 }

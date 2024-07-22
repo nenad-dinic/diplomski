@@ -18,7 +18,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
 
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetApartmentById([FromRoute] int id) {
 
         Apartment? apartment = await apartmentService.GetApartmentById(id);
@@ -44,7 +44,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
 
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateApartment([FromRoute] int id, [FromBody] UpdateApartmentBody body) {
 
         Apartment? apartment = await apartmentService.UpdateApartment(id, body.BuildingId, body.Number, body.Size, body.NumberOfResidents);
@@ -57,7 +57,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
 
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteApartment([FromRoute] int id) {
 
         Apartment? apartment = await apartmentService.DeleteApartment(id);

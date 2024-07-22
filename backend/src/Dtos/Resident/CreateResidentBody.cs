@@ -1,10 +1,21 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace API.Dtos.Resident;
 
 public class CreateResidentBody {
 
-    public int UserId {get; set;}
-    public int ApartmentId {get; set;}
-    public DateOnly Expires {get; set;}
-    public bool IsOwner {get; set;} = false;
+    [Required]
+    [Range(1, int.MaxValue)]
+    public required int UserId {get; set;}
+
+    [Required]
+    [Range(1, int.MaxValue)]
+    public required int ApartmentId {get; set;}
+
+    [Required]
+    public required DateOnly Expires {get; set;}
+
+    [Required]
+    public required bool IsOwner {get; set;}
 
 }

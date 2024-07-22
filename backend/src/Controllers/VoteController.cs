@@ -18,7 +18,7 @@ public class VoteController(VoteService voteService) : ControllerBase {
 
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetVoteById([FromRoute] int id) {
 
         Vote? vote = await voteService.GetVoteById(id);
@@ -44,7 +44,7 @@ public class VoteController(VoteService voteService) : ControllerBase {
 
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateVote([FromRoute] int id, [FromBody] UpdateVoteBody body) {
 
         Vote? vote = await voteService.UpdateVote(id, body.UserId, body.PollId, body.Result);
@@ -57,7 +57,7 @@ public class VoteController(VoteService voteService) : ControllerBase {
 
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteVote([FromRoute] int id) {
 
         Vote? vote = await voteService.DeleteVote(id);

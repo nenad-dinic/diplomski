@@ -18,7 +18,7 @@ public class BuildingController(BuildingService buildingService) : ControllerBas
 
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetBuildingById([FromRoute] int id) {
 
         Building? building = await buildingService.GetBuildingById(id);
@@ -44,7 +44,7 @@ public class BuildingController(BuildingService buildingService) : ControllerBas
 
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateBuilding([FromRoute] int id, [FromBody] UpdateBuildingBody body) {
 
         Building? building = await buildingService.UpdateBuilding(id, body.ManagerId, body.Address);
@@ -57,7 +57,7 @@ public class BuildingController(BuildingService buildingService) : ControllerBas
 
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteBuilding([FromRoute] int id) {
 
         Building? building = await buildingService.DeleteBuilding(id);

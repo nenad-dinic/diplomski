@@ -19,7 +19,7 @@ public class BillController(IConfiguration config, BillService billService, File
 
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetBillById([FromRoute] int id) {
 
         Bill? bill = await billService.GetBillById(id);
@@ -61,7 +61,7 @@ public class BillController(IConfiguration config, BillService billService, File
 
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateBill([FromRoute] int id, [FromForm] UpdateBillBody body) {
 
         Bill? bill = await billService.GetBillById(id);
@@ -101,7 +101,7 @@ public class BillController(IConfiguration config, BillService billService, File
         return Ok(bill);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteBill([FromRoute] int id) {
 
         Bill? bill = await billService.DeleteBill(id);

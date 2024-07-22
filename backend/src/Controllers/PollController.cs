@@ -18,7 +18,7 @@ public class PollController(PollService pollService) : ControllerBase {
 
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetPollById([FromRoute] int id) {
 
         Poll? poll = await pollService.GetPollById(id);
@@ -44,7 +44,7 @@ public class PollController(PollService pollService) : ControllerBase {
 
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdatePoll([FromRoute] int id, [FromBody] UpdatePollBody body) {
 
         Poll? poll = await pollService.UpdatePoll(id, body.BuildingId, body.Title, body.IsActive);
@@ -57,7 +57,7 @@ public class PollController(PollService pollService) : ControllerBase {
 
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeletePoll([FromRoute] int id) {
 
         Poll? poll = await pollService.DeletePoll(id);

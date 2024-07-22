@@ -19,7 +19,7 @@ public class RepairController(RepairService repairService) : ControllerBase {
 
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetRepairById([FromRoute] int id) {
 
         Repair? repair = await repairService.GetRepairById(id);
@@ -45,7 +45,7 @@ public class RepairController(RepairService repairService) : ControllerBase {
 
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateRepair([FromRoute] int id, [FromBody] UpdateRepairBody body) {
 
         Repair? repair = await repairService.UpdateRepair(id, body.UserId, body.ApartmentId, body.Description, body.IsRepaired);
@@ -58,7 +58,7 @@ public class RepairController(RepairService repairService) : ControllerBase {
 
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteRepair([FromRoute] int id) {
 
         Repair? repair = await repairService.DeleteRepair(id);

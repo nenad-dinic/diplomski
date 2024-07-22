@@ -18,7 +18,7 @@ public class BillTypeController(BillTypeService billTypeService) : ControllerBas
 
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetBillTypeById([FromRoute] int id) {
 
         BillType? billType = await billTypeService.GetBillTypeById(id);
@@ -44,7 +44,7 @@ public class BillTypeController(BillTypeService billTypeService) : ControllerBas
 
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateBillType([FromRoute] int id, [FromBody] UpdateBillTypeBody body) {
 
         BillType? billType = await billTypeService.UpdateBillType(id, body.Name);
@@ -57,7 +57,7 @@ public class BillTypeController(BillTypeService billTypeService) : ControllerBas
 
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteBillType([FromRoute] int id) {
 
         BillType? billType = await billTypeService.DeleteBillType(id);

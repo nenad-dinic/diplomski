@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `bill` (
 DROP TABLE IF EXISTS `bill_type`;
 CREATE TABLE IF NOT EXISTS `bill_type` (
   `bill_type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(256) NOT NULL,
+  `name` varchar(100) NOT NULL,
   PRIMARY KEY (`bill_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -68,7 +68,7 @@ DROP TABLE IF EXISTS `building`;
 CREATE TABLE IF NOT EXISTS `building` (
   `building_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `manager_id` int(10) unsigned NOT NULL,
-  `address` varchar(256) NOT NULL,
+  `address` varchar(100) NOT NULL,
   PRIMARY KEY (`building_id`),
   KEY `fk_building_manager_id` (`manager_id`),
   CONSTRAINT `fk_building_manager_id` FOREIGN KEY (`manager_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE
@@ -96,7 +96,7 @@ DROP TABLE IF EXISTS `poll`;
 CREATE TABLE IF NOT EXISTS `poll` (
   `poll_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `building_id` int(10) unsigned NOT NULL,
-  `title` varchar(256) NOT NULL,
+  `title` varchar(100) NOT NULL,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`poll_id`),
   KEY `fk_poll_building_id` (`building_id`),

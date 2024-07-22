@@ -1,8 +1,15 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace API.Dtos.Poll;
 
 public class CreatePollBody {
 
-    public int BuildingId {get; set;}
-    public string Title {get; set;} = string.Empty;
+    [Required]
+    [Range(1, int.MaxValue)]
+    public required int BuildingId {get; set;}
+
+    [Required]
+    [Length(1, 100)]
+    public required string Title {get; set;}
 
 }

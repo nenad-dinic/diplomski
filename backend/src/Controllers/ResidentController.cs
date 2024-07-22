@@ -18,7 +18,7 @@ public class ResidentController(ResidentService residentService) : ControllerBas
 
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetResidentById([FromRoute] int id) {
 
         Resident? resident = await residentService.GetResidentById(id);
@@ -44,7 +44,7 @@ public class ResidentController(ResidentService residentService) : ControllerBas
 
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateResident([FromRoute] int id, [FromBody] UpdateResidentBody body) {
 
         Resident? resident = await residentService.UpdateResident(id, body.UserId, body.ApartmentId, body.Expires, body.IsOwner);
@@ -57,7 +57,7 @@ public class ResidentController(ResidentService residentService) : ControllerBas
 
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteResident([FromRoute] int id) {
 
         Resident? resident = await residentService.DeleteResident(id);

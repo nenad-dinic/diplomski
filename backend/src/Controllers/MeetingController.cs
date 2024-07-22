@@ -18,7 +18,7 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
 
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetMeetingById([FromRoute] int id) {
 
         Meeting? meeting = await meetingService.GetMeetingById(id);
@@ -44,7 +44,7 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
 
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<IActionResult> UpdateMeeting([FromRoute] int id, [FromBody] UpdateMeetingBody body) {
 
         Meeting? meeting = await meetingService.UpdateMeeting(id, body.BuildingId, body.DateTime, body.Length, body.Description);
@@ -57,7 +57,7 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
 
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> DeleteMeeting([FromRoute] int id) {
 
         Meeting? meeting = await meetingService.DeleteMeeting(id);

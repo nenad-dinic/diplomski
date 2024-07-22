@@ -1,13 +1,14 @@
 using API.Entities;
 using API.Interfaces;
+using API.Types;
 
 namespace API.Services;
 
 public class ResidentService(IResidentRepository residentRepository) {
 
-    public async Task<List<Resident>> GetAll() {
+    public async Task<Page<Resident>> GetAll(string filter, int page, int limit) {
 
-        List<Resident> residents = await residentRepository.GetAll();
+        Page<Resident> residents = await residentRepository.GetAll(filter, page, limit);
 
         return residents;
 

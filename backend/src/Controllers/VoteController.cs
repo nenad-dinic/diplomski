@@ -1,6 +1,8 @@
+using API.Dtos;
 using API.Dtos.Vote;
 using API.Entities;
 using API.Services;
+using API.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -10,9 +12,9 @@ namespace API.Controllers;
 public class VoteController(VoteService voteService) : ControllerBase {
 
     [HttpGet]
-    public async Task<IActionResult> GetAllVotes() {
+    public async Task<IActionResult> GetAllVotes([FromQuery] PageableQuery query) {
 
-        List<Vote> votes = await voteService.GetAll();
+        Page<Vote> votes = await voteService.GetAll(query.Filter, query.Page, query.Limit);
 
         return Ok(votes);
 

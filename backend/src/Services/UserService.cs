@@ -7,9 +7,9 @@ namespace API.Services;
 public class UserService(IUserRepository userRepository)
 {
 
-    public async Task<List<User>> GetAll() {
+    public async Task<Page<User>> GetAll(string filter, int page, int limit) {
 
-        List<User> users = await userRepository.GetAll();
+        Page<User> users = await userRepository.GetAll(filter, page, limit);
 
         return users;
 

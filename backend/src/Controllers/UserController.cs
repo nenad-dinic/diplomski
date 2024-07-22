@@ -1,6 +1,8 @@
+using API.Dtos;
 using API.Dtos.User;
 using API.Entities;
 using API.Services;
+using API.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -10,9 +12,9 @@ namespace API.Controllers;
 public class UserController(UserService userService) : ControllerBase {
 
     [HttpGet]
-    public async Task<IActionResult> GetAllUsers() {
+    public async Task<IActionResult> GetAllUsers([FromQuery] PageableQuery query) {
 
-        List<User> users = await userService.GetAll();
+        Page<User> users = await userService.GetAll(query.Filter, query.Page, query.Limit);
 
         return Ok(users);
 

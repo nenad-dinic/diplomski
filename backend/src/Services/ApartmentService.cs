@@ -1,13 +1,14 @@
 using API.Entities;
 using API.Interfaces;
+using API.Types;
 
 namespace API.Services;
 
 public class ApartmentService(IApartmentRepository apartmentRepository) {
 
-    public async Task<List<Apartment>> GetAll() {
+    public async Task<Page<Apartment>> GetAll(string filter, int page, int limit) {
 
-        List<Apartment> apartments = await apartmentRepository.GetAll();
+        Page<Apartment> apartments = await apartmentRepository.GetAll(filter, page, limit);
 
         return apartments;
 

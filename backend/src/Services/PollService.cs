@@ -1,13 +1,14 @@
 using API.Entities;
 using API.Interfaces;
+using API.Types;
 
 namespace API.Services;
 
 public class PollService(IPollRepository pollRepository) {
 
-    public async Task<List<Poll>> GetAll() {
+    public async Task<Page<Poll>> GetAll(string filter, int page, int limit) {
 
-        List<Poll> polls = await pollRepository.GetAll();
+        Page<Poll> polls = await pollRepository.GetAll(filter, page, limit);
 
         return polls;
 

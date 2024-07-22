@@ -1,6 +1,8 @@
+using API.Dtos;
 using API.Dtos.Apartment;
 using API.Entities;
 using API.Services;
+using API.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -10,9 +12,9 @@ namespace API.Controllers;
 public class ApartmentController(ApartmentService apartmentService) : ControllerBase {
 
     [HttpGet]
-    public async Task<IActionResult> GetAllApartments() {
+    public async Task<IActionResult> GetAllApartments([FromQuery] PageableQuery query) {
 
-        List<Apartment> apartments = await apartmentService.GetAll();
+        Page<Apartment> apartments = await apartmentService.GetAll(query.Filter, query.Page, query.Limit);
 
         return Ok(apartments);
 

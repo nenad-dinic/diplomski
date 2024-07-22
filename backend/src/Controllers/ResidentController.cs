@@ -1,6 +1,8 @@
+using API.Dtos;
 using API.Dtos.Resident;
 using API.Entities;
 using API.Services;
+using API.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -10,9 +12,9 @@ namespace API.Controllers;
 public class ResidentController(ResidentService residentService) : ControllerBase {
 
     [HttpGet]
-    public async Task<IActionResult> GetAllResidents() {
+    public async Task<IActionResult> GetAllResidents([FromQuery] PageableQuery query) {
 
-        List<Resident> residents = await residentService.GetAll();
+        Page<Resident> residents = await residentService.GetAll(query.Filter, query.Page, query.Limit);
 
         return Ok(residents);
 

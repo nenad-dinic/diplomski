@@ -1,6 +1,8 @@
+using API.Dtos;
 using API.Dtos.Meeting;
 using API.Entities;
 using API.Services;
+using API.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -10,9 +12,9 @@ namespace API.Controllers;
 public class MeetingController(MeetingService meetingService) : ControllerBase {
 
     [HttpGet]
-    public async Task<IActionResult> GetAllMeetings() {
+    public async Task<IActionResult> GetAllMeetings([FromQuery] PageableQuery query) {
 
-        List<Meeting> meetings = await meetingService.GetAll();
+        Page<Meeting> meetings = await meetingService.GetAll(query.Filter, query.Page, query.Limit);
 
         return Ok(meetings);
 

@@ -1,7 +1,9 @@
 
+using API.Dtos;
 using API.Dtos.Repair;
 using API.Entities;
 using API.Services;
+using API.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -11,9 +13,9 @@ namespace API.Controllers;
 public class RepairController(RepairService repairService) : ControllerBase {
 
     [HttpGet]
-    public async Task<IActionResult> GetAllRepairs() {
+    public async Task<IActionResult> GetAllRepairs([FromQuery] PageableQuery query) {
 
-        List<Repair> repairs = await repairService.GetAll();
+        Page<Repair> repairs = await repairService.GetAll(query.Filter, query.Page, query.Limit);
 
         return Ok(repairs);
 

@@ -1,13 +1,14 @@
 using API.Entities;
 using API.Interfaces;
+using API.Types;
 
 namespace API.Services;
 
 public class MeetingService(IMeetingRepository meetingRepository) {
 
-    public async Task<List<Meeting>> GetAll() {
+    public async Task<Page<Meeting>> GetAll(string filter, int page, int limit) {
 
-        List<Meeting> meetings = await meetingRepository.GetAll();
+        Page<Meeting> meetings = await meetingRepository.GetAll(filter, page, limit);
 
         return meetings;
 

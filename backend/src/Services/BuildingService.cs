@@ -1,13 +1,14 @@
 using API.Entities;
 using API.Interfaces;
+using API.Types;
 
 namespace API.Services;
 
 public class BuildingService(IBuildingRepository buildingRepository) {
 
-    public async Task<List<Building>> GetAll() {
+    public async Task<Page<Building>> GetAll(string filter, int page, int limit) {
 
-        List<Building> buildings = await buildingRepository.GetAll();
+        Page<Building> buildings = await buildingRepository.GetAll(filter, page, limit);
 
         return buildings;
 

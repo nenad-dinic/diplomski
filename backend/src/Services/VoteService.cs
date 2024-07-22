@@ -1,13 +1,14 @@
 using API.Entities;
 using API.Interfaces;
+using API.Types;
 
 namespace API.Services;
 
 public class VoteService(IVoteRepository voteRepository) {
 
-    public async Task<List<Vote>> GetAll() {
+    public async Task<Page<Vote>> GetAll(string filter, int page, int limit) {
 
-        List<Vote> votes = await voteRepository.GetAll();
+        Page<Vote> votes = await voteRepository.GetAll(filter, page, limit);
 
         return votes;
 

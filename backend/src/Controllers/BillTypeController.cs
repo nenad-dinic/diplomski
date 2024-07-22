@@ -1,6 +1,8 @@
+using API.Dtos;
 using API.Dtos.BillType;
 using API.Entities;
 using API.Services;
+using API.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -10,9 +12,9 @@ namespace API.Controllers;
 public class BillTypeController(BillTypeService billTypeService) : ControllerBase {
 
     [HttpGet]
-    public async Task<IActionResult> GetAllBillTypes() {
+    public async Task<IActionResult> GetAllBillTypes([FromQuery] PageableQuery query) {
 
-        List<BillType> billTypes = await billTypeService.GetAll();
+        Page<BillType> billTypes = await billTypeService.GetAll(query.Filter, query.Page, query.Limit);
 
         return Ok(billTypes);
 

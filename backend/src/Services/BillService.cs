@@ -1,13 +1,14 @@
 using API.Entities;
 using API.Interfaces;
+using API.Types;
 
 namespace Api.Services;
 
 public class BillService(IBillRepository billRepository) {
 
-    public async Task<List<Bill>> GetAll() {
+    public async Task<Page<Bill>> GetAll(string filter, int page, int limit) {
 
-        List<Bill> bills = await billRepository.GetAll();
+        Page<Bill> bills = await billRepository.GetAll(filter, page, limit);
 
         return bills;
 

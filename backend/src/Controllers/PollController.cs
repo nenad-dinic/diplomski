@@ -1,6 +1,8 @@
+using API.Dtos;
 using API.Dtos.Poll;
 using API.Entities;
 using API.Services;
+using API.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -10,9 +12,9 @@ namespace API.Controllers;
 public class PollController(PollService pollService) : ControllerBase {
 
     [HttpGet]
-    public async Task<IActionResult> GetAllPolls() {
+    public async Task<IActionResult> GetAllPolls([FromQuery] PageableQuery query) {
 
-        List<Poll> polls = await pollService.GetAll();
+        Page<Poll> polls = await pollService.GetAll(query.Filter, query.Page, query.Limit);
 
         return Ok(polls);
 

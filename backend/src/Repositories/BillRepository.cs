@@ -13,4 +13,8 @@ public class BillRepository(ApplicationDBContext context) : Repository<Bill>(con
 
     }
 
+    public override List<string> GetSearchable()
+    {
+        return [];
+    }
 }

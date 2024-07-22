@@ -1,7 +1,9 @@
 using Api.Services;
+using API.Dtos;
 using API.Dtos.Bill;
 using API.Entities;
 using API.Services;
+using API.Types;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -11,9 +13,9 @@ namespace API.Controllers;
 public class BillController(IConfiguration config, BillService billService, FileService fileService) : ControllerBase {
 
     [HttpGet]
-    public async Task<IActionResult> GetAllBills() {
+    public async Task<IActionResult> GetAllBills([FromQuery] PageableQuery query) {
 
-        List<Bill> bills = await billService.GetAll();
+        Page<Bill> bills = await billService.GetAll(query.Filter, query.Page, query.Limit);
 
         return Ok(bills);
 

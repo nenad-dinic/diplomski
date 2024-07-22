@@ -1,13 +1,14 @@
 using API.Entities;
 using API.Interfaces;
+using API.Types;
 
 namespace API.Services;
 
 public class RepairService(IRepairRepository repairRepository) {
 
-    public async Task<List<Repair>> GetAll() {
+    public async Task<Page<Repair>> GetAll(string filter, int page, int limit) {
 
-        List<Repair> repairs = await repairRepository.GetAll();
+        Page<Repair> repairs = await repairRepository.GetAll(filter, page, limit);
 
         return repairs;
 

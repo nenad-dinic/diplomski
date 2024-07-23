@@ -4,12 +4,16 @@ using API.Interfaces;
 using API.Repositories;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-// Database connection
+// Configuration parameters
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
+string publicDirectoryPath = builder.Configuration.GetValue<string>("PublicDirectoryPath") ?? "";
+
+// Database connection
 builder.Services.AddDbContext<ApplicationDBContext>(options => {
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
@@ -48,5 +52,9 @@ builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 WebApplication app = builder.Build();
 
 app.MapControllers();
+app.UseStaticFiles(new StaticFileOptions {
+    FileProvider = new PhysicalFileProvider(Path.GetFullPath(publicDirectoryPath)),
+    RequestPath = "/public"
+});
 
 app.Run();

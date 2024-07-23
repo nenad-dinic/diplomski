@@ -10,8 +10,6 @@ public class AllowedRoles(params Role[] roles) : Attribute
 
     public bool IsAllowed(Role role) {
 
-        Console.WriteLine(role);
-
         if(Roles.Contains(role)) {
             return true;
         }

@@ -32,8 +32,7 @@ public class FileService() {
             await data.CopyToAsync(fileStream);
             fileStream.Close();
             return true;
-        } catch (Exception e) {
-            Console.WriteLine(e);
+        } catch {
             return false;
         }
 

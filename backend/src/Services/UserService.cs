@@ -23,6 +23,14 @@ public class UserService(IUserRepository userRepository)
 
     }
 
+    public async Task<User?> GetUserByUsername(string username) {
+
+        User? user = await userRepository.GetByUsername(username);
+
+        return user;
+
+    }
+
     public async Task<User?> CreateUser(string username, string password, string fullName, string email, string phoneNumber, Role role) {
 
         User user = new() {

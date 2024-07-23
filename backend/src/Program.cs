@@ -1,8 +1,10 @@
 using Api.Services;
 using API;
 using API.Interfaces;
+using API.Middlewares;
 using API.Repositories;
 using API.Services;
+using API.Types;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json;
@@ -12,6 +14,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 // Configuration parameters
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
 string publicDirectoryPath = builder.Configuration.GetValue<string>("PublicDirectoryPath") ?? "";
+string jwtSecret = builder.Configuration.GetValue<string>("JWT:Secret") ?? "";
 
 // Database connection
 builder.Services.AddDbContext<ApplicationDBContext>(options => {
@@ -56,5 +59,11 @@ app.UseStaticFiles(new StaticFileOptions {
     FileProvider = new PhysicalFileProvider(Path.GetFullPath(publicDirectoryPath)),
     RequestPath = "/public"
 });
+
+app.Use(AuthenticationMiddleware.Apply(
+    [
+        new ExcludeRoute{Method = "POST", Path = "/auth/login"}
+    ]
+));
 
 app.Run();

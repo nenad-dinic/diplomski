@@ -28,8 +28,8 @@ public class AuthenticationController(IConfiguration config, UserService userSer
             return BadRequest();
         }
 
-        string accessToken = JsonWebTokenUtils.CreateToken(issuer, user.Id, user.Role.ToString(), "access", DateTime.UtcNow, accessTokenDuration, secret);
-        string refreshToken = JsonWebTokenUtils.CreateToken(issuer, user.Id, user.Role.ToString(), "refresh", DateTime.UtcNow, refreshTokenDuration, secret);
+        string accessToken = JsonWebTokenUtils.CreateToken(issuer, user.Id, "access", DateTime.UtcNow, accessTokenDuration, secret);
+        string refreshToken = JsonWebTokenUtils.CreateToken(issuer, user.Id, "refresh", DateTime.UtcNow, refreshTokenDuration, secret);
 
         return Ok(new LoginResponse(accessToken, refreshToken));
 

@@ -66,4 +66,6 @@ app.Use(AuthenticationMiddleware.Apply(
     ]
 ));
 
+app.Use(RoleGuardMiddleware.Apply());
+
 app.Run();

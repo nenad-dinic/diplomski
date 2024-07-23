@@ -5,7 +5,7 @@ namespace API.Repositories;
 
 public class VoteRepository(ApplicationDBContext context) : Repository<Vote>(context), IVoteRepository
 {
-    public override List<string> GetSearchable()
+    protected override List<string> GetSearchable()
     {
         return [];
     }

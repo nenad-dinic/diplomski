@@ -12,6 +12,4 @@ public interface IRepository<T> {
     Task<T> Update(T entity);
     Task<T> Delete(T entity);
 
-    List<string> GetSearchable();
-
 }

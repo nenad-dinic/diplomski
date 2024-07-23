@@ -5,7 +5,7 @@ namespace API.Repositories;
 
 public class MeetingRepository(ApplicationDBContext context) : Repository<Meeting>(context), IMeetingRepository
 {
-    public override List<string> GetSearchable()
+    protected override List<string> GetSearchable()
     {
         return [];
     }

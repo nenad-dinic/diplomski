@@ -69,5 +69,7 @@ public abstract class Repository<T>(ApplicationDBContext context) : IRepository<
         return entity;
     }
 
-    public abstract List<string> GetSearchable();
+    protected virtual List<string> GetSearchable() {
+        return [];
+    }
 }

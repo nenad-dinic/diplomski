@@ -5,7 +5,7 @@ namespace API.Repositories;
 
 public class ResidentRepository(ApplicationDBContext context) : Repository<Resident>(context), IResidentRepository
 {
-    public override List<string> GetSearchable()
+    protected override List<string> GetSearchable()
     {
         return [];
     }

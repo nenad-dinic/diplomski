@@ -5,7 +5,7 @@ namespace API.Repositories;
 
 public class BuildingRepository(ApplicationDBContext context) : Repository<Building>(context), IBuildingRepository
 {
-    public override List<string> GetSearchable()
+    protected override List<string> GetSearchable()
     {
         return ["Address"];
     }

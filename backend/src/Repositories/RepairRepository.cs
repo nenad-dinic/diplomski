@@ -5,7 +5,7 @@ namespace API.Repositories;
 
 public class RepairRepository(ApplicationDBContext context) : Repository<Repair>(context), IRepairRepository
 {
-    public override List<string> GetSearchable()
+    protected override List<string> GetSearchable()
     {
         return [];
     }

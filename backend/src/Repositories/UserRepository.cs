@@ -5,7 +5,7 @@ namespace API.Repositories;
 
 public class UserRepository(ApplicationDBContext context) : Repository<User>(context), IUserRepository
 {
-    public override List<string> GetSearchable()
+    protected override List<string> GetSearchable()
     {
         return ["Username", "Email", "FullName"];
     }

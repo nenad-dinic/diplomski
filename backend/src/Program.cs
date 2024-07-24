@@ -61,7 +61,8 @@ app.UseStaticFiles(new StaticFileOptions {
 
 app.Use(AuthenticationMiddleware.Apply(
     [
-        new ExcludeRoute{Method = "POST", Path = "/auth/login"}
+        new ExcludeRoute{Method = "POST", Path = "/auth/login"},
+        new ExcludeRoute{Method = "POST", Path = "/auth/refresh"}
     ]
 ));
 

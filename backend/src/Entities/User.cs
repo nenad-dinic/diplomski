@@ -31,6 +31,9 @@ public class User {
     [Column("role", TypeName = "enum")]
     public Role Role { get; set; }
 
+    [Column("jti", TypeName = "varchar")]
+    public string JTI { get; set;} = string.Empty;
+
     public List<Building> Buildings {get; set;} = [];
 
     public List<Resident> Residencies {get; set;} = [];

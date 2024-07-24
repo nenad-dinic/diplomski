@@ -35,37 +35,41 @@ public class AuthenticationMiddleware {
                 return;
             }
 
-            Dictionary<string, object> token;
-            try {
-                token = JsonWebTokenUtils.DecodeToken(parts[1], secret);
-            } catch {
+            JsonWebToken? token = JsonWebTokenUtils.DecodeToken(parts[1], secret);
+            
+            if(token == null) {
                 response.StatusCode = 401;
                 return;
             }
 
-            if((string)token["iss"] != issuer) {
+            if(token.Issuer != issuer) {
                 response.StatusCode = 401;
                 return;
             }
 
-            if((string)token["typ"] != "access") {
+            if(token.Type != "access") {
                 response.StatusCode = 401;
                 return;
             }
 
-            if(decimal.ToInt64((decimal)token["iat"]) > DateTimeOffset.UtcNow.ToUnixTimeSeconds()) {
+            if(token.IssuedAt > DateTime.UtcNow) {
                 response.StatusCode = 401;
                 return;
             }
 
-            if(decimal.ToInt64((decimal)token["exp"]) < DateTimeOffset.UtcNow.ToUnixTimeSeconds()) {
+            if(token.ExpiresAt < DateTime.UtcNow) {
                 response.StatusCode = 401;
                 return;
             }
 
-            User? user = await userService.GetUserById(decimal.ToInt32((decimal)token["sub"]));
+            User? user = await userService.GetUserById(token.Subject);
 
             if(user == null) {
+                response.StatusCode = 401;
+                return;
+            }
+
+            if(token.JwtId != user.JTI) {
                 response.StatusCode = 401;
                 return;
             }

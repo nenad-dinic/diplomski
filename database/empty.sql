@@ -149,6 +149,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `email` varchar(320) NOT NULL,
   `phone_number` varchar(20) NOT NULL,
   `role` enum('admin','manager','resident') NOT NULL,
+  `jti` varchar(5) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `uq_user_username` (`username`),
   UNIQUE KEY `uq_user_email` (`email`)

@@ -1,6 +1,7 @@
 using API.Entities;
 using API.Interfaces;
 using API.Types;
+using API.Utils;
 
 namespace API.Services;
 
@@ -39,7 +40,8 @@ public class UserService(IUserRepository userRepository)
             FullName = fullName,
             Email = email,
             PhoneNumber = phoneNumber,
-            Role = role
+            Role = role,
+            JTI = JsonWebTokenUtils.GenerateJTI(5)
         };
 
         try {
@@ -62,6 +64,7 @@ public class UserService(IUserRepository userRepository)
 
         if(password != null) {
             user.Password = BCrypt.Net.BCrypt.HashPassword(password, 10);
+            user.JTI = JsonWebTokenUtils.GenerateJTI(5);
         }
 
         user.FullName = fullName ?? user.FullName;

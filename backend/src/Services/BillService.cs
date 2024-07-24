@@ -2,7 +2,7 @@ using API.Entities;
 using API.Interfaces;
 using API.Types;
 
-namespace Api.Services;
+namespace API.Services;
 
 public class BillService(IBillRepository billRepository) {
 

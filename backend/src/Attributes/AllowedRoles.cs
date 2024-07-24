@@ -6,7 +6,7 @@ namespace API.Attributes;
 public class AllowedRoles(params Role[] roles) : Attribute
 {
 
-    readonly Role[] Roles = roles;
+    private readonly Role[] Roles = roles;
 
     public bool IsAllowed(Role role) {
 

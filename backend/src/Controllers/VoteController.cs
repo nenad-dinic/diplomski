@@ -1,3 +1,4 @@
+using API.Attributes;
 using API.Dtos;
 using API.Dtos.Vote;
 using API.Entities;
@@ -12,6 +13,8 @@ namespace API.Controllers;
 public class VoteController(VoteService voteService) : ControllerBase {
 
     [HttpGet]
+    [AllowedRoles(Role.Admin)]
+
     public async Task<IActionResult> GetAllVotes([FromQuery] PageableQuery query) {
 
         Page<Vote> votes = await voteService.GetAll(query.Filter, query.Page, query.Limit);
@@ -21,6 +24,7 @@ public class VoteController(VoteService voteService) : ControllerBase {
     }
 
     [HttpGet("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetVoteById([FromRoute] int id) {
 
         Vote? vote = await voteService.GetVoteById(id);
@@ -34,6 +38,7 @@ public class VoteController(VoteService voteService) : ControllerBase {
     }
 
     [HttpPost]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreateVote([FromBody] CreateVoteBody body) {
         
         Vote? vote = await voteService.CreateVote(body.UserId, body.PollId, body.Result);
@@ -47,6 +52,7 @@ public class VoteController(VoteService voteService) : ControllerBase {
     }
 
     [HttpPut("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> UpdateVote([FromRoute] int id, [FromBody] UpdateVoteBody body) {
 
         Vote? vote = await voteService.UpdateVote(id, body.UserId, body.PollId, body.Result);
@@ -60,6 +66,7 @@ public class VoteController(VoteService voteService) : ControllerBase {
     }
 
     [HttpDelete("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> DeleteVote([FromRoute] int id) {
 
         Vote? vote = await voteService.DeleteVote(id);

@@ -1,3 +1,4 @@
+using API.Attributes;
 using API.Dtos;
 using API.Dtos.Poll;
 using API.Entities;
@@ -12,6 +13,7 @@ namespace API.Controllers;
 public class PollController(PollService pollService) : ControllerBase {
 
     [HttpGet]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllPolls([FromQuery] PageableQuery query) {
 
         Page<Poll> polls = await pollService.GetAll(query.Filter, query.Page, query.Limit);
@@ -21,6 +23,7 @@ public class PollController(PollService pollService) : ControllerBase {
     }
 
     [HttpGet("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetPollById([FromRoute] int id) {
 
         Poll? poll = await pollService.GetPollById(id);
@@ -34,6 +37,7 @@ public class PollController(PollService pollService) : ControllerBase {
     }
 
     [HttpPost]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreatePoll([FromBody] CreatePollBody body) {
 
         Poll? poll = await pollService.CreatePoll(body.BuildingId, body.Title, true);
@@ -47,6 +51,7 @@ public class PollController(PollService pollService) : ControllerBase {
     }
 
     [HttpPut("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> UpdatePoll([FromRoute] int id, [FromBody] UpdatePollBody body) {
 
         Poll? poll = await pollService.UpdatePoll(id, body.BuildingId, body.Title, body.IsActive);
@@ -60,6 +65,7 @@ public class PollController(PollService pollService) : ControllerBase {
     }
 
     [HttpDelete("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> DeletePoll([FromRoute] int id) {
 
         Poll? poll = await pollService.DeletePoll(id);

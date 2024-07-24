@@ -1,3 +1,4 @@
+using API.Attributes;
 using API.Dtos;
 using API.Dtos.Apartment;
 using API.Entities;
@@ -12,6 +13,7 @@ namespace API.Controllers;
 public class ApartmentController(ApartmentService apartmentService) : ControllerBase {
 
     [HttpGet]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllApartments([FromQuery] PageableQuery query) {
 
         Page<Apartment> apartments = await apartmentService.GetAll(query.Filter, query.Page, query.Limit);
@@ -21,6 +23,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
     }
 
     [HttpGet("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetApartmentById([FromRoute] int id) {
 
         Apartment? apartment = await apartmentService.GetApartmentById(id);
@@ -34,6 +37,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
     }
 
     [HttpPost]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreateApartment([FromBody] CreateApartmentBody body) {
 
         Apartment? apartment = await apartmentService.CreateApartment(body.BuildingId, body.Number, body.Size, body.NumberOfResidents);
@@ -47,6 +51,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
     }
 
     [HttpPut("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> UpdateApartment([FromRoute] int id, [FromBody] UpdateApartmentBody body) {
 
         Apartment? apartment = await apartmentService.UpdateApartment(id, body.BuildingId, body.Number, body.Size, body.NumberOfResidents);
@@ -60,6 +65,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
     }
 
     [HttpDelete("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> DeleteApartment([FromRoute] int id) {
 
         Apartment? apartment = await apartmentService.DeleteApartment(id);

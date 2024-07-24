@@ -1,3 +1,4 @@
+using API.Attributes;
 using API.Dtos;
 using API.Dtos.Meeting;
 using API.Entities;
@@ -12,6 +13,7 @@ namespace API.Controllers;
 public class MeetingController(MeetingService meetingService) : ControllerBase {
 
     [HttpGet]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllMeetings([FromQuery] PageableQuery query) {
 
         Page<Meeting> meetings = await meetingService.GetAll(query.Filter, query.Page, query.Limit);
@@ -21,6 +23,7 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
     }
 
     [HttpGet("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetMeetingById([FromRoute] int id) {
 
         Meeting? meeting = await meetingService.GetMeetingById(id);
@@ -34,6 +37,7 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
     }
 
     [HttpPost]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreateMeeting([FromBody] CreateMeetingBody body) {
 
         Meeting? meeting = await meetingService.CreateMeeting(body.BuildingId, body.DateTime, body.Length, body.Description);
@@ -47,6 +51,7 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
     }
 
     [HttpPut("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> UpdateMeeting([FromRoute] int id, [FromBody] UpdateMeetingBody body) {
 
         Meeting? meeting = await meetingService.UpdateMeeting(id, body.BuildingId, body.DateTime, body.Length, body.Description);
@@ -60,6 +65,7 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
     }
 
     [HttpDelete("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> DeleteMeeting([FromRoute] int id) {
 
         Meeting? meeting = await meetingService.DeleteMeeting(id);

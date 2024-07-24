@@ -1,4 +1,5 @@
 using Api.Services;
+using API.Attributes;
 using API.Dtos;
 using API.Dtos.Bill;
 using API.Entities;
@@ -13,6 +14,7 @@ namespace API.Controllers;
 public class BillController(IConfiguration config, BillService billService, FileService fileService) : ControllerBase {
 
     [HttpGet]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllBills([FromQuery] PageableQuery query) {
 
         Page<Bill> bills = await billService.GetAll(query.Filter, query.Page, query.Limit);
@@ -22,6 +24,7 @@ public class BillController(IConfiguration config, BillService billService, File
     }
 
     [HttpGet("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetBillById([FromRoute] int id) {
 
         Bill? bill = await billService.GetBillById(id);
@@ -35,6 +38,7 @@ public class BillController(IConfiguration config, BillService billService, File
     }
 
     [HttpPost]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreateBill([FromForm] CreateBillBody body) {
 
         string? publicDirectoryPath = config.GetValue<string>("PublicDirectoryPath");
@@ -64,6 +68,7 @@ public class BillController(IConfiguration config, BillService billService, File
     }
 
     [HttpPut("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> UpdateBill([FromRoute] int id, [FromForm] UpdateBillBody body) {
 
         Bill? bill = await billService.GetBillById(id);
@@ -104,6 +109,7 @@ public class BillController(IConfiguration config, BillService billService, File
     }
 
     [HttpDelete("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> DeleteBill([FromRoute] int id) {
 
         Bill? bill = await billService.DeleteBill(id);

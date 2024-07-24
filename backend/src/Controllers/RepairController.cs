@@ -1,4 +1,5 @@
 
+using API.Attributes;
 using API.Dtos;
 using API.Dtos.Repair;
 using API.Entities;
@@ -13,6 +14,7 @@ namespace API.Controllers;
 public class RepairController(RepairService repairService) : ControllerBase {
 
     [HttpGet]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllRepairs([FromQuery] PageableQuery query) {
 
         Page<Repair> repairs = await repairService.GetAll(query.Filter, query.Page, query.Limit);
@@ -22,6 +24,7 @@ public class RepairController(RepairService repairService) : ControllerBase {
     }
 
     [HttpGet("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetRepairById([FromRoute] int id) {
 
         Repair? repair = await repairService.GetRepairById(id);
@@ -35,6 +38,7 @@ public class RepairController(RepairService repairService) : ControllerBase {
     }
 
     [HttpPost]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreateRepair([FromBody] CreateRepairBody body) {
 
         Repair? repair = await repairService.CreateRepair(body.UserId, body.ApartmentId, body.Description, false);
@@ -48,6 +52,7 @@ public class RepairController(RepairService repairService) : ControllerBase {
     }
 
     [HttpPut("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> UpdateRepair([FromRoute] int id, [FromBody] UpdateRepairBody body) {
 
         Repair? repair = await repairService.UpdateRepair(id, body.UserId, body.ApartmentId, body.Description, body.IsRepaired);
@@ -61,6 +66,7 @@ public class RepairController(RepairService repairService) : ControllerBase {
     }
 
     [HttpDelete("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> DeleteRepair([FromRoute] int id) {
 
         Repair? repair = await repairService.DeleteRepair(id);

@@ -1,3 +1,4 @@
+using API.Attributes;
 using API.Dtos;
 using API.Dtos.Building;
 using API.Entities;
@@ -12,6 +13,7 @@ namespace API.Controllers;
 public class BuildingController(BuildingService buildingService) : ControllerBase {
 
     [HttpGet]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllBuildings([FromQuery] PageableQuery query) {
 
         Page<Building> buildings = await buildingService.GetAll(query.Filter, query.Page, query.Limit);
@@ -21,6 +23,7 @@ public class BuildingController(BuildingService buildingService) : ControllerBas
     }
 
     [HttpGet("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetBuildingById([FromRoute] int id) {
 
         Building? building = await buildingService.GetBuildingById(id);
@@ -34,6 +37,7 @@ public class BuildingController(BuildingService buildingService) : ControllerBas
     }
 
     [HttpPost]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreateBuilding([FromBody] CreateBuildingBody body) {
 
         Building? building = await buildingService.CreateBuilding(body.ManagerId, body.Address);
@@ -47,6 +51,7 @@ public class BuildingController(BuildingService buildingService) : ControllerBas
     }
 
     [HttpPut("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> UpdateBuilding([FromRoute] int id, [FromBody] UpdateBuildingBody body) {
 
         Building? building = await buildingService.UpdateBuilding(id, body.ManagerId, body.Address);
@@ -60,6 +65,7 @@ public class BuildingController(BuildingService buildingService) : ControllerBas
     }
 
     [HttpDelete("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> DeleteBuilding([FromRoute] int id) {
 
         Building? building = await buildingService.DeleteBuilding(id);

@@ -1,3 +1,4 @@
+using API.Attributes;
 using API.Dtos;
 using API.Dtos.BillType;
 using API.Entities;
@@ -12,6 +13,7 @@ namespace API.Controllers;
 public class BillTypeController(BillTypeService billTypeService) : ControllerBase {
 
     [HttpGet]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllBillTypes([FromQuery] PageableQuery query) {
 
         Page<BillType> billTypes = await billTypeService.GetAll(query.Filter, query.Page, query.Limit);
@@ -21,6 +23,7 @@ public class BillTypeController(BillTypeService billTypeService) : ControllerBas
     }
 
     [HttpGet("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetBillTypeById([FromRoute] int id) {
 
         BillType? billType = await billTypeService.GetBillTypeById(id);
@@ -34,6 +37,7 @@ public class BillTypeController(BillTypeService billTypeService) : ControllerBas
     }
 
     [HttpPost]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreateBillType([FromBody] CreateBillTypeBody body) {
 
         BillType? billType = await billTypeService.CreateBillType(body.Name);
@@ -47,6 +51,7 @@ public class BillTypeController(BillTypeService billTypeService) : ControllerBas
     }
 
     [HttpPut("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> UpdateBillType([FromRoute] int id, [FromBody] UpdateBillTypeBody body) {
 
         BillType? billType = await billTypeService.UpdateBillType(id, body.Name);
@@ -60,6 +65,7 @@ public class BillTypeController(BillTypeService billTypeService) : ControllerBas
     }
 
     [HttpDelete("{id:int}")]
+    [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> DeleteBillType([FromRoute] int id) {
 
         BillType? billType = await billTypeService.DeleteBillType(id);

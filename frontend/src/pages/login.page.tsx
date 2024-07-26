@@ -2,15 +2,29 @@ import LoginForm, { LoginFormData } from "@/components/blocks/forms/login.form";
 import RegistrationForm, { RegistrationFormData } from "@/components/blocks/forms/registartion.form";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/components/ui/use-toast";
+import { AuthenticationService } from "@/services/auth.service";
 import { TabsContent } from "@radix-ui/react-tabs";
 
 export default function LoginPage() {
 
-    function handleLogin(values : LoginFormData) {
-        console.log(values);
+    const toast = useToast();
+
+    async function handleLogin(values : LoginFormData) {
+        try {
+            const tokens = await AuthenticationService.login(values.username, values.password);
+            console.log(tokens);
+        } catch {
+            toast.toast({
+                title: "Login Failed",
+                description: "Please check your parameters and try again!",
+                variant: "destructive"
+            })
+        }
+
     }
 
-    function handleRegister(values : RegistrationFormData) {
+    async function handleRegister(values : RegistrationFormData) {
         console.log(values);
     }
 

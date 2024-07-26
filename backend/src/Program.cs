@@ -53,6 +53,8 @@ builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 
 WebApplication app = builder.Build();
 
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
 app.MapControllers();
 app.UseStaticFiles(new StaticFileOptions {
     FileProvider = new PhysicalFileProvider(Path.GetFullPath(publicDirectoryPath)),

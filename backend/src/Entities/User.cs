@@ -32,6 +32,7 @@ public class User {
     public Role Role { get; set; }
 
     [Column("jti", TypeName = "varchar")]
+    [JsonIgnore]
     public string JTI { get; set;} = string.Empty;
 
     public List<Building> Buildings {get; set;} = [];

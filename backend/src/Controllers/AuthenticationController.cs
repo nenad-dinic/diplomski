@@ -84,4 +84,17 @@ public class AuthenticationController(IConfiguration config, UserService userSer
 
     }
 
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterBody body) {
+
+        User? user = await userService.CreateUser(body.Username, body.Password, body.FullName, body.Email, body.PhoneNumber, Role.Resident);
+
+        if(user == null) {
+            return BadRequest();
+        }
+
+        return Ok(user);
+
+    }
+
 }

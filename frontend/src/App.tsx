@@ -12,7 +12,7 @@ export default function App() {
             <Routes>
                 <Route path='/login' element={<LoginPage/>}/>
                 <Route path='/admin'>
-                    <Route path="" element={<AdminPageShell/>}>
+                    <Route path="*" element={<AdminPageShell/>}>
                     <Route path="users" element={<UserPage/>}/>
                     </Route>
                 </Route>

@@ -4,16 +4,23 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { AuthenticationService } from "@/services/auth.service";
+import { TokenManager } from "@/utils/token.manager";
 import { TabsContent } from "@radix-ui/react-tabs";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function LoginPage() {
 
+    const [tab, setTab] = useState("login");
+
     const toast = useToast();
+    const navigate = useNavigate();
 
     async function handleLogin(values : LoginFormData) {
         try {
             const tokens = await AuthenticationService.login(values.username, values.password);
-            console.log(tokens);
+            TokenManager.setTokens(tokens.accessToken, tokens.refreshToken);
+            navigate("/");
         } catch {
             toast.toast({
                 title: "Login Failed",
@@ -25,11 +32,30 @@ export default function LoginPage() {
     }
 
     async function handleRegister(values : RegistrationFormData) {
-        console.log(values);
+
+        try {
+            await AuthenticationService.register(values.username, values.password, values.fullName, values.email, values.phoneNumber);
+
+            toast.toast({
+                title: "Registration Successful",
+                description: "You can login now!",
+                variant: "default"
+            });
+
+            setTab("login");
+
+        } catch {
+            toast.toast({
+                title: "Registration Failed",
+                description: "Please check your parameters and try again!",
+                variant: "destructive"
+            });
+        }
+
     }
 
     return <>
-        <Tabs className="mx-auto w-96 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" defaultValue="login">
+        <Tabs value={tab} onValueChange={(v => setTab(v))} className="mx-auto w-96 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" defaultValue="login">
             <TabsList className="w-full flex mb-4">
                 <TabsTrigger className="flex-grow" value="login">Login</TabsTrigger>
                 <TabsTrigger className="flex-grow" value="register">Register</TabsTrigger>

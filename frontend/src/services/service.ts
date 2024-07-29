@@ -1,4 +1,4 @@
-import { Tokens } from "@/models/tokens";
+import { Tokens } from "@/models/tokens.model";
 import { TokenManager } from "@/utils/token.manager";
 import axios, { Axios, AxiosRequestConfig } from "axios";
 

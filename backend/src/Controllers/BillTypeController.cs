@@ -16,7 +16,7 @@ public class BillTypeController(BillTypeService billTypeService) : ControllerBas
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllBillTypes([FromQuery] PageableQuery query) {
 
-        Page<BillType> billTypes = await billTypeService.GetAll(query.Filter, query.Page, query.Limit);
+        Page<BillType> billTypes = await billTypeService.GetAll(query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
 
         return Ok(billTypes);
 

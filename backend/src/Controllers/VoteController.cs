@@ -17,7 +17,7 @@ public class VoteController(VoteService voteService) : ControllerBase {
 
     public async Task<IActionResult> GetAllVotes([FromQuery] PageableQuery query) {
 
-        Page<Vote> votes = await voteService.GetAll(query.Filter, query.Page, query.Limit);
+        Page<Vote> votes = await voteService.GetAll(query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
 
         return Ok(votes);
 

@@ -16,7 +16,7 @@ public class UserController(UserService userService) : ControllerBase {
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllUsers([FromQuery] PageableQuery query) {
 
-        Page<User> users = await userService.GetAll(query.Filter, query.Page, query.Limit);
+        Page<User> users = await userService.GetAll(query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
 
         return Ok(users);
 

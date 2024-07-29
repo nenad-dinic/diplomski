@@ -16,7 +16,7 @@ public class PollController(PollService pollService) : ControllerBase {
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllPolls([FromQuery] PageableQuery query) {
 
-        Page<Poll> polls = await pollService.GetAll(query.Filter, query.Page, query.Limit);
+        Page<Poll> polls = await pollService.GetAll(query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
 
         return Ok(polls);
 

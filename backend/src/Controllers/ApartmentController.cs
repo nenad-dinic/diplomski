@@ -16,7 +16,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllApartments([FromQuery] PageableQuery query) {
 
-        Page<Apartment> apartments = await apartmentService.GetAll(query.Filter, query.Page, query.Limit);
+        Page<Apartment> apartments = await apartmentService.GetAll(query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
 
         return Ok(apartments);
 

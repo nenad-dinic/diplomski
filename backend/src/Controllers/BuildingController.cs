@@ -16,7 +16,7 @@ public class BuildingController(BuildingService buildingService) : ControllerBas
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllBuildings([FromQuery] PageableQuery query) {
 
-        Page<Building> buildings = await buildingService.GetAll(query.Filter, query.Page, query.Limit);
+        Page<Building> buildings = await buildingService.GetAll(query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
 
         return Ok(buildings);
 

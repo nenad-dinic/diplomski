@@ -16,7 +16,7 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllMeetings([FromQuery] PageableQuery query) {
 
-        Page<Meeting> meetings = await meetingService.GetAll(query.Filter, query.Page, query.Limit);
+        Page<Meeting> meetings = await meetingService.GetAll(query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
 
         return Ok(meetings);
 

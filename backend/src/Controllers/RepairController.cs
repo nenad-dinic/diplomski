@@ -17,7 +17,7 @@ public class RepairController(RepairService repairService) : ControllerBase {
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllRepairs([FromQuery] PageableQuery query) {
 
-        Page<Repair> repairs = await repairService.GetAll(query.Filter, query.Page, query.Limit);
+        Page<Repair> repairs = await repairService.GetAll(query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
 
         return Ok(repairs);
 

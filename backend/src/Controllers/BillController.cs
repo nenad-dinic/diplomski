@@ -16,7 +16,7 @@ public class BillController(IConfiguration config, BillService billService, File
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllBills([FromQuery] PageableQuery query) {
 
-        Page<Bill> bills = await billService.GetAll(query.Filter, query.Page, query.Limit);
+        Page<Bill> bills = await billService.GetAll(query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
 
         return Ok(bills);
 

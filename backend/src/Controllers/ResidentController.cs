@@ -16,7 +16,7 @@ public class ResidentController(ResidentService residentService) : ControllerBas
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetAllResidents([FromQuery] PageableQuery query) {
 
-        Page<Resident> residents = await residentService.GetAll(query.Filter, query.Page, query.Limit);
+        Page<Resident> residents = await residentService.GetAll(query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
 
         return Ok(residents);
 

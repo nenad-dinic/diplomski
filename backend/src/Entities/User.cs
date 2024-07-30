@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using API.Types;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace API.Entities;
 
@@ -29,6 +30,7 @@ public class User {
     public string PhoneNumber { get; set; } = string.Empty;
 
     [Column("role", TypeName = "enum")]
+    [JsonConverter(typeof(StringEnumConverter))]
     public Role Role { get; set; }
 
     [Column("jti", TypeName = "varchar")]

@@ -6,11 +6,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { AuthenticationService } from "@/services/auth.service";
 import { TokenManager } from "@/utils/token.manager";
 import { TabsContent } from "@radix-ui/react-tabs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 export default function LoginPage() {
 
+    const [loading, setLoading] = useState(true);
     const [tab, setTab] = useState("login");
 
     const toast = useToast();
@@ -66,7 +67,15 @@ export default function LoginPage() {
 
     }
 
-    return <>
+    useEffect(() => {
+        if(TokenManager.hasTokens()) {
+            navigate("/");
+        } else {
+            setLoading(false);
+        }
+    }, []);
+
+    return !loading && <>
         <Tabs value={tab} onValueChange={(v => setTab(v))} className="mx-auto w-96 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" defaultValue="login">
             <TabsList className="w-full flex mb-4">
                 <TabsTrigger className="flex-grow" value="login">Login</TabsTrigger>

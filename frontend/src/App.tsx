@@ -11,10 +11,8 @@ export default function App() {
         <BrowserRouter>
             <Routes>
                 <Route path='/login' element={<LoginPage/>}/>
-                <Route path='/admin'>
-                    <Route path="*" element={<AdminPageShell/>}>
+                <Route path='/admin' element={<AdminPageShell/>}>
                     <Route path="users" element={<AdminUserPage/>}/>
-                    </Route>
                 </Route>
             </Routes>
         </BrowserRouter>

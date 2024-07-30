@@ -21,4 +21,8 @@ export class TokenManager {
         localStorage.removeItem("refreshToken");
     }
 
+    public static hasTokens() : boolean {
+        return localStorage.getItem("accessToken") != null || localStorage.getItem("refreshToken") != null
+    }
+
 }

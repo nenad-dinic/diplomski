@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 
 export default function AdminUserPage() {
 
-    const [users, setUsers] = useState<Page<User>>({items: [], currentPage: 1, totalPages: 0, totalItems: 0, limit: 10});
+    const [users, setUsers] = useState<Page<User>>();
 
     const [filter, setFilter] = useState<string>("");
     const [page, setPage] = useState<number>(1);
@@ -55,7 +55,7 @@ export default function AdminUserPage() {
             <TableCell>{data.email}</TableCell>
             <TableCell>{data.phoneNumber}</TableCell>
             <TableCell>{data.role}</TableCell>
-            <TableCell className="flex gap-1">
+            <TableCell className="w-fit flex gap-1 justify-end">
                 <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.25em"/></Button>
                 <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.25em"/></Button>
             </TableCell>
@@ -66,7 +66,7 @@ export default function AdminUserPage() {
         getUsers();
     }, [filter, page, limit]);
 
-    return <>
+    return users && <>
         <DataView 
             data={users} 
             headers={["Username", "Full Name", "Email", "Phone Number", "Role", "Actions"]} 

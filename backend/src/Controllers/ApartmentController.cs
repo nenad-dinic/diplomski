@@ -36,6 +36,15 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
 
     }
 
+    [HttpGet("building/{buildingId:int}")]
+    public async Task<IActionResult> GetApartmentsByBuilding([FromRoute] int buildingId, [FromQuery] PageableQuery query) {
+
+        Page<Apartment> apartments = await apartmentService.GetApartmentsByBuilding(buildingId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
+
+        return Ok(apartments);
+
+    }
+
     [HttpPost]
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreateApartment([FromBody] CreateApartmentBody body) {

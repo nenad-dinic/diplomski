@@ -8,6 +8,7 @@ import { BuildingService } from "@/services/building.service";
 import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import DataView from "@/components/blocks/views/data.view";
+import { useNavigate } from "react-router";
 
 
 export default function AdminBuildingPage() {
@@ -20,6 +21,7 @@ export default function AdminBuildingPage() {
 
     const toast = useToast();
     const logout = useLogout();
+    const navigate = useNavigate();
 
     async function getBuildings() {
 
@@ -56,8 +58,9 @@ export default function AdminBuildingPage() {
             <TableCell className="min-w-[200px]">{data.manager?.fullName ?? "No manager"}</TableCell>
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
-                <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.25em"/></Button>
-                <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.25em"/></Button>
+                <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
+                <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${data.id}/apartments`)}><Icon icon="material-symbols:doorbell-3p-sharp" fontSize="1.5em"/></Button>
+                <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
             </TableCell>
         </TableRow>
 

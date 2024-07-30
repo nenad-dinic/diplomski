@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `apartment` (
   `size` int(10) unsigned NOT NULL,
   `number_of_residents` int(10) unsigned NOT NULL,
   PRIMARY KEY (`apartment_id`),
-  KEY `fk_apartment_building_id` (`building_id`),
+  UNIQUE KEY `uq_apartment_building_id_number` (`building_id`,`number`),
   CONSTRAINT `fk_apartment_building_id` FOREIGN KEY (`building_id`) REFERENCES `building` (`building_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

@@ -51,6 +51,12 @@ builder.Services.AddScoped<IResidentRepository, ResidentRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 
+builder.Services.AddTransient((_) => new AuthenticationMiddleware([
+    new ExcludeRoute{Method = "POST", Path = "/auth/login"},
+    new ExcludeRoute{Method = "POST", Path = "/auth/refresh"},
+    new ExcludeRoute{Method = "POST", Path = "/auth/register"} 
+]));
+
 builder.Services.AddTransient<RoleGuardMiddleware>();
 
 WebApplication app = builder.Build();
@@ -63,14 +69,7 @@ app.UseStaticFiles(new StaticFileOptions {
     RequestPath = "/public"
 });
 
-app.Use(AuthenticationMiddleware.Apply(
-    [
-        new ExcludeRoute{Method = "POST", Path = "/auth/login"},
-        new ExcludeRoute{Method = "POST", Path = "/auth/refresh"},
-        new ExcludeRoute{Method = "POST", Path = "/auth/register"}
-    ]
-));
-
+app.UseMiddleware<AuthenticationMiddleware>();
 app.UseMiddleware<RoleGuardMiddleware>();
 
 app.Run();

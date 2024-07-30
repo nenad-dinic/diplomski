@@ -3,11 +3,9 @@ using API.Entities;
 
 namespace API.Middlewares;
 
-public class RoleGuardMiddleware : IMiddleware {
+public class RoleGuardMiddleware : MiddlewareBase {
 
-    public async Task InvokeAsync(HttpContext context, RequestDelegate next) {
-
-        HttpResponse response = context.Response;
+    public override async Task InvokeAsync(HttpContext context, RequestDelegate next) {
 
         AllowedRoles? allowedRoles = context.GetEndpoint()?.Metadata.GetMetadata<AllowedRoles>();
 
@@ -19,12 +17,12 @@ public class RoleGuardMiddleware : IMiddleware {
         User? user = (User?)context.Items["User"];
 
         if(user == null) {
-            response.StatusCode = 403;
+            await SendHttpStatus(context, 403, "Forbidden");
             return;
         }
 
         if(!allowedRoles.IsAllowed(user.Role)) {
-            response.StatusCode = 403;
+            await SendHttpStatus(context, 403, "Forbidden");
             return;
         }
 

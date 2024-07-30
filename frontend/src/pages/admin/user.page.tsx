@@ -7,7 +7,7 @@ import { UserService } from "@/services/user.service";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useState } from "react";
 
-export default function UserPage() {
+export default function AdminUserPage() {
 
     const [users, setUsers] = useState<Page<User>>({items: [], currentPage: 1, totalPages: 0, totalItems: 0, limit: 10});
 
@@ -30,7 +30,7 @@ export default function UserPage() {
             <TableCell>{data.email}</TableCell>
             <TableCell>{data.phoneNumber}</TableCell>
             <TableCell>{data.role}</TableCell>
-            <TableCell>
+            <TableCell className="flex gap-1">
                 <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.25em"/></Button>
                 <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.25em"/></Button>
             </TableCell>

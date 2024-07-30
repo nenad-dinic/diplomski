@@ -13,7 +13,8 @@ export abstract class Service {
         }
 
         const instance = axios.create({
-            baseURL: import.meta.env.VITE_API_URL
+            baseURL: import.meta.env.VITE_API_URL,
+            validateStatus: () => true
         });
 
         const refreshToken = async () => {
@@ -50,6 +51,8 @@ export abstract class Service {
                 TokenManager.setTokens(tokens.accessToken, tokens.refreshToken);
 
                 originalRequest.headers!.Authorization = `Bearer ${tokens.accessToken}`;
+                originalRequest._retry = true;
+
                 response = await instance.request(originalRequest);
 
             }

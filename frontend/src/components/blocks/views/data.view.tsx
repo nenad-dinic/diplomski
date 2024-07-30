@@ -66,8 +66,6 @@ export default function DataView(props : DataViewProps<any>) {
             return false;
         });
 
-        console.log(filtered);
-
         return filtered;
 
     }

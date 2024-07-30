@@ -51,6 +51,8 @@ builder.Services.AddScoped<IResidentRepository, ResidentRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 
+builder.Services.AddTransient<RoleGuardMiddleware>();
+
 WebApplication app = builder.Build();
 
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -69,6 +71,6 @@ app.Use(AuthenticationMiddleware.Apply(
     ]
 ));
 
-app.Use(RoleGuardMiddleware.Apply());
+app.UseMiddleware<RoleGuardMiddleware>();
 
 app.Run();

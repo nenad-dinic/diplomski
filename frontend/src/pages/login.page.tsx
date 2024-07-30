@@ -1,5 +1,5 @@
 import LoginForm, { LoginFormData } from "@/components/blocks/forms/login.form";
-import RegistrationForm, { RegistrationFormData } from "@/components/blocks/forms/registartion.form";
+import RegistrationForm, { RegistrationFormData } from "@/components/blocks/forms/registration.form";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
@@ -16,26 +16,45 @@ export default function LoginPage() {
     const toast = useToast();
     const navigate = useNavigate();
 
-    async function handleLogin(values : LoginFormData) {
-        try {
-            const tokens = await AuthenticationService.login(values.username, values.password);
-            TokenManager.setTokens(tokens.accessToken, tokens.refreshToken);
-            navigate("/");
-        } catch {
+    async function handleLogin(values: LoginFormData) {
+        const tokens = await AuthenticationService.login(values.username, values.password);
+
+        if (tokens == undefined) {
+            toast.toast({
+                title: "Communication error",
+                description: "Please try again later",
+                variant: "destructive"
+            });
+        } else if ("status" in tokens) {
             toast.toast({
                 title: "Login Failed",
                 description: "Please check your parameters and try again!",
                 variant: "destructive"
-            })
+            });
+        } else {
+            TokenManager.setTokens(tokens.accessToken, tokens.refreshToken);
+            navigate("/");
         }
 
     }
 
     async function handleRegister(values : RegistrationFormData) {
+        
+        const response = await AuthenticationService.register(values.username, values.password, values.fullName, values.email, values.phoneNumber);
 
-        try {
-            await AuthenticationService.register(values.username, values.password, values.fullName, values.email, values.phoneNumber);
-
+        if(response == undefined) {
+            toast.toast({
+                title: "Communication error",
+                description: "Please try again later",
+                variant: "destructive"
+            });
+        } else if ("status" in response) {
+            toast.toast({
+                title: "Registration Failed",
+                description: "Please check your parameters and try again!",
+                variant: "destructive"
+            });
+        } else {
             toast.toast({
                 title: "Registration Successful",
                 description: "You can login now!",
@@ -43,13 +62,6 @@ export default function LoginPage() {
             });
 
             setTab("login");
-
-        } catch {
-            toast.toast({
-                title: "Registration Failed",
-                description: "Please check your parameters and try again!",
-                variant: "destructive"
-            });
         }
 
     }

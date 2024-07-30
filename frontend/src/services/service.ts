@@ -1,3 +1,4 @@
+import { APIError } from "@/models/api-error.models";
 import { Tokens } from "@/models/tokens.model";
 import { TokenManager } from "@/utils/token.manager";
 import axios, { Axios, AxiosRequestConfig } from "axios";
@@ -19,11 +20,11 @@ export abstract class Service {
 
         const refreshToken = async () => {
             const [_, refreshToken] = TokenManager.getTokens();
-            const response = await instance.post<Tokens>("/auth/refresh", {
+            const response = await instance.post<Tokens | APIError>("/auth/refresh", {
                 token: refreshToken
             });
 
-            if(response.status !== 200) {
+            if(response.status !== 200 || "status" in response.data) {
                 return null;
             }
 

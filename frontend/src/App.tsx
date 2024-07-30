@@ -4,6 +4,7 @@ import LoginPage from "./pages/login.page";
 import { Toaster } from "./components/ui/toaster";
 import AdminPageShell from "@/pages/admin/shell";
 import AdminUserPage from "@/pages/admin/user.page";
+import AdminBuildingPage from "@/pages/admin/building.page";
 
 export default function App() {
 
@@ -13,6 +14,7 @@ export default function App() {
                 <Route path='/login' element={<LoginPage/>}/>
                 <Route path='/admin' element={<AdminPageShell/>}>
                     <Route path="users" element={<AdminUserPage/>}/>
+                    <Route path="buildings" element={<AdminBuildingPage/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

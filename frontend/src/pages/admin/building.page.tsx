@@ -1,17 +1,18 @@
-import DataView from "@/components/blocks/views/data.view";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
+import { Building } from "@/models/building.model";
 import { Page } from "@/models/page";
-import { User } from "@/models/user.model";
-import { UserService } from "@/services/user.service";
-import { Icon } from "@iconify/react";
+import { BuildingService } from "@/services/building.service";
 import { useEffect, useState } from "react";
+import { Icon } from "@iconify/react";
+import DataView from "@/components/blocks/views/data.view";
 
-export default function AdminUserPage() {
 
-    const [users, setUsers] = useState<Page<User>>();
+export default function AdminBuildingPage() {
+
+    const [buildings, setBuildings] = useState<Page<Building>>();
 
     const [filter, setFilter] = useState<string>("");
     const [page, setPage] = useState<number>(1);
@@ -20,18 +21,18 @@ export default function AdminUserPage() {
     const toast = useToast();
     const logout = useLogout();
 
-    async function getUsers() {
+    async function getBuildings() {
 
-        const users = await UserService.getUsers(filter, page, limit);
+        const buildings = await BuildingService.getBuildings(filter, page, limit);
 
-        if(users == undefined) {
+        if(buildings == undefined) {
             toast.toast({
                 title: "Communication error",
                 description: "Please try again later",
                 variant: "destructive"
             });
-        } else if ("status" in users) {
-            switch(users.status) {
+        } else if ("status" in buildings) {
+            switch(buildings.status) {
                 case 401:
                     logout();
                     break;
@@ -43,35 +44,34 @@ export default function AdminUserPage() {
                     });
             }
         } else {
-            setUsers(users);
+            setBuildings(buildings);
         }
 
     }
 
-    function renderUserRow(data : User) {
+    function renderBuildingRow(data : Building) {
+
         return <TableRow>
-            <TableCell className="min-w-[100px]">{data.username}</TableCell>
-            <TableCell className="min-w-[200px]">{data.fullName}</TableCell>
-            <TableCell className="min-w-[300px]">{data.email}</TableCell>
-            <TableCell className="min-w-[200px]">{data.phoneNumber}</TableCell>
-            <TableCell className="min-w-[100px]">{data.role}</TableCell>
+            <TableCell className="min-w-[200px]">{data.address}</TableCell>
+            <TableCell className="min-w-[200px]">{data.manager?.fullName ?? "No manager"}</TableCell>
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
                 <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.25em"/></Button>
                 <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.25em"/></Button>
             </TableCell>
         </TableRow>
+
     }
 
     useEffect(() => {
-        getUsers();
+        getBuildings();
     }, [filter, page, limit]);
 
-    return users && <>
-        <DataView 
-            data={users} 
-            headers={["Username", "Full Name", "Email", "Phone Number", "Role", "", "Actions"]} 
-            rowRenderer={renderUserRow}
+    return buildings && <>
+        <DataView
+            data={buildings}
+            headers={["Address", "Manager", "", "Actions"]}
+            rowRenderer={renderBuildingRow}
             onFilterChange={setFilter}
             onPageChange={setPage}
             onLimitChange={setLimit}

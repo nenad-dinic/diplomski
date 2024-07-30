@@ -89,8 +89,8 @@ export default function DataView(props : DataViewProps<any>) {
     }
 
     return <>
-        <div className="p-4 w-full">
-            <form onSubmit={handleSubmit} className="flex w-fit">
+        <div className="p-4">
+            <form onSubmit={handleSubmit} className="flex w-fit max-sm:justify-center max-sm:w-full">
                 <Input value={filter} onChange={e => setFilter(e.target.value)} className="rounded-tr-none rounded-br-none" type="text" placeholder="Search"></Input>
                 <Button type="submit" className="rounded-tl-none rounded-bl-none pl-2 pr-2"><Icon fontSize="1.25rem" icon="material-symbols:search"/></Button>
             </form>

@@ -14,6 +14,14 @@ public class ResidentService(IResidentRepository residentRepository) {
 
     }
 
+    public async Task<Page<Resident>> GetResidentsByApartment(int apartmentID, string filter, int page, int limit) {
+
+        Page<Resident> residents = await residentRepository.GetByApartmentId(apartmentID, filter, page, limit);
+
+        return residents;
+
+    }
+
     public async Task<Resident?> GetResidentById(int id){
 
         Resident? resident = await residentRepository.GetById(id);

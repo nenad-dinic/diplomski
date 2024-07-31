@@ -36,6 +36,16 @@ public class ResidentController(ResidentService residentService) : ControllerBas
 
     }
 
+    [HttpGet("apartment/{apartmentId:int}")]
+    [AllowedRoles(Role.Admin)]
+    public async Task<IActionResult> GetResidentsByApartment([FromRoute] int apartmentId, [FromQuery] PageableQuery query) {
+
+        Page<Resident> residents = await residentService.GetResidentsByApartment(apartmentId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
+
+        return Ok(residents);
+
+    }
+
     [HttpPost]
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreateResident([FromBody] CreateResidentBody body) {

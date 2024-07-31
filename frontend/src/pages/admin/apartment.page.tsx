@@ -3,9 +3,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
 import { Apartment } from "@/models/apartment.model";
-import { Page } from "@/models/page";
 import { ApartmentService } from "@/services/apartment.service";
-import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { Icon } from "@iconify/react";
 import DataView from "@/components/blocks/views/data.view";
@@ -14,17 +12,11 @@ export default function AdminApartmentPage() {
 
     const {buildingId} = useParams();
 
-    const [apartments, setApartments] = useState<Page<Apartment>>();
-
-    const [filter, setFilter] = useState<string>("");
-    const [page, setPage] = useState<number>(1);
-    const [limit, setLimit] = useState<number>(10);
-
     const toast = useToast();
     const logout = useLogout();
     const navigate = useNavigate();
 
-    async function getApartments() {
+    async function getApartments(filter : string, page : number, limit : number) {
 
         const id = parseInt(buildingId ?? "0");
 
@@ -49,8 +41,10 @@ export default function AdminApartmentPage() {
                     });
             }
         } else {
-            setApartments(apartments);
+            return apartments;
         }
+
+        return undefined;
 
     }
 
@@ -70,18 +64,11 @@ export default function AdminApartmentPage() {
 
     }
 
-    useEffect(() => {
-        getApartments();
-    }, [filter, page, limit]);
-
-    return apartments && <>
-        <DataView
-            data={apartments}
+    return <>
+        <DataView<Apartment>
             headers={["Number", "Size", "Residents", "", "Actions"]}
             rowRenderer={renderApartmentRow}
-            onFilterChange={setFilter}
-            onPageChange={setPage}
-            onLimitChange={setLimit}
+            fetchCallback={getApartments}
         />
     </>
 

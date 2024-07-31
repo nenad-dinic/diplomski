@@ -3,24 +3,16 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
 import { BillType } from "@/models/bill-type.models";
-import { Page } from "@/models/page";
 import { BillTypeService } from "@/services/bill-type.service";
-import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import DataView from "@/components/blocks/views/data.view";
 
 export default function AdminBillTypePage() {
 
-    const [billTypes, setBillTypes] = useState<Page<BillType>>();
-
-    const [filter, setFilter] = useState<string>("");
-    const [page, setPage] = useState<number>(1);
-    const [limit, setLimit] = useState<number>(10);
-
     const toast = useToast();
     const logout = useLogout();
 
-    async function getBillTypes() {
+    async function getBillTypes(filter : string, page : number, limit : number) {
 
         const billTypes = await BillTypeService.getAllBillTypes(filter, page, limit);
 
@@ -43,8 +35,10 @@ export default function AdminBillTypePage() {
                     });
             }
         } else {
-            setBillTypes(billTypes);
+            return billTypes;
         }
+
+        return undefined;
 
     }
 
@@ -61,18 +55,11 @@ export default function AdminBillTypePage() {
 
     }
 
-    useEffect(() => {
-        getBillTypes();
-    }, [filter, page, limit]);
-
-    return billTypes && <>
-        <DataView
-            data={billTypes}
+    return <>
+        <DataView<BillType>
             headers={["Name", "", "Actions"]}
             rowRenderer={renderBillTypeRow}
-            onFilterChange={setFilter}
-            onLimitChange={setLimit}
-            onPageChange={setPage}
+            fetchCallback={getBillTypes}
         />
     </>
 

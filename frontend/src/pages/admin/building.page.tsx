@@ -3,9 +3,7 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
 import { Building } from "@/models/building.model";
-import { Page } from "@/models/page";
 import { BuildingService } from "@/services/building.service";
-import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import DataView from "@/components/blocks/views/data.view";
 import { useNavigate } from "react-router";
@@ -13,17 +11,11 @@ import { useNavigate } from "react-router";
 
 export default function AdminBuildingPage() {
 
-    const [buildings, setBuildings] = useState<Page<Building>>();
-
-    const [filter, setFilter] = useState<string>("");
-    const [page, setPage] = useState<number>(1);
-    const [limit, setLimit] = useState<number>(10);
-
     const toast = useToast();
     const logout = useLogout();
     const navigate = useNavigate();
 
-    async function getBuildings() {
+    async function getBuildings(filter : string, page : number, limit : number) {
 
         const buildings = await BuildingService.getBuildings(filter, page, limit);
 
@@ -46,8 +38,10 @@ export default function AdminBuildingPage() {
                     });
             }
         } else {
-            setBuildings(buildings);
+            return buildings;
         }
+
+        return undefined;
 
     }
 
@@ -66,18 +60,11 @@ export default function AdminBuildingPage() {
 
     }
 
-    useEffect(() => {
-        getBuildings();
-    }, [filter, page, limit]);
-
-    return buildings && <>
-        <DataView
-            data={buildings}
+    return <>
+        <DataView<Building>
             headers={["Address", "Manager", "", "Actions"]}
             rowRenderer={renderBuildingRow}
-            onFilterChange={setFilter}
-            onPageChange={setPage}
-            onLimitChange={setLimit}
+            fetchCallback={getBuildings}
         />
     </>
 

@@ -6,32 +6,33 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components
 import { Page } from "@/models/page";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { SelectValue } from "@radix-ui/react-select";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 interface DataViewProps<T> {
 
-    data : Page<T>;
     headers : string[];
     rowRenderer : (item : T) => JSX.Element;
-    onFilterChange? : (filter : string) => void;
-    onPageChange? : (page : number) => void;
-    onLimitChange? : (limit : number) => void;
+    fetchCallback : (filter : string, page : number, limit : number) => Promise<Page<T> | undefined>;
 
 }
 
-export default function DataView(props : DataViewProps<any>) {
+export default function DataView<T>(props : DataViewProps<T>) {
+
+    const [data, setData] = useState<Page<T>>();
 
     const [filter, setFilter] = useState<string>("");
+
+    const [search, setSearch] = useState<string>("");
     const [page, setPage] = useState<number>(1);
     const [limit, setLimit] = useState<number>(10);
 
     function getPages() {
 
-        if(props.data == undefined) {
+        if(data == undefined) {
             return [];
         }
 
-        const pages = Array.from({ length: props.data.totalPages ?? 1 }, (_, i) => i + 1);
+        const pages = Array.from({ length: data.totalPages ?? 1 }, (_, i) => i + 1);
 
         const max = pages.length;
         const delta = 1;
@@ -72,21 +73,31 @@ export default function DataView(props : DataViewProps<any>) {
 
     function handleSubmit(e : FormEvent) {
         e.preventDefault();
-        props.onFilterChange?.(filter);
+
+        setSearch(filter);
     }
 
     function changePage(page : number) {
-        if(page < 1 || page > (props.data.totalPages ?? 1)) {
+        if(page < 1 || page > (data?.totalPages ?? 1)) {
             return;
         }
         setPage(page);
-        props.onPageChange?.(page);
     }
 
     function changeLimit(limit : number) {
         setLimit(limit);
-        props.onLimitChange?.(limit);
     }
+
+    useEffect(() => {
+
+        (async () => {
+            const data = await props.fetchCallback(search, page, limit);
+            if(data != undefined) {
+                setData(data);
+            }
+        })();
+
+    }, [search, page, limit]);
 
     return <>
         <div className="p-4">
@@ -101,7 +112,7 @@ export default function DataView(props : DataViewProps<any>) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {props.data.items.map((item) => props.rowRenderer(item))}
+                    {data?.items.map((item) => props.rowRenderer(item))}
                 </TableBody>
             </Table>
 

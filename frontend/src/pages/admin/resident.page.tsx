@@ -1,9 +1,7 @@
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
-import { Page } from "@/models/page";
 import { Resident } from "@/models/resident.model";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { Icon } from "@iconify/react";
 import { ResidentService } from "@/services/resident.service";
 import { TableCell, TableRow } from "@/components/ui/table";
@@ -14,17 +12,10 @@ export default function AdminResidentPage() {
 
     const {apartmentId} = useParams();
 
-    const [residents, setResidents] = useState<Page<Resident>>();
-
-    const [filter, setFilter] = useState<string>("");
-    const [page, setPage] = useState<number>(1);
-    const [limit, setLimit] = useState<number>(10);
-
     const toast = useToast();
     const logout = useLogout();
-    const navigate = useNavigate();
 
-    async function getResidents() {
+    async function getResidents(filter : string, page : number, limit : number) {
 
         const id = parseInt(apartmentId ?? "0");
 
@@ -49,8 +40,10 @@ export default function AdminResidentPage() {
                     });
             }
         } else {
-            setResidents(residents);
+            return residents;
         }
+
+        return undefined;
 
     }
 
@@ -69,18 +62,11 @@ export default function AdminResidentPage() {
 
     }
 
-    useEffect(() => {
-        getResidents();
-    }, [filter, page, limit]);
-
-    return residents && <>
-        <DataView
-            data={residents}
+    return <>
+        <DataView<Resident>
             headers={["Resident", "Expires", "Owner", "", "Actions"]}
             rowRenderer={renderResidentRow}
-            onFilterChange={setFilter}
-            onPageChange={setPage}
-            onLimitChange={setLimit}
+            fetchCallback={getResidents}
         />
     </>
 

@@ -3,24 +3,16 @@ import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
-import { Page } from "@/models/page";
 import { User } from "@/models/user.model";
 import { UserService } from "@/services/user.service";
 import { Icon } from "@iconify/react";
-import { useEffect, useState } from "react";
 
 export default function AdminUserPage() {
-
-    const [users, setUsers] = useState<Page<User>>();
-
-    const [filter, setFilter] = useState<string>("");
-    const [page, setPage] = useState<number>(1);
-    const [limit, setLimit] = useState<number>(10);
 
     const toast = useToast();
     const logout = useLogout();
 
-    async function getUsers() {
+    async function getUsers(filter : string, page : number, limit : number) {
 
         const users = await UserService.getUsers(filter, page, limit);
 
@@ -43,8 +35,10 @@ export default function AdminUserPage() {
                     });
             }
         } else {
-            setUsers(users);
+            return users;
         }
+
+        return undefined;
 
     }
 
@@ -63,18 +57,11 @@ export default function AdminUserPage() {
         </TableRow>
     }
 
-    useEffect(() => {
-        getUsers();
-    }, [filter, page, limit]);
-
-    return users && <>
-        <DataView 
-            data={users} 
+    return <>
+        <DataView<User>
             headers={["Username", "Full Name", "Email", "Phone Number", "Role", "", "Actions"]} 
             rowRenderer={renderUserRow}
-            onFilterChange={setFilter}
-            onPageChange={setPage}
-            onLimitChange={setLimit}
+            fetchCallback={getUsers}
         />
     </>
 

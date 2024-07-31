@@ -61,6 +61,14 @@ builder.Services.AddTransient<RoleGuardMiddleware>();
 
 WebApplication app = builder.Build();
 
+using (IServiceScope scope = app.Services.CreateScope()) {
+    try {
+        ApplicationDBContext context = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
+    } catch {
+        throw new Exception("Database connection failed");
+    }
+}
+
 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.MapControllers();

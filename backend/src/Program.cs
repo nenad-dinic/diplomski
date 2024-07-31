@@ -54,7 +54,8 @@ builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 builder.Services.AddTransient((_) => new AuthenticationMiddleware([
     new ExcludeRoute{Method = "POST", Path = "/auth/login"},
     new ExcludeRoute{Method = "POST", Path = "/auth/refresh"},
-    new ExcludeRoute{Method = "POST", Path = "/auth/register"} 
+    new ExcludeRoute{Method = "POST", Path = "/auth/register"},
+    new ExcludeRoute{Method = "GET", Path = "/public/*"}
 ]));
 
 builder.Services.AddTransient<RoleGuardMiddleware>();
@@ -74,7 +75,11 @@ app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(
 app.MapControllers();
 app.UseStaticFiles(new StaticFileOptions {
     FileProvider = new PhysicalFileProvider(Path.GetFullPath(publicDirectoryPath)),
-    RequestPath = "/public"
+    RequestPath = "/public",
+    OnPrepareResponse = ctx => {
+        ctx.Context.Response.Headers.Append("Cache-Control", "public, max-age=600");
+        ctx.Context.Response.Headers.Append("Content-Disposition", "attachment");
+    }
 });
 
 app.UseMiddleware<AuthenticationMiddleware>();

@@ -8,6 +8,8 @@ namespace API.Repositories;
 public abstract class Repository<T>(ApplicationDBContext context) : IRepository<T> where T : class
 {
 
+    protected readonly ApplicationDBContext context = context;
+
     public virtual async Task<List<T>> GetAll()
     {
         return await context.Set<T>().ToListAsync();

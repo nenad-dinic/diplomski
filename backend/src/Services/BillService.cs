@@ -14,6 +14,14 @@ public class BillService(IBillRepository billRepository) {
 
     }
 
+    public async Task<Page<Bill>> GetBillByApartment(int apartmentId, string filter, int page, int limit) {
+
+        Page<Bill> bills = await billRepository.GetByApartmentId(apartmentId, filter, page, limit);
+
+        return bills;
+
+    }
+
     public async Task<Bill?> GetBillById(int id) {
 
         Bill? bill = await billRepository.GetById(id);

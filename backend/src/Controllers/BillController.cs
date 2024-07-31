@@ -36,6 +36,16 @@ public class BillController(IConfiguration config, BillService billService, File
 
     }
 
+    [HttpGet("apartment/{apartmentId:int}")]
+    [AllowedRoles(Role.Admin)]
+    public async Task<IActionResult> GetBillsByApartment([FromRoute] int apartmentId, [FromQuery] PageableQuery query) {
+
+        Page<Bill> bills = await billService.GetBillByApartment(apartmentId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
+
+        return Ok(bills);
+
+    }
+
     [HttpPost]
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreateBill([FromForm] CreateBillBody body) {

@@ -50,8 +50,8 @@ export default function AdminResidentPage() {
     function renderResidentRow(data : Resident) {
 
         return <TableRow>
-            <TableCell className="min-w-[100px]">{data.user?.fullName ?? "Unknown"}</TableCell>
-            <TableCell className="min-w-[100px]">{new Date(data.expires).toLocaleDateString()}</TableCell>
+            <TableCell className="min-w-[200px]">{data.user?.fullName ?? "Unknown"}</TableCell>
+            <TableCell className="min-w-[150px]">{new Date(data.expires).toLocaleDateString()}</TableCell>
             <TableCell className="min-w-[50px]">{data.isOwner ? 'Yes' : 'No'}</TableCell>
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">

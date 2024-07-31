@@ -1,5 +1,6 @@
 import { APIError } from "@/models/api-error.models";
 import { Tokens } from "@/models/tokens.model";
+import { API_URL } from "@/utils/environment";
 import { TokenManager } from "@/utils/token.manager";
 import axios, { Axios, AxiosRequestConfig } from "axios";
 
@@ -14,7 +15,7 @@ export abstract class Service {
         }
 
         const instance = axios.create({
-            baseURL: import.meta.env.VITE_API_URL,
+            baseURL: API_URL,
             validateStatus: () => true
         });
 

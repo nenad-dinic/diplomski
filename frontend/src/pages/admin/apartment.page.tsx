@@ -58,6 +58,7 @@ export default function AdminApartmentPage() {
             <TableCell className="w-fit flex gap-1">
                 <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${buildingId}/apartment/${data.id}/residents`)}><Icon icon="ic:round-family-restroom" fontSize="1.5em"/></Button>
+                <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${buildingId}/apartment/${data.id}/bills`)}><Icon icon="mdi:invoice-list" fontSize="1.5em"/></Button>
                 <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
             </TableCell>
         </TableRow>

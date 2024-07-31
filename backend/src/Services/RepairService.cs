@@ -14,6 +14,14 @@ public class RepairService(IRepairRepository repairRepository) {
 
     }
 
+    public async Task<Page<Repair>> GetRepairsByApartment(int apartmentId, string filter, int page, int limit) {
+
+        Page<Repair> repairs = await repairRepository.GetByApartmentId(apartmentId, filter, page, limit);
+
+        return repairs;
+
+    }
+
     public async Task<Repair?> GetRepairById(int id) {
 
         Repair? repair = await repairRepository.GetById(id);

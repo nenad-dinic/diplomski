@@ -40,7 +40,7 @@ public class BillController(IConfiguration config, BillService billService, File
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetBillsByApartment([FromRoute] int apartmentId, [FromQuery] PageableQuery query) {
 
-        Page<Bill> bills = await billService.GetBillByApartment(apartmentId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
+        Page<Bill> bills = await billService.GetBillsByApartment(apartmentId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
 
         return Ok(bills);
 

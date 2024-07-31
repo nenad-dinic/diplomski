@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `apartment` (
   `number_of_residents` int(10) unsigned NOT NULL,
   PRIMARY KEY (`apartment_id`),
   UNIQUE KEY `uq_apartment_building_id_number` (`building_id`,`number`),
-  CONSTRAINT `fk_apartment_building_id` FOREIGN KEY (`building_id`) REFERENCES `building` (`building_id`) ON UPDATE CASCADE
+  CONSTRAINT `fk_apartment_building_id` FOREIGN KEY (`building_id`) REFERENCES `building` (`building_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.
@@ -45,9 +45,9 @@ CREATE TABLE IF NOT EXISTS `bill` (
   `file_name` varchar(256) NOT NULL,
   `file_path` varchar(256) NOT NULL,
   PRIMARY KEY (`bill_id`),
-  KEY `fk_bill_apartment_id` (`apartment_id`),
   KEY `fk_bill_bill_type_id` (`bill_type_id`),
-  CONSTRAINT `fk_bill_apartment_id` FOREIGN KEY (`apartment_id`) REFERENCES `apartment` (`apartment_id`) ON UPDATE CASCADE,
+  KEY `fk_bill_apartment_id` (`apartment_id`),
+  CONSTRAINT `fk_bill_apartment_id` FOREIGN KEY (`apartment_id`) REFERENCES `apartment` (`apartment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_bill_bill_type_id` FOREIGN KEY (`bill_type_id`) REFERENCES `bill_type` (`bill_type_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `meeting` (
   `description` text NOT NULL,
   PRIMARY KEY (`meeting_id`),
   KEY `fk_meeting_building_id` (`building_id`),
-  CONSTRAINT `fk_meeting_building_id` FOREIGN KEY (`building_id`) REFERENCES `building` (`building_id`) ON UPDATE CASCADE
+  CONSTRAINT `fk_meeting_building_id` FOREIGN KEY (`building_id`) REFERENCES `building` (`building_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `poll` (
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`poll_id`),
   KEY `fk_poll_building_id` (`building_id`),
-  CONSTRAINT `fk_poll_building_id` FOREIGN KEY (`building_id`) REFERENCES `building` (`building_id`) ON UPDATE CASCADE
+  CONSTRAINT `fk_poll_building_id` FOREIGN KEY (`building_id`) REFERENCES `building` (`building_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.
@@ -111,13 +111,14 @@ CREATE TABLE IF NOT EXISTS `repair` (
   `repair_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `apartment_id` int(10) unsigned NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `description` text NOT NULL,
   `is_repaired` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`repair_id`),
-  KEY `fk_repair_user_id` (`user_id`),
   KEY `fk_repair_apartment_id` (`apartment_id`),
-  CONSTRAINT `fk_repair_apartment_id` FOREIGN KEY (`apartment_id`) REFERENCES `apartment` (`apartment_id`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_repair_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE
+  KEY `fk_repair_user_id` (`user_id`),
+  CONSTRAINT `fk_repair_apartment_id` FOREIGN KEY (`apartment_id`) REFERENCES `apartment` (`apartment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_repair_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.
@@ -131,10 +132,10 @@ CREATE TABLE IF NOT EXISTS `resident` (
   `expires` date NOT NULL,
   `is_owner` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`resident_id`),
-  KEY `fk_resident_user_id` (`user_id`),
   KEY `fk_resident_apartment_id` (`apartment_id`),
-  CONSTRAINT `fk_resident_apartment_id` FOREIGN KEY (`apartment_id`) REFERENCES `apartment` (`apartment_id`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_resident_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE
+  KEY `fk_resident_user_id` (`user_id`),
+  CONSTRAINT `fk_resident_apartment_id` FOREIGN KEY (`apartment_id`) REFERENCES `apartment` (`apartment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_resident_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.
@@ -165,10 +166,10 @@ CREATE TABLE IF NOT EXISTS `vote` (
   `poll_id` int(10) unsigned NOT NULL,
   `result` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`vote_id`),
-  KEY `fk_vote_user_id` (`user_id`),
   KEY `fk_vote_poll_id` (`poll_id`),
-  CONSTRAINT `fk_vote_poll_id` FOREIGN KEY (`poll_id`) REFERENCES `poll` (`poll_id`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_vote_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON UPDATE CASCADE
+  KEY `fk_vote_user_id` (`user_id`),
+  CONSTRAINT `fk_vote_poll_id` FOREIGN KEY (`poll_id`) REFERENCES `poll` (`poll_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_vote_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.

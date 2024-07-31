@@ -7,6 +7,7 @@ import AdminUserPage from "@/pages/admin/user.page";
 import AdminBuildingPage from "@/pages/admin/building.page";
 import AdminBillTypePage from "@/pages/admin/bill-type.page";
 import AdminApartmentPage from "@/pages/admin/apartment.page";
+import AdminResidentPage from "@/pages/admin/resident.page";
 
 export default function App() {
 
@@ -17,6 +18,7 @@ export default function App() {
                 <Route path='/admin' element={<AdminPageShell/>}>
                     <Route path="buildings" element={<AdminBuildingPage/>}/>
                     <Route path="building/:buildingId/apartments" element={<AdminApartmentPage/>} />
+                    <Route path="building/:buildingId/apartment/:apartmentId/residents" element={<AdminResidentPage/>} />
                     <Route path="bill-types" element={<AdminBillTypePage/>}/>
                     <Route path="users" element={<AdminUserPage/>}/>
                 </Route>

@@ -12,6 +12,7 @@ import AdminBillPage from "@/pages/admin/bill.page";
 import AdminRepairPage from "@/pages/admin/repair.page";
 import AdminMeetingPage from "@/pages/admin/meeting.page";
 import AdminPollPage from "@/pages/admin/poll.page";
+import AdminVotePage from "@/pages/admin/vote.page";
 
 export default function App() {
 
@@ -27,6 +28,7 @@ export default function App() {
                     <Route path="building/:buildingId/apartment/:apartmentId/repairs" element={<AdminRepairPage/>} />
                     <Route path="building/:buildingId/meetings" element={<AdminMeetingPage/>} />
                     <Route path="building/:buildingId/polls" element={<AdminPollPage/>} />
+                    <Route path="building/:buildingId/poll/:pollId/votes" element={<AdminVotePage/>} />
                     <Route path="bill-types" element={<AdminBillTypePage/>}/>
                     <Route path="users" element={<AdminUserPage/>}/>
                 </Route>

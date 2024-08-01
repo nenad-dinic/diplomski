@@ -36,6 +36,16 @@ public class PollController(PollService pollService) : ControllerBase {
 
     }
 
+    [HttpGet("building/{buildingId:int}")]
+    [AllowedRoles(Role.Admin)]
+    public async Task<IActionResult> GetPollsByBuilding([FromRoute] int buildingId, [FromQuery] PageableQuery query) {
+
+        Page<Poll> polls = await pollService.GetPollsByBuilding(buildingId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
+
+        return Ok(polls);
+
+    }
+
     [HttpPost]
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreatePoll([FromBody] CreatePollBody body) {

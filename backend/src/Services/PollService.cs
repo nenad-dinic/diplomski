@@ -14,6 +14,14 @@ public class PollService(IPollRepository pollRepository) {
 
     }
 
+    public async Task<Page<Poll>> GetPollsByBuilding(int buildingId, string filter, int page, int limit) {
+
+        Page<Poll> polls = await pollRepository.GetByBuildingId(buildingId, filter, page, limit);
+
+        return polls;
+
+    }
+
     public async Task<Poll?> GetPollById(int id) {
 
         Poll? poll = await pollRepository.GetById(id);

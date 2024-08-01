@@ -14,6 +14,14 @@ public class MeetingService(IMeetingRepository meetingRepository) {
 
     }
 
+    public async Task<Page<Meeting>> GetMeetingsByBuilding(int buildingId, string filter, int page, int limit) {
+
+        Page<Meeting> meetings = await meetingRepository.GetByBuildingId(buildingId, filter, page, limit);
+
+        return meetings;
+
+    }
+
     public async Task<Meeting?> GetMeetingById(int id) {
 
         Meeting? meeting = await meetingRepository.GetById(id);

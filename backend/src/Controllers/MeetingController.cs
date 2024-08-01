@@ -36,6 +36,16 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
 
     }
 
+    [HttpGet("building/{buildingId:int}")]
+    [AllowedRoles(Role.Admin)]
+    public async Task<IActionResult> GetMeetingsByBuilding([FromRoute] int buildingId, [FromQuery] PageableQuery query) {
+
+        Page<Meeting> meetings = await meetingService.GetMeetingsByBuilding(buildingId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
+
+        return Ok(meetings);
+
+    }
+
     [HttpPost]
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreateMeeting([FromBody] CreateMeetingBody body) {

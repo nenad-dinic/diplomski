@@ -35,6 +35,7 @@ public class RepairService(IRepairRepository repairRepository) {
         Repair repair = new() {
             UserId = userId,
             ApartmentId = apartmentId,
+            CreatedAt = DateTime.Now,
             Description = description,
             IsRepaired = isRepaired
         };

@@ -16,6 +16,9 @@ public class Repair {
     [Column("apartment_id", TypeName = "int")]
     public int ApartmentId {get; set;}
 
+    [Column("created_at", TypeName = "datetime")]
+    public DateTime CreatedAt {get; set;} = DateTime.Now;
+
     [Column("description", TypeName = "text")]
     public string Description {get; set;} = string.Empty;
 

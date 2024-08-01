@@ -6,7 +6,7 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components
 import { Page } from "@/models/page";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { SelectValue } from "@radix-ui/react-select";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, ForwardedRef, forwardRef, useEffect, useImperativeHandle, useState } from "react";
 
 interface DataViewProps<T> {
 
@@ -16,7 +16,11 @@ interface DataViewProps<T> {
 
 }
 
-export default function DataView<T>(props : DataViewProps<T>) {
+export interface DataViewRef {
+    refresh : () => void;
+}
+
+export default forwardRef(function DataView<T>(props : DataViewProps<T>, ref : ForwardedRef<DataViewRef>) {
 
     const [data, setData] = useState<Page<T>>();
 
@@ -25,6 +29,12 @@ export default function DataView<T>(props : DataViewProps<T>) {
     const [search, setSearch] = useState<string>("");
     const [page, setPage] = useState<number>(1);
     const [limit, setLimit] = useState<number>(10);
+
+    useImperativeHandle(ref, () => ({
+        refresh: () => {
+            getData();
+        }
+    }));
 
     function getPages() {
 
@@ -88,15 +98,15 @@ export default function DataView<T>(props : DataViewProps<T>) {
         setLimit(limit);
     }
 
+    async function getData() {
+        const data = await props.fetchCallback(search, page, limit);
+        if(data != undefined) {
+            setData(data);
+        }
+    }
+
     useEffect(() => {
-
-        (async () => {
-            const data = await props.fetchCallback(search, page, limit);
-            if(data != undefined) {
-                setData(data);
-            }
-        })();
-
+        getData();
     }, [search, page, limit]);
 
     return <>
@@ -152,4 +162,4 @@ export default function DataView<T>(props : DataViewProps<T>) {
         </div>
     </>
 
-}
+})

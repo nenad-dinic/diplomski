@@ -19,4 +19,12 @@ export class UserService extends Service {
 
     }
 
+    static async deleteUser(id : number) {
+
+        const response = await this.axios.delete<User | APIError>(`/api/user/${id}`);
+
+        return response.data;
+
+    }
+
 }

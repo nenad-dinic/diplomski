@@ -37,6 +37,16 @@ public class VoteController(VoteService voteService) : ControllerBase {
 
     }
 
+    [HttpGet("poll/{pollId:int}")]
+    [AllowedRoles(Role.Admin)]
+    public async Task<IActionResult> GetVotesByPoll([FromRoute] int pollId, [FromQuery] PageableQuery query) {
+
+        Page<Vote> votes = await voteService.GetVotesByPoll(pollId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
+
+        return Ok(votes);
+
+    }
+
     [HttpPost]
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreateVote([FromBody] CreateVoteBody body) {

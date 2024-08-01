@@ -14,6 +14,14 @@ public class VoteService(IVoteRepository voteRepository) {
 
     }
 
+    public async Task<Page<Vote>> GetVotesByPoll(int pollId, string filter, int page, int limit) {
+
+        Page<Vote> votes = await voteRepository.GetByPollId(pollId, filter, page, limit);
+
+        return votes;
+
+    }
+
     public async Task<Vote?> GetVoteById(int id) {
 
         Vote? vote = await voteRepository.GetById(id);

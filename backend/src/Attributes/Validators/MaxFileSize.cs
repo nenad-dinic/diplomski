@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace API.Validators;
+namespace API.Attributes.Validators;
 
 public class MaxFileSize(int maxFileSize) : ValidationAttribute
 {

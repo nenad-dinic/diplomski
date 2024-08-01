@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using API.Validators;
+using API.Attributes.Validators;
 
 namespace API.Dtos.Bill;
 

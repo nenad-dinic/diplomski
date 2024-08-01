@@ -6,6 +6,7 @@ import { BillType } from "@/models/bill-type.models";
 import { BillTypeService } from "@/services/bill-type.service";
 import { Icon } from "@iconify/react";
 import DataView from "@/components/blocks/views/data.view";
+import DeletePopover from "@/components/blocks/popovers/delete.popover";
 
 export default function AdminBillTypePage() {
 
@@ -49,7 +50,9 @@ export default function AdminBillTypePage() {
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
                 <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
-                <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
+                <DeletePopover trigger={
+                    <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
+                }/>
             </TableCell>
         </TableRow>
 

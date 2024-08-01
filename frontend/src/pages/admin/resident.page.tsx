@@ -7,6 +7,7 @@ import { ResidentService } from "@/services/resident.service";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import DataView from "@/components/blocks/views/data.view";
+import DeletePopover from "@/components/blocks/popovers/delete.popover";
 
 export default function AdminResidentPage() {
 
@@ -56,7 +57,9 @@ export default function AdminResidentPage() {
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
                 <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em" /></Button>
-                <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em" /></Button>
+                <DeletePopover trigger={
+                    <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
+                }/>
             </TableCell>
         </TableRow>
 

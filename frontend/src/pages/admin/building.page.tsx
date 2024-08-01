@@ -7,6 +7,7 @@ import { BuildingService } from "@/services/building.service";
 import { Icon } from "@iconify/react";
 import DataView from "@/components/blocks/views/data.view";
 import { useNavigate } from "react-router";
+import DeletePopover from "@/components/blocks/popovers/delete.popover";
 
 
 export default function AdminBuildingPage() {
@@ -56,7 +57,9 @@ export default function AdminBuildingPage() {
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${data.id}/apartments`)}><Icon icon="material-symbols:doorbell-3p-sharp" fontSize="1.5em"/></Button>
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${data.id}/meetings`)}><Icon icon="mdi:talk" fontSize="1.5em"/></Button>
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${data.id}/polls`)}><Icon icon="mdi:poll" fontSize="1.5em"/></Button>
-                <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
+                <DeletePopover trigger={
+                    <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
+                }/>
             </TableCell>
         </TableRow>
 

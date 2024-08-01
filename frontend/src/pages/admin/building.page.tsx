@@ -54,6 +54,7 @@ export default function AdminBuildingPage() {
             <TableCell className="w-fit flex gap-1">
                 <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${data.id}/apartments`)}><Icon icon="material-symbols:doorbell-3p-sharp" fontSize="1.5em"/></Button>
+                <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${data.id}/meetings`)}><Icon icon="mdi:talk" fontSize="1.5em"/></Button>
                 <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
             </TableCell>
         </TableRow>

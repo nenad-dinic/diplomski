@@ -18,6 +18,7 @@ string jwtSecret = builder.Configuration.GetValue<string>("JWT:Secret") ?? "";
 // Database connection
 builder.Services.AddDbContext<ApplicationDBContext>(options => {
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    options.UseProjectables();
 });
 
 // Controllers

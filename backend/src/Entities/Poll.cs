@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using EntityFrameworkCore.Projectables;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace API.Entities;
 
@@ -22,5 +24,26 @@ public class Poll {
     public Building? Building {get; set;}
 
     public List<Vote> Votes {get; set;} = [];
+
+    [Projectable(UseMemberBody = nameof(_TotalVotes))]
+    [NotMapped]
+    public int TotalVotes {get; set;}
+
+    [Projectable(UseMemberBody = nameof(_TotalYesVotes))]
+    [NotMapped]
+    public int TotalYesVotes {get; set;}
+
+    [Projectable(UseMemberBody = nameof(_TotalNoVotes))]
+    [NotMapped]
+    public int TotalNoVotes {get; set;}
+
+    [JsonIgnore]
+    public int _TotalVotes => Votes.Count;
+
+    [JsonIgnore]
+    public int _TotalYesVotes => Votes.Count(v => v.Result == true);
+
+    [JsonIgnore]
+    public int _TotalNoVotes => Votes.Count(v => v.Result == false);
 
 }

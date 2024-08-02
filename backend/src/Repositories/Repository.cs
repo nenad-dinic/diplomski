@@ -4,7 +4,6 @@ using API.Interfaces;
 using API.Types;
 using API.Utils;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace API.Repositories;
 
@@ -13,20 +12,39 @@ public abstract class Repository<T>(ApplicationDBContext context) : IRepository<
 
     protected readonly ApplicationDBContext context = context;
 
-    private List<string> GetSearchable() {
+    private List<string> GetSearchableFields() {
         return context.Set<T>().EntityType.GetProperties().Where(p => p.PropertyInfo?.GetCustomAttribute(typeof(Searchable)) != null).Select(p => p.Name).ToList();
     }
 
+    public List<string> GetAutoIncludeFields() {
+        return context.Set<T>().EntityType.GetNavigations().Where(p => p.PropertyInfo?.GetCustomAttribute(typeof(AutoInclude)) != null).Select(p => p.Name).ToList();
+    }
+
     public virtual async Task<List<T>> GetAll() {
-        return await context.Set<T>().ToListAsync();
+
+        List<string> includeFields = GetAutoIncludeFields();
+
+        IQueryable<T> query = context.Set<T>();
+        foreach (string field in includeFields) {
+            query = query.Include(field);
+        }
+
+        return await query.ToListAsync();
     }
 
     public virtual async Task<Page<T>> GetAll(int page, int limit) {
 
         int offset = (page - 1) * limit;
 
-        List<T> data = await context.Set<T>().Skip(offset).Take(limit).ToListAsync();
-        int total = await context.Set<T>().CountAsync();
+        List<string> includeFields = GetAutoIncludeFields();
+
+        IQueryable<T> query = context.Set<T>();
+        foreach (string field in includeFields) {
+            query = query.Include(field);
+        }
+
+        List<T> data = await query.Skip(offset).Take(limit).ToListAsync();
+        int total = await query.CountAsync();
 
         return new Page<T>(data, total, page, limit);
 
@@ -36,16 +54,23 @@ public abstract class Repository<T>(ApplicationDBContext context) : IRepository<
 
         int offset = (page - 1) * limit;
 
-        List<string> fields = GetSearchable();
+        List<string> searchFields = GetSearchableFields();
+        List<string> includeFields = GetAutoIncludeFields();
 
-        var predicate = fields.Count > 0 ? PredicateBuilder.False<T>() : PredicateBuilder.True<T>();
+        IQueryable<T> query = context.Set<T>();
+        foreach (string field in includeFields) {
+            Console.WriteLine(field);
+            query = query.Include(field);
+        }
 
-        foreach (string field in fields) {
+        var predicate = searchFields.Count > 0 ? PredicateBuilder.False<T>() : PredicateBuilder.True<T>();
+
+        foreach (string field in searchFields) {
             predicate = predicate.Or(t => EF.Property<string>(t, field).Contains(filter));
         }
 
-        List<T> data = await context.Set<T>().Where(predicate).Skip(offset).Take(limit).ToListAsync();
-        int total = await context.Set<T>().Where(predicate).CountAsync();
+        List<T> data = await query.Where(predicate).Skip(offset).Take(limit).ToListAsync();
+        int total = await query.Where(predicate).CountAsync();
 
         return new Page<T>(data, total, page, limit);
 

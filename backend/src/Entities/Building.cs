@@ -18,6 +18,7 @@ public class Building {
     [Searchable]
     public string Address { get; set;} = string.Empty;
 
+    [AutoInclude]
     public User? Manager {get; set;}
 
     public List<Apartment> Apartments {get; set;} = [];

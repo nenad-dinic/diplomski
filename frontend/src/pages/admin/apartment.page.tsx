@@ -6,8 +6,9 @@ import { Apartment } from "@/models/apartment.model";
 import { ApartmentService } from "@/services/apartment.service";
 import { useNavigate, useParams } from "react-router";
 import { Icon } from "@iconify/react";
-import DataView from "@/components/blocks/views/data.view";
+import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import DeletePopover from "@/components/blocks/popovers/delete.popover";
+import { useRef } from "react";
 
 export default function AdminApartmentPage() {
 
@@ -16,6 +17,8 @@ export default function AdminApartmentPage() {
     const toast = useToast();
     const logout = useLogout();
     const navigate = useNavigate();
+
+    const dataViewRef = useRef<DataViewRef>({ refresh: () => {} });
 
     async function getApartments(filter : string, page : number, limit : number) {
 
@@ -49,6 +52,38 @@ export default function AdminApartmentPage() {
 
     }
 
+    async function deleteApartment(id : number) {
+
+        const apartment = await ApartmentService.deleteApartment(id);
+
+        if(apartment == undefined) {
+            toast.toast({
+                title: "Communication error",
+                description: "Please try again later",
+                variant: "destructive"
+            });
+        } else if ("status" in apartment) {
+            switch(apartment.status) {
+                case 401:
+                    logout();
+                    break;
+                default:
+                    toast.toast({
+                        title: "Error",
+                        description: "An error occurred, please try again later",
+                        variant: "destructive"
+                    });
+            }
+        } else {
+            toast.toast({
+                title: "Apartment deleted",
+                description: "The apartment has been deleted"
+            });
+            dataViewRef.current?.refresh();
+        }
+
+    }
+
     function renderApartmentRow(data : Apartment) {
 
         return <TableRow>
@@ -63,7 +98,9 @@ export default function AdminApartmentPage() {
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${buildingId}/apartment/${data.id}/repairs`)}><Icon icon="mdi:tools" fontSize="1.5em"/></Button>
                 <DeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
-                }/>
+                }
+                onDelete={() => deleteApartment(data.id)}
+                />
             </TableCell>
         </TableRow>
 
@@ -71,6 +108,7 @@ export default function AdminApartmentPage() {
 
     return <>
         <DataView<Apartment>
+            ref={dataViewRef}
             headers={["Number", "Size", "Residents", "", "Actions"]}
             rowRenderer={renderApartmentRow}
             fetchCallback={getApartments}

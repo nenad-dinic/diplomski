@@ -19,4 +19,12 @@ export class ResidentService extends Service {
 
     }
 
+    static async deleteResident(id : number) {
+
+        const response = await this.axios.delete<Resident | APIError>(`/api/resident/${id}`);
+
+        return response.data;
+
+    }
+
 }

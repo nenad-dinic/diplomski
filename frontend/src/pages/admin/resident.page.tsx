@@ -6,8 +6,9 @@ import { Icon } from "@iconify/react";
 import { ResidentService } from "@/services/resident.service";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import DataView from "@/components/blocks/views/data.view";
+import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import DeletePopover from "@/components/blocks/popovers/delete.popover";
+import { useRef } from "react";
 
 export default function AdminResidentPage() {
 
@@ -15,6 +16,8 @@ export default function AdminResidentPage() {
 
     const toast = useToast();
     const logout = useLogout();
+
+    const dataViewRef = useRef<DataViewRef>({ refresh: () => {} });
 
     async function getResidents(filter : string, page : number, limit : number) {
 
@@ -48,6 +51,38 @@ export default function AdminResidentPage() {
 
     }
 
+    async function deleteResident(id : number) {
+
+        const resident = await ResidentService.deleteResident(id);
+
+        if(resident == undefined) {
+            toast.toast({
+                title: "Communication error",
+                description: "Please try again later",
+                variant: "destructive"
+            });
+        } else if ("status" in resident) {
+            switch(resident.status) {
+                case 401:
+                    logout();
+                    break;
+                default:
+                    toast.toast({
+                        title: "Error",
+                        description: "An error occurred, please try again later",
+                        variant: "destructive"
+                    });
+            }
+        } else {
+            toast.toast({
+                title: "Resident deleted",
+                description: "The resident has been deleted",
+            });
+            dataViewRef.current.refresh();
+        }
+        
+    }
+
     function renderResidentRow(data : Resident) {
 
         return <TableRow>
@@ -59,7 +94,9 @@ export default function AdminResidentPage() {
                 <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em" /></Button>
                 <DeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
-                }/>
+                }
+                onDelete={() => deleteResident(data.id)}
+                />
             </TableCell>
         </TableRow>
 
@@ -67,6 +104,7 @@ export default function AdminResidentPage() {
 
     return <>
         <DataView<Resident>
+            ref={dataViewRef}
             headers={["Resident", "Expires", "Owner", "", "Actions"]}
             rowRenderer={renderResidentRow}
             fetchCallback={getResidents}

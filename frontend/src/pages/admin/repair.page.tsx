@@ -6,8 +6,9 @@ import { Repair } from "@/models/repair.model";
 import { RepairService } from "@/services/repair.service";
 import { useParams } from "react-router";
 import { Icon } from '@iconify/react';
-import DataView from "@/components/blocks/views/data.view";
+import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import DeletePopover from "@/components/blocks/popovers/delete.popover";
+import { useRef } from "react";
 
 export default function AdminRepairPage() {
 
@@ -15,6 +16,8 @@ export default function AdminRepairPage() {
 
     const toast = useToast();
     const logout = useLogout();
+
+    const dataViewRef = useRef<DataViewRef>({ refresh: () => {} });
 
     async function getRepairs(filter : string, page : number, limit : number) {
 
@@ -48,6 +51,38 @@ export default function AdminRepairPage() {
 
     }
 
+    async function deleteRepair(id : number) {
+
+        const repair = await RepairService.deleteRepair(id);
+
+        if(repair == undefined) {
+            toast.toast({
+                title: "Communication error",
+                description: "Please try again later",
+                variant: "destructive"
+            });
+        } else if ("status" in repair) {
+            switch(repair.status) {
+                case 401:
+                    logout();
+                    break;
+                default:
+                    toast.toast({
+                        title: "Error",
+                        description: "An error occurred, please try again later",
+                        variant: "destructive"
+                    });
+            }
+        } else {
+            toast.toast({
+                title: "Repair deleted",
+                description: "The repair has been deleted"
+            })
+            dataViewRef.current.refresh();
+        }
+
+    }
+
     function renderRepairRow(data : Repair) {
 
         return <TableRow>
@@ -59,7 +94,9 @@ export default function AdminRepairPage() {
                 <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
                 <DeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
-                }/>
+                }
+                onDelete={() => deleteRepair(data.id)}
+                />
             </TableCell>
         </TableRow>
 
@@ -67,6 +104,7 @@ export default function AdminRepairPage() {
 
     return <>
         <DataView<Repair>
+            ref={dataViewRef}
             headers={["User", "Description", "Repaired", "", "Actions"]}
             rowRenderer={renderRepairRow}
             fetchCallback={getRepairs}

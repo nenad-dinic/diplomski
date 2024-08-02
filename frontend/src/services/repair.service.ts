@@ -19,4 +19,12 @@ export class RepairService extends Service {
 
     }
 
+    static async deleteRepair(id : number) {
+        
+        const response = await this.axios.delete<Repair | APIError>(`/api/repair/${id}`);
+
+        return response.data;
+
+    }
+
 }

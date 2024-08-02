@@ -19,4 +19,12 @@ export class PollService extends Service {
 
     }
 
+    static async deletePoll(id : number) {
+
+        const response = await this.axios.delete<Poll | APIError>(`/api/poll/${id}`);
+
+        return response.data;
+
+    }
+
 }

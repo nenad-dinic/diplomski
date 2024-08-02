@@ -6,9 +6,10 @@ import { Poll } from "@/models/poll.model";
 import { PollService } from "@/services/poll.service";
 import { useNavigate, useParams } from "react-router";
 import { Icon } from "@iconify/react";
-import DataView from "@/components/blocks/views/data.view";
+import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { Progress } from "@/components/ui/progress";
 import DeletePopover from "@/components/blocks/popovers/delete.popover";
+import { useRef } from "react";
 
 export default function AdminPollPage() {
 
@@ -17,6 +18,8 @@ export default function AdminPollPage() {
     const toast = useToast();
     const logout = useLogout();
     const navigate = useNavigate();
+
+    const dataViewRef = useRef<DataViewRef>({ refresh: () => {} });
 
     async function getPolls(filter : string, page : number, limit : number) {
 
@@ -50,6 +53,38 @@ export default function AdminPollPage() {
 
     }
 
+    async function deletePoll(id : number) {
+
+        const poll = await PollService.deletePoll(id);
+
+        if(poll == undefined) {
+            toast.toast({
+                title: "Communication error",
+                description: "Please try again later",
+                variant: "destructive"
+            });
+        } else if ("status" in poll) {
+            switch(poll.status) {
+                case 401:
+                    logout();
+                    break;
+                default:
+                    toast.toast({
+                        title: "Error",
+                        description: "An error occurred, please try again later",
+                        variant: "destructive"
+                    });
+            }
+        } else {
+            toast.toast({
+                title: "Success",
+                description: "Poll deleted successfully"
+            });
+            dataViewRef.current.refresh();
+        }
+
+    }
+
     function renderPollRow(data : Poll) {
         return <TableRow>
             <TableCell className="min-w-[200px]">{data.title}</TableCell>
@@ -66,13 +101,16 @@ export default function AdminPollPage() {
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${buildingId}/poll/${data.id}/votes`)}><Icon icon="mdi:vote" fontSize="1.5em"/></Button>
                 <DeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
-                }/>
+                }
+                onDelete={() => deletePoll(data.id)}
+                />
             </TableCell>
         </TableRow>
     }
 
     return <>
         <DataView<Poll>
+            ref={dataViewRef}
             headers={["Title", "Votes", "Active", "", "Actions"]}
             rowRenderer={renderPollRow}
             fetchCallback={getPolls}

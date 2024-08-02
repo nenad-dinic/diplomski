@@ -6,9 +6,10 @@ import { Bill } from "@/models/bill.model";
 import { BillService } from "@/services/bill.service";
 import { useParams } from "react-router";
 import { Icon } from '@iconify/react';
-import DataView from "@/components/blocks/views/data.view";
+import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { API_URL } from "@/utils/environment";
 import DeletePopover from "@/components/blocks/popovers/delete.popover";
+import { useRef } from "react";
 
 export default function AdminBillPage() {
 
@@ -16,6 +17,8 @@ export default function AdminBillPage() {
 
     const toast = useToast();
     const logout = useLogout();
+
+    const dataViewRef = useRef<DataViewRef>({ refresh: () => {} });
 
     async function getBills(filter : string, page : number, limit : number) {
 
@@ -49,6 +52,38 @@ export default function AdminBillPage() {
 
     }
 
+    async function deleteBill(id : number) {
+
+        const bill = await BillService.deleteBill(id);
+
+        if(bill == undefined) {
+            toast.toast({
+                title: "Communication error",
+                description: "Please try again later",
+                variant: "destructive"
+            });
+        } else if ("status" in bill) {
+            switch(bill.status) {
+                case 401:
+                    logout();
+                    break;
+                default:
+                    toast.toast({
+                        title: "Error",
+                        description: "An error occurred, please try again later",
+                        variant: "destructive"
+                    });
+            }
+        } else {
+            toast.toast({
+                title: "Bill deleted",
+                description: "The bill has been deleted",
+            })
+            dataViewRef.current.refresh();
+        }
+
+    }
+
     function downloadBill(bill : Bill) {
 
         const link = document.createElement("a");
@@ -70,7 +105,9 @@ export default function AdminBillPage() {
                 <Button variant="default" size="icon" onClick={() => downloadBill(data)}><Icon icon="octicon:download-16" fontSize="1.5em"/></Button>
                 <DeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
-                }/>
+                }
+                onDelete={() => deleteBill(data.id)}
+                />
             </TableCell>
         </TableRow>
 
@@ -78,6 +115,7 @@ export default function AdminBillPage() {
 
     return <>
         <DataView<Bill>
+            ref={dataViewRef}
             headers={["Type", "Month", "File Name", "", "Actions"]}
             rowRenderer={renderBillRow}
             fetchCallback={getBills}

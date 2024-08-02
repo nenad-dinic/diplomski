@@ -77,8 +77,8 @@ export default function AdminPollPage() {
             }
         } else {
             toast.toast({
-                title: "Success",
-                description: "Poll deleted successfully"
+                title: "Poll deleted",
+                description: "The poll has been deleted"
             });
             dataViewRef.current.refresh();
         }

@@ -1,5 +1,5 @@
 import DeletePopover from "@/components/blocks/popovers/delete.popover";
-import DataView from "@/components/blocks/views/data.view";
+import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { Button } from "@/components/ui/button";
 import { TableRow, TableCell } from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
@@ -7,6 +7,7 @@ import { useLogout } from "@/hooks/logout.hook";
 import { Meeting } from "@/models/meeting.model";
 import { MeetingService } from "@/services/meeting.service";
 import { Icon } from "@iconify/react";
+import { useRef } from "react";
 import { useParams } from "react-router";
 
 export default function AdminMeetingPage() {
@@ -15,6 +16,8 @@ export default function AdminMeetingPage() {
 
     const toast = useToast();
     const logout = useLogout();
+
+    const dataViewRef = useRef<DataViewRef>({ refresh: () => {} });
 
     async function getMeetings(filter: string, page: number, limit: number) {
 
@@ -48,6 +51,38 @@ export default function AdminMeetingPage() {
 
     }
 
+    async function deleteMeeting(id : number) {
+
+        const meeting = await MeetingService.deleteMeeting(id);
+
+        if(meeting == undefined) {
+            toast.toast({
+                title: "Communication error",
+                description: "Please try again later",
+                variant: "destructive"
+            });
+        } else if ("status" in meeting) {
+            switch(meeting.status) {
+                case 401:
+                    logout();
+                    break;
+                default:
+                    toast.toast({
+                        title: "Error",
+                        description: "An error occurred, please try again later",
+                        variant: "destructive"
+                    });
+            }
+        } else {
+            toast.toast({
+                title: "Meeting deleted",
+                description: "The meeting has been deleted"
+            });
+            dataViewRef.current.refresh();
+        }
+
+    }
+
     function renderMeeting(data : Meeting) {
             
             return <TableRow>
@@ -59,13 +94,16 @@ export default function AdminMeetingPage() {
                     <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
                     <DeletePopover trigger={
                         <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
-                    }/>
+                    }
+                    onDelete={() => deleteMeeting(data.id)}
+                    />
                 </TableCell>
             </TableRow>
     }
 
     return <>
         <DataView<Meeting>
+            ref={dataViewRef}
             headers={["Date", "Length", "Description", "", "Actions"]}
             rowRenderer={renderMeeting}
             fetchCallback={getMeetings}

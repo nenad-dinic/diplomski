@@ -19,4 +19,12 @@ export class MeetingService extends Service {
 
     }
 
+    static async deleteMeeting(id : number) {
+
+        const response = await this.axios.delete<Meeting | APIError>(`/api/meeting/${id}`);
+
+        return response.data;
+
+    }
+
 }

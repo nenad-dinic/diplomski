@@ -70,8 +70,8 @@ export default function AdminUserPage() {
             }
         } else {
             toast.toast({
-                title: "Success",
-                description: "User deleted successfully"
+                title: "User deleted",
+                description: "The user has been deleted",
             });
             dataViewRef.current?.refresh();
         }

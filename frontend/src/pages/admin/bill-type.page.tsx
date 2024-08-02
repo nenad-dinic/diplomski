@@ -70,8 +70,8 @@ export default function AdminBillTypePage() {
             }
         } else {
             toast.toast({
-                title: "Success",
-                description: "Bill type deleted"
+                title: "Bill type deleted",
+                description: "The bill type has been deleted",
             });
             dataViewRef.current.refresh();
         }

@@ -75,8 +75,8 @@ export default function AdminVotePage() {
             }
         } else {
             toast.toast({
-                title: "Success",
-                description: "Vote deleted"
+                title: "Vote deleted",
+                description: "The vote has been deleted"
             });
             dataViewRef.current.refresh();
         }

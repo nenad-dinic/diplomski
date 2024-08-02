@@ -20,7 +20,7 @@ export default function DeletePopover(props : DeletePopoverProps) {
                 <div className="flex flex-col gap-2">
                     <p>Are you sure you want to delete this item?</p>
                     <div className="flex gap-2">
-                        <Button className="grow" variant="destructive" onClick={() => props.onDelete?.()}>Delete</Button>
+                        <Button className="grow" variant="destructive" onClick={() => {setOpen(false); props.onDelete?.()}}>Delete</Button>
                         <Button className="grow" variant="default" onClick={() => setOpen(false)}>Cancel</Button>
                     </div>
                 </div>

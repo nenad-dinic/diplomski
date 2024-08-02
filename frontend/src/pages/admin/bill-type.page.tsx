@@ -5,13 +5,16 @@ import { useLogout } from "@/hooks/logout.hook";
 import { BillType } from "@/models/bill-type.models";
 import { BillTypeService } from "@/services/bill-type.service";
 import { Icon } from "@iconify/react";
-import DataView from "@/components/blocks/views/data.view";
+import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import DeletePopover from "@/components/blocks/popovers/delete.popover";
+import { useRef } from "react";
 
 export default function AdminBillTypePage() {
 
     const toast = useToast();
     const logout = useLogout();
+
+    const dataViewRef = useRef<DataViewRef>({ refresh: () => {} });
 
     async function getBillTypes(filter : string, page : number, limit : number) {
 
@@ -43,6 +46,38 @@ export default function AdminBillTypePage() {
 
     }
 
+    async function deleteBillType(id : number) {
+
+        const billType = await BillTypeService.deleteBillType(id);
+
+        if(billType == undefined) {
+            toast.toast({
+                title: "Communication error",
+                description: "Please try again later",
+                variant: "destructive"
+            });
+        } else if ("status" in billType) {
+            switch(billType.status) {
+                case 401:
+                    logout();
+                    break;
+                default:
+                    toast.toast({
+                        title: "Error",
+                        description: "An error occurred, please try again later",
+                        variant: "destructive"
+                    });
+            }
+        } else {
+            toast.toast({
+                title: "Success",
+                description: "Bill type deleted"
+            });
+            dataViewRef.current.refresh();
+        }
+
+    }
+
     function renderBillTypeRow(data : BillType) {
 
         return <TableRow>
@@ -52,7 +87,9 @@ export default function AdminBillTypePage() {
                 <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
                 <DeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
-                }/>
+                }
+                onDelete={() => deleteBillType(data.id)}
+                />
             </TableCell>
         </TableRow>
 
@@ -60,6 +97,7 @@ export default function AdminBillTypePage() {
 
     return <>
         <DataView<BillType>
+            ref={dataViewRef}
             headers={["Name", "", "Actions"]}
             rowRenderer={renderBillTypeRow}
             fetchCallback={getBillTypes}

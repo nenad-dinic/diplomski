@@ -19,4 +19,12 @@ export class BillTypeService extends Service {
 
     }
 
+    static async deleteBillType(id : number) {
+
+        const response = await this.axios.delete<BillType | APIError>(`/api/bill-type/${id}`);
+
+        return response.data;
+
+    }
+
 }

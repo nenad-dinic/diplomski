@@ -8,9 +8,6 @@ namespace API.Repositories;
 
 public class RepairRepository(ApplicationDBContext context) : Repository<Repair>(context), IRepairRepository
 {
-    protected override List<string> GetSearchable() {
-        return [];
-    }
 
     public async Task<Page<Repair>> GetByApartmentId(int apartmentId, string filter, int page, int limit) {
 

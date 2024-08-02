@@ -24,8 +24,4 @@ public class PollRepository(ApplicationDBContext context) : Repository<Poll>(con
 
     }
 
-    protected override List<string> GetSearchable()
-    {
-        return ["Title"];
-    }
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using API.Attributes;
 using EntityFrameworkCore.Projectables;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -16,6 +17,7 @@ public class Poll {
     public int BuildingId {get; set;}
 
     [Column("title", TypeName = "varchar")]
+    [Searchable]
     public string Title {get; set;} = string.Empty;
 
     [Column("is_active", TypeName = "tinyint")]

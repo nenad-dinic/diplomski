@@ -23,8 +23,4 @@ public class MeetingRepository(ApplicationDBContext context) : Repository<Meetin
 
     }
 
-    protected override List<string> GetSearchable()
-    {
-        return [];
-    }
 }

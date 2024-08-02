@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using API.Attributes;
 using API.Types;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -14,6 +15,7 @@ public class User {
     public int Id { get; set; }
 
     [Column("username", TypeName = "varchar")]
+    [Searchable]
     public string Username { get; set; } = string.Empty;
 
     [Column("password", TypeName = "varchar")]
@@ -21,9 +23,11 @@ public class User {
     public string Password { get; set; } = string.Empty;
 
     [Column("full_name", TypeName = "varchar")]
+    [Searchable]
     public string FullName { get; set; } = string.Empty;
 
     [Column("email", TypeName = "varchar")]
+    [Searchable]
     public string Email { get; set; } = string.Empty;
 
     [Column("phone_number", TypeName = "varchar")]

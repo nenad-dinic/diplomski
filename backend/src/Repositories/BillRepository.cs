@@ -32,8 +32,4 @@ public class BillRepository(ApplicationDBContext context) : Repository<Bill>(con
 
     }
 
-    protected override List<string> GetSearchable()
-    {
-        return ["FileName"];
-    }
 }

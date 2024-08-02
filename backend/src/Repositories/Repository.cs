@@ -1,7 +1,10 @@
+using System.Reflection;
+using API.Attributes;
 using API.Interfaces;
 using API.Types;
 using API.Utils;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace API.Repositories;
 
@@ -9,6 +12,10 @@ public abstract class Repository<T>(ApplicationDBContext context) : IRepository<
 {
 
     protected readonly ApplicationDBContext context = context;
+
+    private List<string> GetSearchable() {
+        return context.Set<T>().EntityType.GetProperties().Where(p => p.PropertyInfo?.GetCustomAttribute(typeof(Searchable)) != null).Select(p => p.Name).ToList();
+    }
 
     public virtual async Task<List<T>> GetAll() {
         return await context.Set<T>().ToListAsync();
@@ -66,9 +73,5 @@ public abstract class Repository<T>(ApplicationDBContext context) : IRepository<
         context.Set<T>().Remove(entity);
         await context.SaveChangesAsync();
         return entity;
-    }
-
-    protected virtual List<string> GetSearchable() {
-        return [];
     }
 }

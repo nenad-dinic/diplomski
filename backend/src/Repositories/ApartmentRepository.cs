@@ -8,11 +8,6 @@ namespace API.Repositories;
 
 public class ApartmentRepository(ApplicationDBContext context) : Repository<Apartment>(context), IApartmentRepository
 {
-    protected override List<string> GetSearchable()
-    {
-        return [];
-    }
-
     public async Task<Page<Apartment>> GetByBuildingId(int buildingId, string filter, int page, int limit) {
 
         int offset = (page - 1) * limit;

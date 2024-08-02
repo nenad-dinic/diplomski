@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using API.Attributes;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Entities;
@@ -20,6 +21,7 @@ public class Bill {
     public int Month {get; set;}
 
     [Column("file_name", TypeName = "varchar")]
+    [Searchable]
     public string FileName {get; set;} = string.Empty;
 
     [Column("file_path", TypeName = "varchar")]

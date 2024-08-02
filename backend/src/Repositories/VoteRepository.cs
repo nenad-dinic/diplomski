@@ -25,8 +25,4 @@ public class VoteRepository(ApplicationDBContext context) : Repository<Vote>(con
 
     }
 
-    protected override List<string> GetSearchable()
-    {
-        return [];
-    }
 }

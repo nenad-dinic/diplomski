@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using API.Attributes;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Entities;
@@ -14,6 +15,7 @@ public class Building {
     public int ManagerId {get; set;}
 
     [Column("address", TypeName = "varchar")]
+    [Searchable]
     public string Address { get; set;} = string.Empty;
 
     public User? Manager {get; set;}

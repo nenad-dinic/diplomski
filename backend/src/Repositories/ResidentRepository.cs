@@ -8,11 +8,6 @@ namespace API.Repositories;
 
 public class ResidentRepository(ApplicationDBContext context) : Repository<Resident>(context), IResidentRepository
 {
-    protected override List<string> GetSearchable()
-    {
-        return [];
-    }
-
     public async Task<Page<Resident>> GetByApartmentId(int apartmentId, string filter, int page, int limit)
     {
 

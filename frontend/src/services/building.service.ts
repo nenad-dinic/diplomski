@@ -19,4 +19,12 @@ export class BuildingService extends Service {
 
     }
 
+    static async deleteBuilding(id : number) {
+
+        const response = await this.axios.delete<Building | APIError>(`/api/building/${id}`);
+
+        return response.data;
+
+    }
+
 }

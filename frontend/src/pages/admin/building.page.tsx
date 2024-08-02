@@ -5,9 +5,10 @@ import { useLogout } from "@/hooks/logout.hook";
 import { Building } from "@/models/building.model";
 import { BuildingService } from "@/services/building.service";
 import { Icon } from "@iconify/react";
-import DataView from "@/components/blocks/views/data.view";
+import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { useNavigate } from "react-router";
 import DeletePopover from "@/components/blocks/popovers/delete.popover";
+import { useRef } from "react";
 
 
 export default function AdminBuildingPage() {
@@ -15,6 +16,8 @@ export default function AdminBuildingPage() {
     const toast = useToast();
     const logout = useLogout();
     const navigate = useNavigate();
+
+    const dataViewRef = useRef<DataViewRef>({ refresh: () => {} });
 
     async function getBuildings(filter : string, page : number, limit : number) {
 
@@ -46,6 +49,38 @@ export default function AdminBuildingPage() {
 
     }
 
+    async function deleteBuilding(id : number) {
+    
+        const building = await BuildingService.deleteBuilding(id);
+    
+        if(building == undefined) {
+            toast.toast({
+                title: "Communication error",
+                description: "Please try again later",
+                variant: "destructive"
+            });
+        } else if ("status" in building) {
+            switch(building.status) {
+                case 401:
+                    logout();
+                    break;
+                default:
+                    toast.toast({
+                        title: "Error",
+                        description: "An error occurred, please try again later",
+                        variant: "destructive"
+                    });
+            }
+        } else {
+            toast.toast({
+                title: "Building deleted",
+                description: "The building was successfully deleted"
+            });
+            dataViewRef.current.refresh();
+        }
+
+    }
+
     function renderBuildingRow(data : Building) {
 
         return <TableRow>
@@ -59,7 +94,9 @@ export default function AdminBuildingPage() {
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${data.id}/polls`)}><Icon icon="mdi:poll" fontSize="1.5em"/></Button>
                 <DeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
-                }/>
+                }
+                onDelete={() => deleteBuilding(data.id)}
+                />
             </TableCell>
         </TableRow>
 
@@ -67,6 +104,7 @@ export default function AdminBuildingPage() {
 
     return <>
         <DataView<Building>
+            ref={dataViewRef}
             headers={["Address", "Manager", "", "Actions"]}
             rowRenderer={renderBuildingRow}
             fetchCallback={getBuildings}

@@ -10,8 +10,7 @@ public abstract class Repository<T>(ApplicationDBContext context) : IRepository<
 
     protected readonly ApplicationDBContext context = context;
 
-    public virtual async Task<List<T>> GetAll()
-    {
+    public virtual async Task<List<T>> GetAll() {
         return await context.Set<T>().ToListAsync();
     }
 
@@ -45,27 +44,25 @@ public abstract class Repository<T>(ApplicationDBContext context) : IRepository<
 
     }
 
-    public virtual async Task<T?> GetById(int id)
-    {
+    public virtual async Task<T?> GetById(int id) {
         return await context.Set<T>().FindAsync(id);
     }
 
-    public virtual async Task<T> Create(T entity)
-    {
+    public virtual async Task<T> Create(T entity) {
         await context.Set<T>().AddAsync(entity);
         await context.SaveChangesAsync();
         return entity;
     }
 
-    public virtual async Task<T> Update(T entity)
-    {
+    public virtual async Task<T> Update(T entity) {
+        context.ChangeTracker.Clear();
         context.Set<T>().Update(entity);
         await context.SaveChangesAsync();
         return entity;
     }
 
-    public virtual async Task<T> Delete(T entity)
-    {
+    public virtual async Task<T> Delete(T entity) {
+        context.ChangeTracker.Clear();
         context.Set<T>().Remove(entity);
         await context.SaveChangesAsync();
         return entity;

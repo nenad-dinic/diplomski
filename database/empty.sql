@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `apartment` (
   `number_of_residents` int(10) unsigned NOT NULL,
   PRIMARY KEY (`apartment_id`),
   UNIQUE KEY `uq_apartment_building_id_number` (`building_id`,`number`),
+  KEY `fk_apartment_building_id` (`building_id`),
   CONSTRAINT `fk_apartment_building_id` FOREIGN KEY (`building_id`) REFERENCES `building` (`building_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -166,6 +167,7 @@ CREATE TABLE IF NOT EXISTS `vote` (
   `poll_id` int(10) unsigned NOT NULL,
   `result` tinyint(1) unsigned NOT NULL,
   PRIMARY KEY (`vote_id`),
+  UNIQUE KEY `uq_vote_user_id_poll_id` (`user_id`,`poll_id`),
   KEY `fk_vote_poll_id` (`poll_id`),
   KEY `fk_vote_user_id` (`user_id`),
   CONSTRAINT `fk_vote_poll_id` FOREIGN KEY (`poll_id`) REFERENCES `poll` (`poll_id`) ON DELETE CASCADE ON UPDATE CASCADE,

@@ -19,4 +19,12 @@ export class VoteService extends Service {
 
     }
 
+    static async deleteVote(id : number) {
+
+        const response = await this.axios.delete<Vote | APIError>(`/api/vote/${id}`);
+
+        return response.data;
+
+    }
+
 }

@@ -13,6 +13,7 @@ import AdminRepairPage from "@/pages/admin/repair.page";
 import AdminMeetingPage from "@/pages/admin/meeting.page";
 import AdminPollPage from "@/pages/admin/poll.page";
 import AdminVotePage from "@/pages/admin/vote.page";
+import AdminDashboardPage from "@/pages/admin/dashboard.page";
 
 export default function App() {
 
@@ -21,6 +22,7 @@ export default function App() {
             <Routes>
                 <Route path='/login' element={<LoginPage/>}/>
                 <Route path='/admin' element={<AdminPageShell/>}>
+                    <Route path="dashboard" element={<AdminDashboardPage/>}/>
                     <Route path="buildings" element={<AdminBuildingPage/>}/>
                     <Route path="building/:buildingId/apartments" element={<AdminApartmentPage/>} />
                     <Route path="building/:buildingId/apartment/:apartmentId/residents" element={<AdminResidentPage/>} />

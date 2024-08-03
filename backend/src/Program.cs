@@ -1,5 +1,5 @@
 using API;
-using API.Interfaces;
+using API.Interfaces.Repositories;
 using API.Middlewares;
 using API.Repositories;
 using API.Services;

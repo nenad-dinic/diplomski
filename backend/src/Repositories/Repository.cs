@@ -1,6 +1,6 @@
 using System.Reflection;
 using API.Attributes;
-using API.Interfaces;
+using API.Interfaces.Repositories;
 using API.Types;
 using API.Utils;
 using Microsoft.EntityFrameworkCore;

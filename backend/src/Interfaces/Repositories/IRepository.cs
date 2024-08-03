@@ -1,6 +1,6 @@
 using API.Types;
 
-namespace API.Interfaces;
+namespace API.Interfaces.Repositories;
 
 public interface IRepository<T> {
 

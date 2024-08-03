@@ -1,3 +1,5 @@
+import { Role } from "@/types/role.enum";
+
 export interface User {
 
     id : number;
@@ -5,6 +7,6 @@ export interface User {
     fullName : string;
     email : string;
     phoneNumber : string;
-    role : "Admin" | "Manager" | "Resident";
+    role : Role;
 
 }

@@ -7,7 +7,7 @@ interface DashboardCardProps {
     count: number;
 }
 
-export function DashboardCard(props : DashboardCardProps) {
+export function AdminDashboardCard(props : DashboardCardProps) {
 
     return <Card className="w-[200px]">
         <CardHeader className="py-2">

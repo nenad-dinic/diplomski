@@ -1,4 +1,4 @@
-import { DashboardCard } from "@/components/blocks/cards/dashboard.card";
+import { AdminDashboardCard } from "@/components/blocks/cards/admin/dashboard.card";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
 import { Analytics } from "@/models/analytics.model";
@@ -46,10 +46,10 @@ export default function AdminDashboardPage() {
 
     return <>
         <div className="flex gap-8 p-8 justify-center flex-wrap">
-            <DashboardCard title="Buildings" icon="ic:round-apartment" count={analytics?.buildings ?? 0}></DashboardCard>
-            <DashboardCard title="Apartments" icon="material-symbols:doorbell-3p" count={analytics?.apartments ?? 0}></DashboardCard>
-            <DashboardCard title="Residents" icon="ic:round-family-restroom" count={analytics?.residents ?? 0}></DashboardCard>
-            <DashboardCard title="Repairs" icon="mdi:tools" count={analytics?.completedRepairs ?? 0}></DashboardCard>
+            <AdminDashboardCard title="Buildings" icon="ic:round-apartment" count={analytics?.buildings ?? 0}></AdminDashboardCard>
+            <AdminDashboardCard title="Apartments" icon="material-symbols:doorbell-3p" count={analytics?.apartments ?? 0}></AdminDashboardCard>
+            <AdminDashboardCard title="Residents" icon="ic:round-family-restroom" count={analytics?.residents ?? 0}></AdminDashboardCard>
+            <AdminDashboardCard title="Repairs" icon="mdi:tools" count={analytics?.completedRepairs ?? 0}></AdminDashboardCard>
         </div>
     </>
 

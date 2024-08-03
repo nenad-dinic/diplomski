@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router";
 import { Icon } from "@iconify/react";
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { Progress } from "@/components/ui/progress";
-import DeletePopover from "@/components/blocks/popovers/delete.popover";
+import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
 import { useRef } from "react";
 
 export default function AdminPollPage() {
@@ -99,7 +99,7 @@ export default function AdminPollPage() {
             <TableCell className="w-fit flex gap-1">
                 <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${buildingId}/poll/${data.id}/votes`)}><Icon icon="mdi:vote" fontSize="1.5em"/></Button>
-                <DeletePopover trigger={
+                <AdminDeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
                 }
                 onDelete={() => deletePoll(data.id)}

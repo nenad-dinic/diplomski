@@ -1,4 +1,5 @@
-import DeletePopover from "@/components/blocks/popovers/delete.popover";
+import AdminUserDialog from "@/components/blocks/dialogs/admin/user.dialog";
+import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
@@ -87,8 +88,12 @@ export default function AdminUserPage() {
             <TableCell className="min-w-[100px]">{data.role}</TableCell>
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
-                <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
-                <DeletePopover trigger={
+                <AdminUserDialog 
+                    trigger={<Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>}
+                    user={data} 
+                    onClose={() => dataViewRef.current?.refresh()}
+                />
+                <AdminDeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
                 }
                 onDelete={() => deleteUser(data.id)}

@@ -27,6 +27,7 @@ public class Bill {
     [Column("file_path", TypeName = "varchar")]
     public string FilePath {get; set;} = string.Empty;
 
+    [AutoInclude]
     public BillType? BillType {get; set;}
 
     public Apartment? Apartment {get; set;}

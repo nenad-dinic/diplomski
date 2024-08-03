@@ -26,4 +26,8 @@ public class RepairRepository(ApplicationDBContext context) : Repository<Repair>
 
     }
 
+    public async Task<int> GetNumberOfCompletedRepairs()
+    {
+        return await context.Repairs.Where(t => t.IsRepaired == true).CountAsync();
+    }
 }

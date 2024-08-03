@@ -23,4 +23,8 @@ public class ApartmentRepository(ApplicationDBContext context) : Repository<Apar
         return new Page<Apartment>(buildings, total, page, limit);
     }
 
+    public async Task<int> GetNumberOfApartments()
+    {
+        return await context.Apartments.CountAsync();
+    }
 }

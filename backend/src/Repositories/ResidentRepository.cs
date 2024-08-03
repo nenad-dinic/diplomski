@@ -25,4 +25,8 @@ public class ResidentRepository(ApplicationDBContext context) : Repository<Resid
         return new Page<Resident>(residents, total, page, limit);
     }
 
+    public async Task<int> GetNumberOfResidents()
+    {
+        return await context.Residents.CountAsync();
+    }
 }

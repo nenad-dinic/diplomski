@@ -27,6 +27,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options => {
 });
 
 // Services
+builder.Services.AddScoped<AnalyticsService>();
 builder.Services.AddScoped<ApartmentService>();
 builder.Services.AddScoped<BillService>();
 builder.Services.AddScoped<BillTypeService>();

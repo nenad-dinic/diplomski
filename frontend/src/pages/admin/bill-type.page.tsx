@@ -8,6 +8,7 @@ import { Icon } from "@iconify/react";
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
 import { useRef } from "react";
+import AdminBillTypeDialog from "@/components/blocks/dialogs/admin/bill-type.dialog";
 
 export default function AdminBillTypePage() {
 
@@ -84,7 +85,11 @@ export default function AdminBillTypePage() {
             <TableCell className="min-w-[200px]">{data.name}</TableCell>
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
-                <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
+                <AdminBillTypeDialog
+                    trigger={<Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>}
+                    billType={data}
+                    onClose={() => dataViewRef.current.refresh()}
+                />
                 <AdminDeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
                 }
@@ -101,6 +106,12 @@ export default function AdminBillTypePage() {
             headers={["Name", "", "Actions"]}
             rowRenderer={renderBillTypeRow}
             fetchCallback={getBillTypes}
+            actionRow={
+                <AdminBillTypeDialog
+                    trigger={<Button variant="default"><Icon icon="ion:add" fontSize="1.5em"/> Add Bill Type</Button>}
+                    onClose={() => dataViewRef.current.refresh()}
+                />
+            }
         />
     </>
 

@@ -79,7 +79,7 @@ export default function AdminApartmentPage() {
                 title: "Apartment deleted",
                 description: "The apartment has been deleted"
             });
-            dataViewRef.current?.refresh();
+            dataViewRef.current.refresh();
         }
 
     }

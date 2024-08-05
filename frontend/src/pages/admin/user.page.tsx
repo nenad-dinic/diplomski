@@ -74,7 +74,7 @@ export default function AdminUserPage() {
                 title: "User deleted",
                 description: "The user has been deleted",
             });
-            dataViewRef.current?.refresh();
+            dataViewRef.current.refresh();
         }
 
     }
@@ -91,7 +91,7 @@ export default function AdminUserPage() {
                 <AdminUserDialog 
                     trigger={<Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>}
                     user={data} 
-                    onClose={() => dataViewRef.current?.refresh()}
+                    onClose={() => dataViewRef.current.refresh()}
                 />
                 <AdminDeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>

@@ -6,13 +6,14 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components
 import { Page } from "@/models/page";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { SelectValue } from "@radix-ui/react-select";
-import { FormEvent, ForwardedRef, forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { FormEvent, ForwardedRef, forwardRef, ReactNode, useEffect, useImperativeHandle, useState } from "react";
 
 interface DataViewProps<T> {
 
     headers : string[];
-    rowRenderer : (item : T) => JSX.Element;
+    rowRenderer : (item : T) => ReactNode;
     fetchCallback : (filter : string, page : number, limit : number) => Promise<Page<T> | undefined>;
+    actionRow ?: ReactNode;
 
 }
 
@@ -111,10 +112,13 @@ export default forwardRef(function DataView<T>(props : DataViewProps<T>, ref : F
 
     return <>
         <div className="p-4">
-            <form onSubmit={handleSubmit} className="flex w-fit max-sm:justify-center max-sm:w-full">
-                <Input value={filter} onChange={e => setFilter(e.target.value)} className="rounded-tr-none rounded-br-none" type="text" placeholder="Search"></Input>
-                <Button type="submit" className="rounded-tl-none rounded-bl-none pl-2 pr-2"><Icon fontSize="1.25rem" icon="material-symbols:search"/></Button>
-            </form>
+            <div className="flex gap-4 max-sm:flex-col">
+                <form onSubmit={handleSubmit} className="flex w-fit max-sm:justify-center max-sm:w-full">
+                    <Input value={filter} onChange={e => setFilter(e.target.value)} className="rounded-tr-none rounded-br-none" type="text" placeholder="Search"></Input>
+                    <Button type="submit" className="rounded-tl-none rounded-bl-none pl-2 pr-2"><Icon fontSize="1.25rem" icon="material-symbols:search"/></Button>
+                </form>
+                {props.actionRow}
+            </div>
             <Table className="mt-4">
                 <TableHeader>
                     <TableRow>

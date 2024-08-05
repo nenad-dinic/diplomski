@@ -5,6 +5,20 @@ import { Service } from "@/services/service";
 
 export class PollService extends Service {
 
+    static async getPolls(filter : string, page : number, limit : number) {
+
+        const response = await this.axios.get<Page<Poll> | APIError>("/api/poll", {
+            params: {
+                filter,
+                page,
+                limit
+            }
+        });
+
+        return response.data;
+
+    }
+
     static async getPollsByBuilding(buildingId : number, filter : string, page : number, limit : number) {
 
         const response = await this.axios.get<Page<Poll> | APIError>(`/api/poll/building/${buildingId}`, {

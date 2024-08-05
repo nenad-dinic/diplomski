@@ -19,6 +19,29 @@ export class VoteService extends Service {
 
     }
 
+    static async createVote(pollId : number, userId : number, result : boolean) {
+
+        const response = await this.axios.post<Vote | APIError>('/api/vote', {
+            pollId,
+            userId,
+            result
+        });
+
+        return response.data;
+
+    }
+
+    static async updateVote(id : number, pollId : number, userId : number, result : boolean) {
+
+        const response = await this.axios.put<Vote | APIError>(`/api/vote/${id}`, {
+            pollId,
+            userId,
+            result
+        });
+
+        return response.data;
+    }
+
     static async deleteVote(id : number) {
 
         const response = await this.axios.delete<Vote | APIError>(`/api/vote/${id}`);

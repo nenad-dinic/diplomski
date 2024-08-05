@@ -9,6 +9,7 @@ import { Icon } from "@iconify/react";
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { useRef } from "react";
 import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
+import AdminVoteDialog from "@/components/blocks/dialogs/admin/vote.dialog";
 
 export default function AdminVotePage() {
 
@@ -90,7 +91,11 @@ export default function AdminVotePage() {
             <TableCell className="min-w-[100px]">{data.result ? "Yes" : "No"}</TableCell>
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
-                <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
+                <AdminVoteDialog 
+                    trigger={<Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>}
+                    vote={data}
+                    onClose={() => dataViewRef.current.refresh()}
+                />
                 <AdminDeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
                 }

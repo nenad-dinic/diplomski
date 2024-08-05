@@ -10,6 +10,7 @@ import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { Progress } from "@/components/ui/progress";
 import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
 import { useRef } from "react";
+import AdminPollDialog from "@/components/blocks/dialogs/admin/poll.dialog";
 
 export default function AdminPollPage() {
 
@@ -97,12 +98,15 @@ export default function AdminPollPage() {
             <TableCell className="min-w-[100px]">{data.isActive ? "Yes" : "No"}</TableCell>
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
-                <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
+                <AdminPollDialog
+                    trigger={<Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>}
+                    poll={data}
+                    onClose={() => dataViewRef.current.refresh()}
+                />
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${buildingId}/poll/${data.id}/votes`)}><Icon icon="mdi:vote" fontSize="1.5em"/></Button>
-                <AdminDeletePopover trigger={
-                    <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
-                }
-                onDelete={() => deletePoll(data.id)}
+                <AdminDeletePopover 
+                    trigger={<Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>}
+                    onDelete={() => deletePoll(data.id)}
                 />
             </TableCell>
         </TableRow>

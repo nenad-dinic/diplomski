@@ -35,8 +35,8 @@ export default function AdminVoteForm(props : VoteFormProps) {
     const [polls, setPolls] = useState<Poll[]>([]);
 
     const schema = z.object({
-        pollId: z.number({message: "Poll ID is required"}).int("Poll ID must be an integer").positive("Poll ID must be positive"),
-        userId: z.number({message: "User ID is required"}).int("User ID must be an integer").positive("User ID must be positive"),
+        pollId: z.number({message: "Poll is required"}).int("Poll must be an integer").positive("Poll must be positive"),
+        userId: z.number({message: "User is required"}).int("User must be an integer").positive("User must be positive"),
         result: z.boolean({message: "Result is required"})
     });
 
@@ -49,7 +49,7 @@ export default function AdminVoteForm(props : VoteFormProps) {
 
     async function getUsers() {
 
-        const users = await UserService.getUsers("", 1, 100);
+        const users = await UserService.getUsers("", 1, 1000);
 
         if(users == null) {
             toast.toast({
@@ -77,7 +77,7 @@ export default function AdminVoteForm(props : VoteFormProps) {
 
     async function getPolls() {
 
-        const polls = await PollService.getPolls("", 1, 100);
+        const polls = await PollService.getPolls("", 1, 1000);
 
         if(polls == null) {
             toast.toast({

@@ -14,7 +14,7 @@ public class Meeting {
     public int BuildingId {get; set;}
 
     [Column("date_time", TypeName = "datetime")]
-    public DateTime DateTime {get; set;} = DateTime.Now;
+    public DateTimeOffset DateTime {get; set;} = DateTimeOffset.Now;
 
     [Column("length", TypeName = "int")]
     public int Length {get; set;}

@@ -7,7 +7,7 @@ public class UpdateMeetingBody {
     [Range(1, int.MaxValue)]
     public int? BuildingId {get; set;}
     
-    public DateTime? DateTime {get; set;}
+    public DateTimeOffset? DateTime {get; set;}
 
     [Range(1, int.MaxValue)]
     public int? Length {get; set;}

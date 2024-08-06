@@ -30,7 +30,7 @@ public class MeetingService(IMeetingRepository meetingRepository) {
 
     }
 
-    public async Task<Meeting?> CreateMeeting(int buildingId, DateTime dateTime, int length, string description) {
+    public async Task<Meeting?> CreateMeeting(int buildingId, DateTimeOffset dateTime, int length, string description) {
 
         Meeting meeting = new() {
             BuildingId = buildingId,
@@ -47,7 +47,7 @@ public class MeetingService(IMeetingRepository meetingRepository) {
 
     }
 
-    public async Task<Meeting?> UpdateMeeting(int id, int? buildingId, DateTime? dateTime, int? length, string? description) {
+    public async Task<Meeting?> UpdateMeeting(int id, int? buildingId, DateTimeOffset? dateTime, int? length, string? description) {
 
         Meeting? meeting = await meetingRepository.GetById(id);
 

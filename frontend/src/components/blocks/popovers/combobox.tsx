@@ -23,7 +23,7 @@ export default function Combobox<T extends any>(props : ComboboxProps<T>) {
     const [open, setOpen] = useState(false);
 
     return <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger disabled={props.disabled} className="w-full">
+        <PopoverTrigger asChild disabled={props.disabled} className="w-full">
             <FormControl>
                 <Button disabled={props.disabled} type="button" variant="outline" role="combobox" className={cn("justify-between", !props.value && "text-muted-foreground", "w-full")}>
                     {props.value ? props.data.find((data) => data.value === props.value)?.label : "Select option"}
@@ -31,7 +31,7 @@ export default function Combobox<T extends any>(props : ComboboxProps<T>) {
                 </Button>
             </FormControl>
         </PopoverTrigger>
-        <PopoverContent className="w-[300px] p-0">
+        <PopoverContent className="w-[300px] p-0" align="start">
             <Command>
                 <CommandInput placeholder="Search" className="h-9"/>
                 <CommandList>

@@ -1,3 +1,4 @@
+import AdminMeetingDialog from "@/components/blocks/dialogs/admin/meeting.dialog";
 import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { Button } from "@/components/ui/button";
@@ -91,7 +92,11 @@ export default function AdminMeetingPage() {
                 <TableCell className="min-w-[200px] max-w-[600px]">{data.description}</TableCell>
                 <TableCell className="w-full"></TableCell>
                 <TableCell className="w-fit flex gap-1">
-                    <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
+                    <AdminMeetingDialog
+                        trigger={<Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>}
+                        meeting={data}
+                        onClose={() => dataViewRef.current.refresh()}
+                    />
                     <AdminDeletePopover trigger={
                         <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
                     }

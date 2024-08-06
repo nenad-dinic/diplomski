@@ -113,13 +113,17 @@ export default function AdminVoteForm(props : VoteFormProps) {
         getUsers();
 
         if(props.vote != null) {
-            form.setValue("pollId", props.vote.pollId);
-            form.setValue("userId", props.vote.userId);
-            form.setValue("result", props.vote.result);
+            form.reset({
+                pollId: props.vote.pollId,
+                userId: props.vote.userId,
+                result: props.vote.result
+            });
         } else {
-            form.setValue("pollId", 0);
-            form.setValue("userId", 0);
-            form.setValue("result", false);
+            form.reset({
+                pollId: 0,
+                userId: 0,
+                result: false
+            });
         }
 
     }, []);

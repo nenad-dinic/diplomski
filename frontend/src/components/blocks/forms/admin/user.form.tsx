@@ -56,19 +56,23 @@ export default function AdminUserForm(props : UserFormProps) {
 
     useEffect(() => {
         if(props.user != null) {
-            form.setValue("username", props.user.username);
-            form.setValue("password", "");
-            form.setValue("fullName", props.user.fullName);
-            form.setValue("email", props.user.email);
-            form.setValue("phoneNumber", props.user.phoneNumber);
-            form.setValue("role", props.user.role);
+            form.reset({
+                username: props.user.username,
+                password: "",
+                fullName: props.user.fullName,
+                email: props.user.email,
+                phoneNumber: props.user.phoneNumber,
+                role: props.user.role
+            });
         } else {
-            form.setValue("username", "");
-            form.setValue("password", "");
-            form.setValue("fullName", "");
-            form.setValue("email", "");
-            form.setValue("phoneNumber", "");
-            form.setValue("role", Role.Resident);
+            form.reset({
+                username: "",
+                password: "",
+                fullName: "",
+                email: "",
+                phoneNumber: "",
+                role: Role.Resident
+            });
         }
     }, []);
 

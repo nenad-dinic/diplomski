@@ -37,9 +37,13 @@ export default function AdminBillTypeForm(props : BillTypeFormProps) {
     useEffect(() => {
 
         if(props.billType != null) {
-            form.setValue("name", props.billType.name);
+            form.reset({
+                name: props.billType.name
+            });
         } else {
-            form.setValue("name", "");
+            form.reset({
+                name: ""
+            });
         }
 
     }, []);

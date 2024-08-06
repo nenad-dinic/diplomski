@@ -1,38 +1,36 @@
-import AdminMeetingForm, { MeetingFormData } from "@/components/blocks/forms/admin/meeting.form";
+import AdminRepairForm, { RepairFormData } from "@/components/blocks/forms/admin/repair.form";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
-import { Meeting } from "@/models/meeting.model";
-import { MeetingService } from "@/services/meeting.service";
+import { Repair } from "@/models/repair.model";
+import { RepairService } from "@/services/repair.service";
 import { ReactNode, useEffect, useState } from "react";
 
-interface MeetingDialogProps {
-
+interface RepairDialogProps {
     trigger : ReactNode;
-    meeting ?: Meeting;
+    repair ?: Repair;
     onClose ?: () => void;
-
 }
 
-export default function AdminMeetingDialog(props : MeetingDialogProps) {
+export default function AdminRepairDialog(props : RepairDialogProps) {
 
     const [open, setOpen] = useState(false);
 
     const toast = useToast();
     const logout = useLogout();
 
-    async function createMeeting(buildingId : number, date : Date, length : number, description : string) {
+    async function createRepair(userId : number, apartmentId : number, description : string) {
 
-        const meeting = await MeetingService.createMeeting(buildingId, date, length, description);
+        const repair = await RepairService.createRepair(userId, apartmentId, description);
 
-        if(meeting == undefined) {
+        if(repair == undefined) {
             toast.toast({
                 title: "Communication error",
                 description: "Please try again later",
                 variant: "destructive"
             });
-        } else if ("status" in meeting) {
-            switch(meeting.status) {
+        } else if ("status" in repair) {
+            switch(repair.status) {
                 case 401:
                     logout();
                     break;
@@ -45,26 +43,26 @@ export default function AdminMeetingDialog(props : MeetingDialogProps) {
             }
         } else {
             toast.toast({
-                title: "Meeting created",
-                description: "The meeting has been created",
+                title: "Repair created",
+                description: "The repair has been created",
             });
             setOpen(false);
         }
 
     }
 
-    async function updateMeeting(id : number, buildingId : number, date : Date, length : number, description : string) {
+    async function updateRepair(id : number, userId : number, apartmentId : number, description : string, isRepaired : boolean) {
 
-        const meeting = await MeetingService.updateMeeting(id, buildingId, date, length, description);
+        const repair = await RepairService.updateRepair(id, userId, apartmentId, description, isRepaired);
 
-        if(meeting == undefined) {
+        if(repair == undefined) {
             toast.toast({
                 title: "Communication error",
                 description: "Please try again later",
                 variant: "destructive"
             });
-        } else if ("status" in meeting) {
-            switch(meeting.status) {
+        } else if ("status" in repair) {
+            switch(repair.status) {
                 case 401:
                     logout();
                     break;
@@ -77,30 +75,28 @@ export default function AdminMeetingDialog(props : MeetingDialogProps) {
             }
         } else {
             toast.toast({
-                title: "Meeting updated",
-                description: "The meeting has been updated",
+                title: "Repair updated",
+                description: "The repair has been updated",
             });
             setOpen(false);
         }
 
     }
 
-    function handleFormSubmit(data : MeetingFormData) {
+    function handleFormSubmit(data : RepairFormData) {
 
-        if(props.meeting) {
-            updateMeeting(props.meeting.id, data.buildingId, data.date, data.length, data.description);
+        if(props.repair) {
+            updateRepair(props.repair.id, data.userId, data.apartmentId, data.description, data.isRepaired);
         } else {
-            createMeeting(data.buildingId, data.date, data.length, data.description);
+            createRepair(data.userId, data.apartmentId, data.description);
         }
 
     }
 
     useEffect(() => {
-
         if(open == false) {
             props.onClose?.();
         }
-
     }, [open]);
 
     return <Dialog open={open} onOpenChange={setOpen}>
@@ -108,7 +104,7 @@ export default function AdminMeetingDialog(props : MeetingDialogProps) {
             {props.trigger}
         </DialogTrigger>
         <DialogContent>
-            <AdminMeetingForm meeting={props.meeting} onSubmit={handleFormSubmit} />
+            <AdminRepairForm repair={props.repair} onSubmit={handleFormSubmit} />
         </DialogContent>
     </Dialog>
 

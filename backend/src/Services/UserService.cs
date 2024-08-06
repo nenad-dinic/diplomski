@@ -16,6 +16,14 @@ public class UserService(IUserRepository userRepository)
 
     }
 
+    public async Task<Page<User>> GetAllManagers(string filter, int page, int limit) {
+
+        Page<User> users = await userRepository.GetAllManagers(filter, page, limit);
+
+        return users;
+
+    }
+
     public async Task<User?> GetUserById(int id) {
 
         User? user = await userRepository.GetById(id);

@@ -22,6 +22,16 @@ public class UserController(UserService userService) : ControllerBase {
 
     }
 
+    [HttpGet("managers")]
+    [AllowedRoles(Role.Admin)]
+    public async Task<IActionResult> GetAllManagers([FromQuery] PageableQuery query) {
+
+        Page<User> users = await userService.GetAllManagers(query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
+
+        return Ok(users);
+
+    }
+
     [HttpGet("{id:int}")]
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> GetUserById([FromRoute] int id) {

@@ -2,6 +2,7 @@ import { APIError } from "@/models/api-error.models";
 import { Building } from "@/models/building.model";
 import { Page } from "@/models/page";
 import { Service } from "@/services/service";
+import { optional } from "@/types/optional";
 
 export class BuildingService extends Service {
 
@@ -13,6 +14,28 @@ export class BuildingService extends Service {
                 page,
                 limit
             }
+        });
+
+        return response.data;
+
+    }
+
+    static async createBuilding(managerId : number, address : string) {
+
+        const response = await this.axios.post<Building | APIError>('/api/building', {
+            managerId,
+            address
+        });
+
+        return response.data;
+
+    }
+
+    static async updateBuilding(id : number, managerId : optional<number>, address : optional<string>) {
+
+        const response = await this.axios.put<Building | APIError>(`/api/building/${id}`, {
+            managerId,
+            address
         });
 
         return response.data;

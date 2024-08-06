@@ -9,6 +9,7 @@ import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { useNavigate } from "react-router";
 import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
 import { useRef } from "react";
+import AdminBuildingDialog from "@/components/blocks/dialogs/admin/building.dialog";
 
 
 export default function AdminBuildingPage() {
@@ -88,7 +89,11 @@ export default function AdminBuildingPage() {
             <TableCell className="min-w-[200px]">{data.manager?.fullName ?? "No manager"}</TableCell>
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
-                <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
+                <AdminBuildingDialog
+                    trigger={<Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>}
+                    building={data}
+                    onClose={() => dataViewRef.current.refresh()}
+                />
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${data.id}/apartments`)}><Icon icon="material-symbols:doorbell-3p" fontSize="1.5em"/></Button>
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${data.id}/meetings`)}><Icon icon="mdi:talk" fontSize="1.5em"/></Button>
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${data.id}/polls`)}><Icon icon="mdi:poll" fontSize="1.5em"/></Button>
@@ -108,6 +113,12 @@ export default function AdminBuildingPage() {
             headers={["Address", "Manager", "", "Actions"]}
             rowRenderer={renderBuildingRow}
             fetchCallback={getBuildings}
+            actionRow={
+                <AdminBuildingDialog
+                    trigger={<Button variant="default"><Icon icon="ion:add" fontSize="1.5em"/> Add Building</Button>}
+                    onClose={() => dataViewRef.current.refresh()}
+                />
+            }
         />
     </>
 

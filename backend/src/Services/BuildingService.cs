@@ -47,6 +47,7 @@ public class BuildingService(IBuildingRepository buildingRepository) {
 
         building.ManagerId = managerId ?? building.ManagerId;
         building.Address = address ?? building.Address;
+        building.Manager = null;
 
         try {
             return await buildingRepository.Update(building);

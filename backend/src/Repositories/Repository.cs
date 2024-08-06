@@ -59,7 +59,6 @@ public abstract class Repository<T>(ApplicationDBContext context) : IRepository<
 
         IQueryable<T> query = context.Set<T>();
         foreach (string field in includeFields) {
-            Console.WriteLine(field);
             query = query.Include(field);
         }
 

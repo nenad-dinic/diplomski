@@ -21,6 +21,20 @@ export class UserService extends Service {
 
     }
 
+    static async getManagers(filter : string, page : number, limit : number) {
+
+        const response = await this.axios.get<Page<User> | APIError>('/api/user/managers', {
+            params: {
+                filter,
+                page,
+                limit
+            }
+        });
+
+        return response.data;
+
+    }
+
     static async createUser(username : string, password : string, fullName : string, email : string, phoneNumber : string, role : Role) {
 
         const response = await this.axios.post<User | APIError>('/api/user', {

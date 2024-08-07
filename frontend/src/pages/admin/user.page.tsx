@@ -9,11 +9,13 @@ import { User } from "@/models/user.model";
 import { UserService } from "@/services/user.service";
 import { Icon } from "@iconify/react";
 import { useRef} from "react";
+import { useNavigate } from "react-router";
 
 export default function AdminUserPage() {
 
     const toast = useToast();
     const logout = useLogout();
+    const navigate = useNavigate();
 
     const dataViewRef = useRef<DataViewRef>({ refresh: () => {} });
 
@@ -31,6 +33,9 @@ export default function AdminUserPage() {
             switch(users.status) {
                 case 401:
                     logout();
+                    break;
+                case 403:
+                    navigate("/");
                     break;
                 default:
                     toast.toast({
@@ -61,6 +66,13 @@ export default function AdminUserPage() {
             switch(user.status) {
                 case 401:
                     logout();
+                    break;
+                case 403:
+                    toast.toast({
+                        title: "Permission denied",
+                        description: "You are not allowed to perform this action",
+                        variant: "destructive"
+                    });
                     break;
                 default:
                     toast.toast({

@@ -4,6 +4,7 @@ import { useLogout } from "@/hooks/logout.hook";
 import { Analytics } from "@/models/analytics.model";
 import { AnalyticsService } from "@/services/analytics.service";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function AdminDashboardPage() {
 
@@ -11,6 +12,7 @@ export default function AdminDashboardPage() {
 
     const toast = useToast();
     const logout = useLogout();
+    const navigate = useNavigate();
 
     async function getAnalytics() {
 
@@ -26,6 +28,9 @@ export default function AdminDashboardPage() {
             switch(analytics.status) {
                 case 401:
                     logout();
+                    break;
+                case 403:
+                    navigate("/");
                     break;
                 default:
                     toast.toast({

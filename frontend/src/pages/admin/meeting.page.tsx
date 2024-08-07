@@ -9,7 +9,7 @@ import { Meeting } from "@/models/meeting.model";
 import { MeetingService } from "@/services/meeting.service";
 import { Icon } from "@iconify/react";
 import { useRef } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 export default function AdminMeetingPage() {
 
@@ -17,6 +17,7 @@ export default function AdminMeetingPage() {
 
     const toast = useToast();
     const logout = useLogout();
+    const navigate = useNavigate();
 
     const dataViewRef = useRef<DataViewRef>({ refresh: () => {} });
 
@@ -36,6 +37,9 @@ export default function AdminMeetingPage() {
             switch (meetings.status) {
                 case 401:
                     logout();
+                    break;
+                case 403:
+                    navigate("/");
                     break;
                 default:
                     toast.toast({
@@ -66,6 +70,13 @@ export default function AdminMeetingPage() {
             switch(meeting.status) {
                 case 401:
                     logout();
+                    break;
+                case 403:
+                    toast.toast({
+                        title: "Permission denied",
+                        description: "You are not allowed to perform this action",
+                        variant: "destructive"
+                    });
                     break;
                 default:
                     toast.toast({

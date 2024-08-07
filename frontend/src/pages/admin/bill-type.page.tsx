@@ -9,11 +9,13 @@ import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
 import { useRef } from "react";
 import AdminBillTypeDialog from "@/components/blocks/dialogs/admin/bill-type.dialog";
+import { useNavigate } from "react-router";
 
 export default function AdminBillTypePage() {
 
     const toast = useToast();
     const logout = useLogout();
+    const navigate = useNavigate();
 
     const dataViewRef = useRef<DataViewRef>({ refresh: () => {} });
 
@@ -31,6 +33,9 @@ export default function AdminBillTypePage() {
             switch(billTypes.status) {
                 case 401:
                     logout();
+                    break;
+                case 403:
+                    navigate("/");
                     break;
                 default:
                     toast.toast({
@@ -61,6 +66,13 @@ export default function AdminBillTypePage() {
             switch(billType.status) {
                 case 401:
                     logout();
+                    break;
+                case 403:
+                    toast.toast({
+                        title: "Permission denied",
+                        description: "You are not allowed to perform this action",
+                        variant: "destructive"
+                    });
                     break;
                 default:
                     toast.toast({

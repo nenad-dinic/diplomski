@@ -34,6 +34,13 @@ export default function AdminApartmentDialog(props : ApartmentDialogProps) {
                 case 401:
                     logout();
                     break;
+                case 403:
+                    toast.toast({
+                        title: "Permission denied",
+                        description: "You are not allowed to perform this action",
+                        variant: "destructive"
+                    });
+                    break;
                 default:
                     toast.toast({
                         title: "Error",
@@ -65,6 +72,13 @@ export default function AdminApartmentDialog(props : ApartmentDialogProps) {
             switch(apartment.status) {
                 case 401:
                     logout();
+                    break;
+                case 403:
+                    toast.toast({
+                        title: "Permission denied",
+                        description: "You are not allowed to perform this action",
+                        variant: "destructive"
+                    });
                     break;
                 default:
                     toast.toast({

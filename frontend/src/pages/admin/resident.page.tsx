@@ -1,7 +1,7 @@
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
 import { Resident } from "@/models/resident.model";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Icon } from "@iconify/react";
 import { ResidentService } from "@/services/resident.service";
 import { TableCell, TableRow } from "@/components/ui/table";
@@ -17,6 +17,7 @@ export default function AdminResidentPage() {
 
     const toast = useToast();
     const logout = useLogout();
+    const navigate = useNavigate();
 
     const dataViewRef = useRef<DataViewRef>({ refresh: () => {} });
 
@@ -36,6 +37,9 @@ export default function AdminResidentPage() {
             switch(residents.status) {
                 case 401:
                     logout();
+                    break;
+                case 403:
+                    navigate("/");
                     break;
                 default:
                     toast.toast({
@@ -66,6 +70,13 @@ export default function AdminResidentPage() {
             switch(resident.status) {
                 case 401:
                     logout();
+                    break;
+                case 403:
+                    toast.toast({
+                        title: "Permission denied",
+                        description: "You are not allowed to perform this action",
+                        variant: "destructive"
+                    });
                     break;
                 default:
                     toast.toast({

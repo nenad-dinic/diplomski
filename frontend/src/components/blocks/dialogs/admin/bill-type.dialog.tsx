@@ -36,6 +36,13 @@ export default function AdminBillTypeDialog(props : BillTypeDialogProps) {
                 case 401:
                     logout();
                     break;
+                case 403:
+                    toast.toast({
+                        title: "Permission denied",
+                        description: "You are not allowed to perform this action",
+                        variant: "destructive"
+                    });
+                    break;
                 default:
                     toast.toast({
                         title: "Error",
@@ -67,6 +74,13 @@ export default function AdminBillTypeDialog(props : BillTypeDialogProps) {
             switch(billType.status) {
                 case 401:
                     logout();
+                    break;
+                case 403:
+                    toast.toast({
+                        title: "Permission denied",
+                        description: "You are not allowed to perform this action",
+                        variant: "destructive"
+                    });
                     break;
                 default:
                     toast.toast({

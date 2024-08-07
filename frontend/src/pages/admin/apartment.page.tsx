@@ -38,6 +38,9 @@ export default function AdminApartmentPage() {
                 case 401:
                     logout();
                     break;
+                case 403:
+                    navigate("/");
+                    break;
                 default:
                     toast.toast({
                         title: "Error",
@@ -67,6 +70,13 @@ export default function AdminApartmentPage() {
             switch(apartment.status) {
                 case 401:
                     logout();
+                    break;
+                case 403:
+                    toast.toast({
+                        title: "Permission denied",
+                        description: "You are not allowed to perform this action",
+                        variant: "destructive"
+                    });
                     break;
                 default:
                     toast.toast({

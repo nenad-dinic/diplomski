@@ -1,4 +1,5 @@
 import { useToast } from "@/components/ui/use-toast";
+import { useLogout } from "@/hooks/logout.hook";
 import { AuthenticationService } from "@/services/auth.service";
 import { Role } from "@/types/role.enum";
 import { useEffect } from "react";
@@ -6,6 +7,7 @@ import { useNavigate } from "react-router";
 
 export default function MainPage() {
 
+    const logout = useLogout();
     const navigate = useNavigate();
     const toast = useToast();
 
@@ -22,7 +24,10 @@ export default function MainPage() {
         } if ("status" in identity) {
             switch(identity.status) {
                 case 401:
-                    navigate("/login");
+                    logout();
+                    break;
+                case 403:
+                    logout();
                     break;
                 default:
                     toast.toast({

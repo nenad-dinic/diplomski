@@ -1,1 +1,1 @@
-export type optional<T> = T | undefined;
+export type optional<T> = T | null | undefined;

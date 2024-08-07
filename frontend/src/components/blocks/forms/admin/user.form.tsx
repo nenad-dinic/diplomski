@@ -32,11 +32,13 @@ export default function AdminUserForm(props : UserFormProps) {
                 ctx.addIssue({
                     code: "custom",
                     message: "Password must be at least 8 characters long",
+                    path: ["password"]
                 });
             } else if(props.user != null && value.length > 0 && value.length < 8) {
                 ctx.addIssue({
                     code: "custom",
                     message: "Password must be at least 8 characters long",
+                    path: ["password"]
                 });
             }
         }),

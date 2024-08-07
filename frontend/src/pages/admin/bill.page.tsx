@@ -10,6 +10,7 @@ import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { API_URL } from "@/utils/environment";
 import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
 import { useRef } from "react";
+import AdminBillDialog from "@/components/blocks/dialogs/admin/bill.dialog";
 
 export default function AdminBillPage() {
 
@@ -101,7 +102,11 @@ export default function AdminBillPage() {
             <TableCell className="min-w-[300px]">{data.fileName}</TableCell>
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
-                <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
+                <AdminBillDialog
+                    trigger={<Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>}
+                    bill={data}
+                    onClose={() => dataViewRef.current.refresh()}
+                />
                 <Button variant="default" size="icon" onClick={() => downloadBill(data)}><Icon icon="octicon:download-16" fontSize="1.5em"/></Button>
                 <AdminDeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>

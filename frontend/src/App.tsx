@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import LoginPage from "./pages/login.page";
 import { Toaster } from "./components/ui/toaster";
@@ -33,6 +33,8 @@ export default function App() {
                     <Route path="building/:buildingId/poll/:pollId/votes" element={<AdminVotePage/>} />
                     <Route path="bill-types" element={<AdminBillTypePage/>}/>
                     <Route path="users" element={<AdminUserPage/>}/>
+                    <Route path="*" element={<Navigate to="/admin/dashboard"/>}/>
+                    <Route path="" element={<Navigate to="/admin/dashboard"/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

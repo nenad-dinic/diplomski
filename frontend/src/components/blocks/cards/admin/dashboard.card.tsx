@@ -1,13 +1,13 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Icon } from "@iconify/react";
 
-interface DashboardCardProps {
+interface AdminDashboardCardProps {
     icon: string;
     title: string;
     count: number;
 }
 
-export function AdminDashboardCard(props : DashboardCardProps) {
+export function AdminDashboardCard(props : AdminDashboardCardProps) {
 
     return <Card className="w-[200px]">
         <CardHeader className="py-2">

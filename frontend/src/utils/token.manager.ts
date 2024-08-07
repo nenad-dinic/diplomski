@@ -1,4 +1,8 @@
+import { User } from "@/models/user.model";
+
 export class TokenManager {
+
+    private static userInfo : User | null = null;
 
     public static getTokens() : [string | null, string | null] {
 
@@ -21,8 +25,20 @@ export class TokenManager {
         localStorage.removeItem("refreshToken");
     }
 
-    public static hasTokens() : boolean {
+    public static hasTokens() {
         return localStorage.getItem("accessToken") != null || localStorage.getItem("refreshToken") != null
+    }
+
+    public static getUserInfo() {
+        return this.userInfo;
+    }
+
+    public static setUserInfo(userInfo : User) {
+        this.userInfo = userInfo;
+    }
+
+    public static removeUserInfo() {
+        this.userInfo = null;
     }
 
 }

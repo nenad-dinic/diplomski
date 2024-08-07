@@ -7,6 +7,7 @@ export function useLogout() {
 
     return () => {
         TokenManager.removeTokens();
+        TokenManager.removeUserInfo();
         navigate("/login");
     }
 

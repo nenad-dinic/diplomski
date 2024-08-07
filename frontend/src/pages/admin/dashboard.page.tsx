@@ -49,13 +49,13 @@ export default function AdminDashboardPage() {
         getAnalytics();
     }, []);
 
-    return <>
-        <div className="flex gap-8 p-8 justify-center flex-wrap">
+    return <div className="p-8">
+        <div className="flex gap-8 mt-8 justify-center flex-wrap">
             <AdminDashboardCard title="Buildings" icon="ic:round-apartment" count={analytics?.buildings ?? 0}></AdminDashboardCard>
             <AdminDashboardCard title="Apartments" icon="material-symbols:doorbell-3p" count={analytics?.apartments ?? 0}></AdminDashboardCard>
             <AdminDashboardCard title="Residents" icon="ic:round-family-restroom" count={analytics?.residents ?? 0}></AdminDashboardCard>
             <AdminDashboardCard title="Repairs" icon="mdi:tools" count={analytics?.completedRepairs ?? 0}></AdminDashboardCard>
         </div>
-    </>
+    </div>
 
 }

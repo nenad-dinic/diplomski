@@ -42,8 +42,7 @@ export default function AdminBillForm(props : BillFormProps) {
             if(props.bill == null && f == null) {
                 return ctx.addIssue({
                     code: "custom",
-                    message: "File is required",
-                    path: ["file"]
+                    message: "File is required"
                 });
             }
         })

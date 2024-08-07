@@ -2,10 +2,13 @@ import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
 import { AuthenticationService } from "@/services/auth.service";
 import { Role } from "@/types/role.enum";
-import { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { TokenManager } from "@/utils/token.manager";
+import { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router";
 
 export default function MainPage() {
+
+    const [loading, setLoading] = useState(true);
 
     const logout = useLogout();
     const navigate = useNavigate();
@@ -37,6 +40,7 @@ export default function MainPage() {
                     });
             }
         } else {
+            TokenManager.setUserInfo(identity);
             switch(identity.role) {
                 case Role.Admin:
                     navigate("/admin");
@@ -45,10 +49,11 @@ export default function MainPage() {
                     navigate("/manager");
                     break;
                 case Role.Resident:
-                    navigate("/resident");
                     break;
             }
         }
+
+        setLoading(false);
 
     }
 
@@ -56,6 +61,8 @@ export default function MainPage() {
         getIdentity();
     }, []);
 
-    return <></>
+    return !loading && <>
+        <Outlet></Outlet>
+    </>
 
 }

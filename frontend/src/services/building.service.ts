@@ -20,6 +20,20 @@ export class BuildingService extends Service {
 
     }
 
+    static async getBuildingsByManager(managerId : number, filter : string, page : number, limit : number) {
+
+        const response = await this.axios.get<Page<Building> | APIError>(`/api/building/manager/${managerId}`, {
+            params: {
+                filter,
+                page,
+                limit
+            }
+        });
+
+        return response.data;
+
+    }
+
     static async createBuilding(managerId : number, address : string) {
 
         const response = await this.axios.post<Building | APIError>('/api/building', {

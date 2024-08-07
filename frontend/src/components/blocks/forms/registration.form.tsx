@@ -30,8 +30,7 @@ export default function RegistrationForm(props : RegistrationFormProps) {
         if(values.password !== values.confirmPassword) {
             ctx.addIssue({
                 code: "custom",
-                message: "Passwords do not match",
-                path: ["confirmPassword"]
+                message: "Passwords do not match"
             });
         }
     });

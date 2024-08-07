@@ -15,6 +15,8 @@ import AdminPollPage from "@/pages/admin/poll.page";
 import AdminVotePage from "@/pages/admin/vote.page";
 import AdminDashboardPage from "@/pages/admin/dashboard.page";
 import MainPage from "@/pages/main.page";
+import ManagerPageShell from "@/pages/manager/shell";
+import ManagerBuildingPage from "@/pages/manager/building.page";
 
 export default function App() {
 
@@ -22,21 +24,27 @@ export default function App() {
         <BrowserRouter>
             <Routes>
                 <Route path='/login' element={<LoginPage/>}/>
-                <Route path='/' element={<MainPage/>}/>
-                <Route path='/admin' element={<AdminPageShell/>}>
-                    <Route path="dashboard" element={<AdminDashboardPage/>}/>
-                    <Route path="buildings" element={<AdminBuildingPage/>}/>
-                    <Route path="building/:buildingId/apartments" element={<AdminApartmentPage/>} />
-                    <Route path="building/:buildingId/apartment/:apartmentId/residents" element={<AdminResidentPage/>} />
-                    <Route path="building/:buildingId/apartment/:apartmentId/bills" element={<AdminBillPage/>} />
-                    <Route path="building/:buildingId/apartment/:apartmentId/repairs" element={<AdminRepairPage/>} />
-                    <Route path="building/:buildingId/meetings" element={<AdminMeetingPage/>} />
-                    <Route path="building/:buildingId/polls" element={<AdminPollPage/>} />
-                    <Route path="building/:buildingId/poll/:pollId/votes" element={<AdminVotePage/>} />
-                    <Route path="bill-types" element={<AdminBillTypePage/>}/>
-                    <Route path="users" element={<AdminUserPage/>}/>
-                    <Route path="*" element={<Navigate to="/admin/dashboard"/>}/>
-                    <Route path="" element={<Navigate to="/admin/dashboard"/>}/>
+                <Route path='/' element={<MainPage/>}>
+                    <Route path='admin' element={<AdminPageShell/>}>
+                        <Route path="dashboard" element={<AdminDashboardPage/>}/>
+                        <Route path="buildings" element={<AdminBuildingPage/>}/>
+                        <Route path="building/:buildingId/apartments" element={<AdminApartmentPage/>} />
+                        <Route path="building/:buildingId/apartment/:apartmentId/residents" element={<AdminResidentPage/>} />
+                        <Route path="building/:buildingId/apartment/:apartmentId/bills" element={<AdminBillPage/>} />
+                        <Route path="building/:buildingId/apartment/:apartmentId/repairs" element={<AdminRepairPage/>} />
+                        <Route path="building/:buildingId/meetings" element={<AdminMeetingPage/>} />
+                        <Route path="building/:buildingId/polls" element={<AdminPollPage/>} />
+                        <Route path="building/:buildingId/poll/:pollId/votes" element={<AdminVotePage/>} />
+                        <Route path="bill-types" element={<AdminBillTypePage/>}/>
+                        <Route path="users" element={<AdminUserPage/>}/>
+                        <Route path="*" element={<Navigate to="/admin/dashboard"/>}/>
+                        <Route path="" element={<Navigate to="/admin/dashboard"/>}/>
+                    </Route>
+                    <Route path="manager" element={<ManagerPageShell/>}>
+                        <Route path="buildings" element={<ManagerBuildingPage/>}/>
+                        <Route path="*" element={<Navigate to="/manager/buildings"/>}/>
+                        <Route path="" element={<Navigate to="/manager/buildings"/>}/>
+                    </Route>
                 </Route>
             </Routes>
         </BrowserRouter>

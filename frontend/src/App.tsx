@@ -17,6 +17,7 @@ import AdminDashboardPage from "@/pages/admin/dashboard.page";
 import MainPage from "@/pages/main.page";
 import ManagerPageShell from "@/pages/manager/shell";
 import ManagerBuildingPage from "@/pages/manager/building.page";
+import ManagerApartmentPage from "@/pages/manager/apartment.page";
 
 export default function App() {
 
@@ -42,6 +43,7 @@ export default function App() {
                     </Route>
                     <Route path="manager" element={<ManagerPageShell/>}>
                         <Route path="buildings" element={<ManagerBuildingPage/>}/>
+                        <Route path="building/:buildingId/apartments" element={<ManagerApartmentPage/>} />
                         <Route path="*" element={<Navigate to="/manager/buildings"/>}/>
                         <Route path="" element={<Navigate to="/manager/buildings"/>}/>
                     </Route>

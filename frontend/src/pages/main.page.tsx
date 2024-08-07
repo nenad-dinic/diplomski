@@ -4,7 +4,7 @@ import { AuthenticationService } from "@/services/auth.service";
 import { Role } from "@/types/role.enum";
 import { TokenManager } from "@/utils/token.manager";
 import { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
 
 export default function MainPage() {
 
@@ -13,6 +13,7 @@ export default function MainPage() {
     const logout = useLogout();
     const navigate = useNavigate();
     const toast = useToast();
+    const location = useLocation();
 
     async function getIdentity() {
 
@@ -43,10 +44,14 @@ export default function MainPage() {
             TokenManager.setUserInfo(identity);
             switch(identity.role) {
                 case Role.Admin:
-                    navigate("/admin");
+                    if(location.pathname == "/"){
+                        navigate("/admin");
+                    }
                     break;
                 case Role.Manager:
-                    navigate("/manager");
+                    if(location.pathname == "/"){
+                        navigate("/manager");
+                    }
                     break;
                 case Role.Resident:
                     break;

@@ -37,7 +37,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
     }
 
     [HttpGet("building/{buildingId:int}")]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Manager)]
     public async Task<IActionResult> GetApartmentsByBuilding([FromRoute] int buildingId, [FromQuery] PageableQuery query) {
 
         Page<Apartment> apartments = await apartmentService.GetApartmentsByBuilding(buildingId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);

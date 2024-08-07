@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Building } from "@/models/building.model";
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router";
 
 interface ManagerBuildingCardProps {
 
@@ -11,14 +12,16 @@ interface ManagerBuildingCardProps {
 
 export function ManagerBuildingCard(props : ManagerBuildingCardProps) {
 
-    return <Card className="w-full">
-        <CardContent className="p-4 flex items-center gap-4">
-            <Icon icon="ic:round-apartment" fontSize={"2em"}/>
+    const navigate = useNavigate();
+
+    return <Card className="w-[250px]">
+        <CardContent className="p-4 flex flex-col items-center gap-4">
+            <Icon icon="ic:round-apartment" fontSize={"4em"}/>
             <h2>{props.building.address}</h2>
-            <div className="ml-auto flex items-center gap-2">
-                <Button size="icon"><Icon icon="material-symbols:doorbell-3p" fontSize="1.5em"/></Button>
-            </div>
         </CardContent>
+        <CardFooter className="flex flex-col gap-2">
+            <Button className="w-full" onClick={() => navigate(`/manager/building/${props.building.id}/apartments`)}><Icon icon="material-symbols:doorbell-3p" fontSize="1.5em"/> Apartments</Button>
+        </CardFooter>
     </Card>
 
 }

@@ -22,6 +22,14 @@ public class BuildingService(IBuildingRepository buildingRepository) {
 
     }
 
+    public async Task<Page<Building>> GetBuildingsByManager(int managerId, string filter, int page, int limit) {
+
+        Page<Building> buildings = await buildingRepository.GetByManagerId(managerId, filter, page, limit);
+
+        return buildings;
+
+    }
+
     public async Task<Building?> CreateBuilding(int managerId, string address) {
 
         Building building = new() {

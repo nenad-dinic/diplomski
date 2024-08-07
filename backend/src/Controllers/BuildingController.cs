@@ -36,6 +36,16 @@ public class BuildingController(BuildingService buildingService) : ControllerBas
 
     }
 
+    [HttpGet("manager/{managerId:int}")]
+    [AllowedRoles(Role.Admin, Role.Manager)]
+    public async Task<IActionResult> GetBuildingsByManager([FromRoute] int managerId, [FromQuery] PageableQuery query) {
+
+        Page<Building> buildings = await buildingService.GetBuildingsByManager(managerId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
+
+        return Ok(buildings);
+
+    }
+
     [HttpPost]
     [AllowedRoles(Role.Admin)]
     public async Task<IActionResult> CreateBuilding([FromBody] CreateBuildingBody body) {

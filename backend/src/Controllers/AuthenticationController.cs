@@ -1,3 +1,4 @@
+using API.Attributes;
 using API.Dtos.Authentication;
 using API.Entities;
 using API.Services;
@@ -10,6 +11,20 @@ namespace API.Controllers;
 [Route("auth")]
 [ApiController]
 public class AuthenticationController(IConfiguration config, UserService userService) : ControllerBase {
+
+    [HttpGet("identity")]
+    [AllowedRoles(Role.Admin, Role.Manager, Role.Resident)]
+    public IActionResult GetIdentity() {
+
+        HttpContext.Items.TryGetValue("User", out object? user);
+
+        if(user == null || user.GetType() != typeof(User)) {
+            return BadRequest();
+        }
+
+        return Ok(user);
+
+    }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginBody body) {

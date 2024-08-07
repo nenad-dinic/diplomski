@@ -16,6 +16,14 @@ export class AuthenticationService extends Service {
 
     }
 
+    public static async identity() {
+
+        const response = await this.axios.get<User | APIError>("/auth/identity");
+
+        return response.data;
+
+    }
+
     public static async register(username : string, password : string, fullName : string, email : string, phoneNumber : string) {
 
         const response = await this.axios.post<User | APIError>("/auth/register", {

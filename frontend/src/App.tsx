@@ -14,6 +14,7 @@ import AdminMeetingPage from "@/pages/admin/meeting.page";
 import AdminPollPage from "@/pages/admin/poll.page";
 import AdminVotePage from "@/pages/admin/vote.page";
 import AdminDashboardPage from "@/pages/admin/dashboard.page";
+import MainPage from "@/pages/main.page";
 
 export default function App() {
 
@@ -21,6 +22,7 @@ export default function App() {
         <BrowserRouter>
             <Routes>
                 <Route path='/login' element={<LoginPage/>}/>
+                <Route path='/' element={<MainPage/>}/>
                 <Route path='/admin' element={<AdminPageShell/>}>
                     <Route path="dashboard" element={<AdminDashboardPage/>}/>
                     <Route path="buildings" element={<AdminBuildingPage/>}/>

@@ -1,46 +1,48 @@
 import Combobox from "@/components/blocks/popovers/combobox";
+import DateTimePicker from "@/components/blocks/popovers/date-picker";
 import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
-import { Poll } from "@/models/poll.model";
+import { Apartment } from "@/models/apartment.model";
+import { Resident } from "@/models/resident.model";
 import { User } from "@/models/user.model";
-import { Vote } from "@/models/vote.model";
-import { PollService } from "@/services/poll.service";
+import { ApartmentService } from "@/services/apartment.service";
 import { UserService } from "@/services/user.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export interface VoteFormData {
+export interface ResidentFormData {
 
-    pollId : number;
     userId : number;
-    result : boolean;
+    apartmentId : number;
+    expires : Date;
+    isOwner : boolean;
 
 }
 
-interface VoteFormProps {
+interface ResidentFormProps {
 
-    vote ?: Vote;
-    onSubmit?: (values : VoteFormData) => void;
+    resident ?: Resident;
+    onSubmit?: (values : ResidentFormData) => void;
 
 }
 
-export default function AdminVoteForm(props : VoteFormProps) {
+export default function AdminResidentForm(props : ResidentFormProps) {
 
     const [users, setUsers] = useState<User[]>([]);
-    const [polls, setPolls] = useState<Poll[]>([]);
+    const [apartments, setApartments] = useState<Apartment[]>([]);
 
     const schema = z.object({
-        pollId: z.number({message: "Poll is required"}).int("Poll must be an integer").positive("Poll must be positive"),
         userId: z.number({message: "User is required"}).int("User must be an integer").positive("User must be positive"),
-        result: z.boolean({message: "Result is required"})
+        expires: z.date({message: "Expires is required"}),
+        isOwner: z.boolean({message: "Is owner is required"})
     });
 
-    const form = useForm<VoteFormData>({
+    const form = useForm<ResidentFormData>({
         resolver: zodResolver(schema)
     });
 
@@ -68,6 +70,7 @@ export default function AdminVoteForm(props : VoteFormProps) {
                         description: "An error occurred, please try again later",
                         variant: "destructive"
                     });
+                    break;
             }
         } else {
             setUsers(users.items);
@@ -75,18 +78,18 @@ export default function AdminVoteForm(props : VoteFormProps) {
 
     }
 
-    async function getPolls() {
+    async function getApartments() {
 
-        const polls = await PollService.getPolls("", 1, 1000);
+        const apartments = await ApartmentService.getAllApartments("", 1, 1000);
 
-        if(polls == null) {
+        if(apartments == null) {
             toast.toast({
                 title: "Communication error",
                 description: "Please try again later",
                 variant: "destructive"
             });
-        } else if ("status" in polls) {
-            switch(polls.status) {
+        } else if ("status" in apartments) {
+            switch(apartments.status) {
                 case 401:
                     logout();
                     break;
@@ -96,33 +99,36 @@ export default function AdminVoteForm(props : VoteFormProps) {
                         description: "An error occurred, please try again later",
                         variant: "destructive"
                     });
+                    break;
             }
         } else {
-            setPolls(polls.items);
+            setApartments(apartments.items);
         }
 
     }
 
-    function onSubmit(values : VoteFormData) {
+    function onSubmit(values : ResidentFormData) {
         props.onSubmit?.(values);
     }
 
     useEffect(() => {
 
-        getPolls();
         getUsers();
+        getApartments();
 
-        if(props.vote != null) {
+        if(props.resident != null) {
             form.reset({
-                pollId: props.vote.pollId,
-                userId: props.vote.userId,
-                result: props.vote.result
+                userId: props.resident.userId,
+                apartmentId: props.resident.apartmentId,
+                expires: new Date(props.resident.expires),
+                isOwner: props.resident.isOwner
             });
         } else {
             form.reset({
-                pollId: polls[0].id,
-                userId: users[0].id,
-                result: false
+                userId: 0,
+                apartmentId: 0,
+                expires: new Date(),
+                isOwner: false
             });
         }
 
@@ -133,20 +139,27 @@ export default function AdminVoteForm(props : VoteFormProps) {
             <FormField control={form.control} name="userId" render={({field}) => (
                 <FormItem>
                     <FormLabel>User: </FormLabel>
-                    <Combobox disabled={props.vote != null} data={users.map(u => ({label: u.fullName, value: u.id}))} value={field.value} onChange={v => form.setValue(field.name, v)}></Combobox>
+                    <Combobox disabled={props.resident != null} data={users.map(u => ({label: u.fullName, value: u.id}))} value={field.value} onChange={v => form.setValue(field.name, v)}></Combobox>
                     <FormMessage />
                 </FormItem>
             )} />
-            <FormField control={form.control} name="pollId" render={({field}) => (
+            <FormField control={form.control} name="apartmentId" render={({field}) => (
                 <FormItem>
-                    <FormLabel>Poll: </FormLabel>
-                    <Combobox disabled={props.vote != null} data={polls.map(p => ({label: p.title, value: p.id}))} value={field.value} onChange={v => form.setValue(field.name, v)}></Combobox>
+                    <FormLabel>Apartment: </FormLabel>
+                    <Combobox disabled={props.resident != null} data={apartments.map(a => ({label: a.number.toString(), value: a.id}))} value={field.value} onChange={v => form.setValue(field.name, v)}></Combobox>
                     <FormMessage />
                 </FormItem>
             )} />
-            <FormField control={form.control} name="result" render={({field}) => (
+            <FormField control={form.control} name="expires" render={({field}) => (
                 <FormItem>
-                    <FormLabel>Result: </FormLabel>
+                    <FormLabel>Expires: </FormLabel>
+                    <DateTimePicker dateOnly value={field.value} onChange={v => form.setValue(field.name, v)}/>
+                    <FormMessage />
+                </FormItem>
+            )} />
+            <FormField control={form.control} name="isOwner" render={({field}) => (
+                <FormItem>
+                    <FormLabel>Is owner: </FormLabel>
                     <Select value={field.value ? "true" : "false"} onValueChange={v => field.onChange(v === "true" ? true : false)}>
                         <SelectTrigger>
                             <SelectValue></SelectValue>
@@ -159,7 +172,7 @@ export default function AdminVoteForm(props : VoteFormProps) {
                     <FormMessage />
                 </FormItem>
             )} />
-            <Button className="w-full mt-2">{props.vote != null ? "Update" : "Create"} Vote</Button>
+            <Button className="w-full mt-2">{props.resident != null ? "Update" : "Create"} Resident</Button>
         </form>
     </Form>
 

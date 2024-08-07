@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
 import { useRef } from "react";
+import AdminResidentDialog from "@/components/blocks/dialogs/admin/resident.dialog";
 
 export default function AdminResidentPage() {
 
@@ -91,7 +92,11 @@ export default function AdminResidentPage() {
             <TableCell className="min-w-[50px]">{data.isOwner ? 'Yes' : 'No'}</TableCell>
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
-                <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em" /></Button>
+                <AdminResidentDialog
+                    trigger={<Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em" /></Button>}
+                    resident={data}
+                    onClose={() => dataViewRef.current.refresh()}
+                />
                 <AdminDeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
                 }

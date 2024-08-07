@@ -1,5 +1,5 @@
 import Combobox from "@/components/blocks/popovers/combobox";
-import DatePicker from "@/components/blocks/popovers/date-picker";
+import DateTimePicker from "@/components/blocks/popovers/date-picker";
 import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -113,7 +113,7 @@ export default function AdminMeetingForm(props : MeetingFormProps) {
             <FormField control={form.control} name="date" render={({field}) => (
                 <FormItem>
                     <FormLabel>Date: </FormLabel>
-                    <DatePicker value={field.value} onChange={v => form.setValue(field.name, v)} />
+                    <DateTimePicker value={field.value} onChange={v => form.setValue(field.name, v)} />
                     <FormMessage />
                 </FormItem>
             )} />

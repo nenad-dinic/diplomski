@@ -12,9 +12,10 @@ interface DateTimePickerProps {
     value : Date;
     onChange : (value : Date) => void;
     disabled ?: boolean;
+    dateOnly ?: boolean;
 }
 
-export default function DatePicker(props : DateTimePickerProps) {
+export default function DateTimePicker(props : DateTimePickerProps) {
 
     const [open, setOpen] = useState(false);
 
@@ -23,7 +24,7 @@ export default function DatePicker(props : DateTimePickerProps) {
             <FormControl>
                 <Button disabled={props.disabled} type="button" variant="outline" className={cn("pl-3 text-left font-normal", !props.value && "text-muted-foreground")}>
                     {props.value ? (
-                        format(props.value, "Pp")
+                        (props.dateOnly ? format(props.value, "PPP") : format(props.value, "Pp"))
                       ) : (
                         <span>Pick a date</span>
                       )}
@@ -42,10 +43,10 @@ export default function DatePicker(props : DateTimePickerProps) {
                     }}
                     initialFocus
                 />
-                <TimePickerDemo date={props.value} setDate={date => {
+                {!props.dateOnly && <TimePickerDemo date={props.value} setDate={date => {
                     if(date == null) return;
                     props.onChange?.(date)
-                }}/>
+                }}/>}
             </div>
         </PopoverContent>
     </Popover>

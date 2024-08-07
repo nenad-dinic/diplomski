@@ -2,6 +2,7 @@ import { APIError } from "@/models/api-error.models";
 import { Page } from "@/models/page";
 import { Vote } from "@/models/vote.model";
 import { Service } from "@/services/service";
+import { optional } from "@/types/optional";
 
 export class VoteService extends Service {
 
@@ -31,7 +32,7 @@ export class VoteService extends Service {
 
     }
 
-    static async updateVote(id : number, pollId : number, userId : number, result : boolean) {
+    static async updateVote(id : number, pollId : optional<number>, userId : optional<number>, result : optional<boolean>) {
 
         const response = await this.axios.put<Vote | APIError>(`/api/vote/${id}`, {
             pollId,

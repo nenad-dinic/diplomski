@@ -1,65 +1,63 @@
 import Combobox from "@/components/blocks/popovers/combobox";
-import DateTimePicker from "@/components/blocks/popovers/date-picker";
 import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
+import { Apartment } from "@/models/apartment.model";
 import { Building } from "@/models/building.model";
-import { Meeting } from "@/models/meeting.model";
 import { BuildingService } from "@/services/building.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export interface MeetingFormData {
+export interface ApartmentFormData {
 
     buildingId : number;
-    date : Date;
-    length : number;
-    description : string;
+    number : number;
+    size: number;
+    numberOfResidents: number;
 
 }
 
-interface MeetingFormProps {
+interface ApartmentFormProps {
 
-    meeting ?: Meeting;
-    onSubmit?: (values : MeetingFormData) => void;
+    apartment ?: Apartment;
+    onSubmit?: (values : ApartmentFormData) => void;
 
 }
 
-export default function AdminMeetingForm(props : MeetingFormProps) {
+export default function AdminApartmentForm(props : ApartmentFormProps) {
 
     const [buildings, setBuildings] = useState<Building[]>([]);
 
     const schema = z.object({
         buildingId: z.number({message: "Building is required"}).int("Building must be an integer").positive("Building must be positive"),
-        date: z.date({message: "Date is required"}),
-        length: z.number({message: "Length is required"}).int("Length must be an integer").positive("Length must be positive"),
-        description: z.string({message: "Description is required"}).min(1, "Description is required").max(1000, "Description is too long")
+        number: z.number({message: "Number is required"}).int("Number must be an integer").positive("Number must be positive"),
+        size: z.number({message: "Size is required"}).int("Size must be an integer").positive("Size must be positive"),
+        numberOfResidents: z.number({message: "Residents is required"}).int("Residents must be an integer").positive("Residents must be positive")
     });
 
-    const form = useForm<MeetingFormData>({
+    const form = useForm<ApartmentFormData>({
         resolver: zodResolver(schema)
     });
-    
+
     const toast = useToast();
     const logout = useLogout();
 
     async function getBuildings() {
 
-        const building = await BuildingService.getBuildings("", 1, 1000);
+        const buildings = await BuildingService.getBuildings("", 1, 1000);
 
-        if(building == null) {
+        if(buildings == null) {
             toast.toast({
                 title: "Communication error",
                 description: "Please try again later",
                 variant: "destructive"
             });
-        } else if ("status" in building) {
-            switch(building.status) {
+        } else if ("status" in buildings) {
+            switch(buildings.status) {
                 case 401:
                     logout();
                     break;
@@ -71,31 +69,32 @@ export default function AdminMeetingForm(props : MeetingFormProps) {
                     });
             }
         } else {
-            setBuildings(building.items);
+            setBuildings(buildings.items);
         }
 
     }
 
-    function onSubmit(values : MeetingFormData) {
+    function onSubmit(values : ApartmentFormData) {
         props.onSubmit?.(values);
     }
 
     useEffect(() => {
+
         getBuildings();
 
-        if(props.meeting != null) {
+        if(props.apartment != null) {
             form.reset({
-                buildingId: props.meeting.buildingId,
-                date: new Date(props.meeting.dateTime),
-                length: props.meeting.length,
-                description: props.meeting.description
+                buildingId: props.apartment.buildingId,
+                number: props.apartment.number,
+                size: props.apartment.size,
+                numberOfResidents: props.apartment.numberOfResidents
             });
         } else {
             form.reset({
                 buildingId: 0,
-                date: new Date(),
-                length: 0,
-                description: ""
+                number: 1,
+                size: 0,
+                numberOfResidents: 0
             });
         }
 
@@ -106,32 +105,32 @@ export default function AdminMeetingForm(props : MeetingFormProps) {
             <FormField control={form.control} name="buildingId" render={({field}) => (
                 <FormItem>
                     <FormLabel>Building: </FormLabel>
-                    <Combobox disabled={props.meeting != null} data={buildings.map(b => ({label: b.address, value: b.id}))} value={field.value} onChange={v => form.setValue(field.name, v)}></Combobox>
+                    <Combobox disabled={props.apartment != null} data={buildings.map(b => ({label: b.address, value: b.id}))} value={field.value} onChange={v => form.setValue(field.name, v)}></Combobox>
                     <FormMessage />
                 </FormItem>
             )} />
-            <FormField control={form.control} name="date" render={({field}) => (
+            <FormField control={form.control} name="number" render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Date: </FormLabel>
-                    <DateTimePicker value={field.value} onChange={v => form.setValue(field.name, v)} />
+                    <FormLabel>Number: </FormLabel>
+                    <Input type="number" {...field} onChange={e => form.setValue(field.name, parseInt(e.target.value ?? "0"))}/>
                     <FormMessage />
                 </FormItem>
             )} />
-            <FormField control={form.control} name="length" render={({field}) => (
+            <FormField control={form.control} name="size" render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Length: </FormLabel>
-                    <Input type="number" {...field} onChange={e => form.setValue(field.name, parseInt(e.target.value ?? "0"))} />
+                    <FormLabel>Size: </FormLabel>
+                    <Input type="number" {...field} onChange={e => form.setValue(field.name, parseInt(e.target.value ?? "0"))}/>
                     <FormMessage />
                 </FormItem>
             )} />
-            <FormField control={form.control} name="description" render={({field}) => (
+            <FormField control={form.control} name="numberOfResidents" render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Description: </FormLabel>
-                    <Textarea {...field} />
+                    <FormLabel>Residents: </FormLabel>
+                    <Input type="number" {...field} onChange={e => form.setValue(field.name, parseInt(e.target.value ?? "0"))}/>
                     <FormMessage />
                 </FormItem>
             )} />
-            <Button className="w-full mt-2">{props.meeting != null ? "Update" : "Create"} Meeting</Button>
+            <Button className="w-full mt-2">{props.apartment != null ? "Update" : "Create"} Apartment</Button>
         </form>
     </Form>
 

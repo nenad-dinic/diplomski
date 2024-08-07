@@ -9,6 +9,7 @@ import { Icon } from "@iconify/react";
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
 import { useRef } from "react";
+import AdminApartmentDialog from "@/components/blocks/dialogs/admin/apartment.dialog";
 
 export default function AdminApartmentPage() {
 
@@ -92,7 +93,11 @@ export default function AdminApartmentPage() {
             <TableCell className="min-w-[50px]">{data.numberOfResidents}</TableCell>
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
-                <Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>
+                <AdminApartmentDialog
+                    trigger={<Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>}
+                    onClose={() => dataViewRef.current.refresh()}
+                    apartment={data}
+                />
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${buildingId}/apartment/${data.id}/residents`)}><Icon icon="ic:round-family-restroom" fontSize="1.5em"/></Button>
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${buildingId}/apartment/${data.id}/bills`)}><Icon icon="mdi:invoice-list" fontSize="1.5em"/></Button>
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${buildingId}/apartment/${data.id}/repairs`)}><Icon icon="mdi:tools" fontSize="1.5em"/></Button>

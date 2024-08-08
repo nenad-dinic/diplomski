@@ -37,7 +37,7 @@ public class PollController(PollService pollService) : ControllerBase {
     }
 
     [HttpGet("building/{buildingId:int}")]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Manager)]
     public async Task<IActionResult> GetPollsByBuilding([FromRoute] int buildingId, [FromQuery] PageableQuery query) {
 
         Page<Poll> polls = await pollService.GetPollsByBuilding(buildingId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
@@ -47,7 +47,7 @@ public class PollController(PollService pollService) : ControllerBase {
     }
 
     [HttpPost]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Manager)]
     public async Task<IActionResult> CreatePoll([FromBody] CreatePollBody body) {
 
         Poll? poll = await pollService.CreatePoll(body.BuildingId, body.Title, true);
@@ -61,7 +61,7 @@ public class PollController(PollService pollService) : ControllerBase {
     }
 
     [HttpPut("{id:int}")]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Manager)]
     public async Task<IActionResult> UpdatePoll([FromRoute] int id, [FromBody] UpdatePollBody body) {
 
         Poll? poll = await pollService.UpdatePoll(id, body.BuildingId, body.Title, body.IsActive);

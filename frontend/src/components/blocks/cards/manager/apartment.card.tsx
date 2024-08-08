@@ -66,7 +66,7 @@ export default function ManagerApartmentCard(props : ManagerApartmentCardProps) 
     return <Card className="w-[250px]">
         <CardContent className="p-4 flex flex-col items-center gap-4">
             <h2 className="w-full text-center text-xl">No. {props.apartment.number}</h2>
-            <div>
+            <div className="text-center text-gray-500 text-sm">
                 <p>Residents: {props.apartment.numberOfResidents}</p>
                 <p>Size: {props.apartment.size} m<sup>2</sup></p>
             </div>

@@ -1,37 +1,37 @@
-import ManagerApartmentCard from "@/components/blocks/cards/manager/apartment.card";
 import CreateCard from "@/components/blocks/cards/create.card";
-import ManagerApartmentDialog from "@/components/blocks/dialogs/manager/apartment.dialog";
+import ManagerPollCard from "@/components/blocks/cards/manager/poll.card";
+import ManagerPollDialog from "@/components/blocks/dialogs/manager/poll.dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
-import { Apartment } from "@/models/apartment.model";
-import { ApartmentService } from "@/services/apartment.service";
+import { Poll } from "@/models/poll.model";
+import { PollService } from "@/services/poll.service";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
-export default function ManagerApartmentPage() {
+export default function ManagerPollPage() {
 
     const {buildingId} = useParams();
 
-    const [apartments, setApartments] = useState<Apartment[]>([]);
+    const [polls, setPolls] = useState<Poll[]>([]);
 
     const toast = useToast();
     const logout = useLogout();
     const navigate = useNavigate();
+    
+    async function getPolls() {
 
-    async function getApartments() {
+        const id = parseInt(buildingId ?? "0");
 
-        const id = parseInt(buildingId ?? "");
+        const polls = await PollService.getPollsByBuilding(id, "", 1, 1000);
 
-        const apartments = await ApartmentService.getApartmentsByBuilding(id, "", 1, 1000);
-
-        if(apartments == undefined) {
+        if(polls == undefined) {
             toast.toast({
                 title: "Communication error",
                 description: "Please try again later",
                 variant: "destructive"
             });
-        } else if ("status" in apartments) {
-            switch(apartments.status) {
+        } else if ("status" in polls) {
+            switch(polls.status) {
                 case 401:
                     logout();
                     break;
@@ -46,25 +46,23 @@ export default function ManagerApartmentPage() {
                     });
             }
         } else {
-            setApartments(apartments.items);
+            setPolls(polls.items);
         }
 
     }
 
     useEffect(() => {
-
-        getApartments();
-
-    }, []);
+        getPolls();
+    }, []); 
 
     return <div className="flex gap-4 flex-wrap p-8">
-        {apartments.map(a => (
-            <ManagerApartmentCard apartment={a} onEdit={() => getApartments()} onDelete={() => getApartments()}/>
+        {polls.length > 0 && polls.map(p => (
+            <ManagerPollCard poll={p} onEdit={() => getPolls()}/>
         ))}
-        <ManagerApartmentDialog
-            trigger={<CreateCard className="w-[250px] h-[220px]"/>}
+        <ManagerPollDialog
+            trigger={<CreateCard className="w-[250px] h-[262px]"/>}
             buildingId={parseInt(buildingId ?? "")}
-            onClose={() => getApartments()}
+            onClose={() => getPolls()}
         />
     </div>
 

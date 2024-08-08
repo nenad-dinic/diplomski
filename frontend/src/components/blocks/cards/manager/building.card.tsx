@@ -21,6 +21,7 @@ export default function ManagerBuildingCard(props : ManagerBuildingCardProps) {
         </CardContent>
         <CardFooter className="flex flex-col gap-2">
             <Button className="w-full" onClick={() => navigate(`/manager/building/${props.building.id}/apartments`)}><Icon className="mr-2" icon="material-symbols:doorbell-3p" fontSize="1.5em"/> Apartments</Button>
+            <Button className="w-full" onClick={() => navigate(`/manager/building/${props.building.id}/polls`)}><Icon className="mr-2" icon="mdi:poll" fontSize="1.5em"/> Polls</Button>
         </CardFooter>
     </Card>
 

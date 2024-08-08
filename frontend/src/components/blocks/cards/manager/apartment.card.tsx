@@ -6,6 +6,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Apartment } from "@/models/apartment.model";
 import { ApartmentService } from "@/services/apartment.service";
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router";
 
 interface ManagerApartmentCardProps {
     apartment : Apartment;
@@ -16,6 +17,7 @@ interface ManagerApartmentCardProps {
 export default function ManagerApartmentCard(props : ManagerApartmentCardProps) {
 
     const toast = useToast();
+    const navigate = useNavigate();
 
     async function deleteApartment() {
 
@@ -70,9 +72,7 @@ export default function ManagerApartmentCard(props : ManagerApartmentCardProps) 
             </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-2">
-            <Button className="w-full"><Icon className="mr-2" icon="ic:round-family-restroom" fontSize="1.5em"/> Residents</Button>
-            <Button className="w-full"><Icon className="mr-2" icon="mdi:invoice-list" fontSize="1.5em"/> Bills</Button>
-            <Button className="w-full"><Icon className="mr-2" icon="mdi:tools" fontSize="1.5em"/> Repairs</Button>
+            <Button className="w-full" onClick={() => navigate(`/manager/building/${props.apartment.buildingId}/apartment/${props.apartment.id}/residents`)}><Icon className="mr-2" icon="ic:round-family-restroom" fontSize="1.5em"/> Residents</Button>
             <div className="flex gap-2 w-full">
                 <ManagerApartmentDialog 
                     apartment={props.apartment}

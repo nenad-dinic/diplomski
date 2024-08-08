@@ -10,14 +10,14 @@ interface ManagerBuildingCardProps {
 
 }
 
-export function ManagerBuildingCard(props : ManagerBuildingCardProps) {
+export default function ManagerBuildingCard(props : ManagerBuildingCardProps) {
 
     const navigate = useNavigate();
 
     return <Card className="w-[250px]">
-        <CardContent className="p-4 flex flex-col items-center gap-4">
+        <CardContent className="p-4 flex flex-col items-center">
             <Icon icon="ic:round-apartment" fontSize={"4em"}/>
-            <h2>{props.building.address}</h2>
+            <h2 className="mt-4">{props.building.address}</h2>
         </CardContent>
         <CardFooter className="flex flex-col gap-2">
             <Button className="w-full" onClick={() => navigate(`/manager/building/${props.building.id}/apartments`)}><Icon className="mr-2" icon="material-symbols:doorbell-3p" fontSize="1.5em"/> Apartments</Button>

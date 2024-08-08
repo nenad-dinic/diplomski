@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export interface VoteFormData {
+export interface AdminVoteFormData {
 
     pollId : number;
     userId : number;
@@ -22,14 +22,14 @@ export interface VoteFormData {
 
 }
 
-interface VoteFormProps {
+interface AdminVoteFormProps {
 
     vote ?: Vote;
-    onSubmit?: (values : VoteFormData) => void;
+    onSubmit?: (values : AdminVoteFormData) => void;
 
 }
 
-export default function AdminVoteForm(props : VoteFormProps) {
+export default function AdminVoteForm(props : AdminVoteFormProps) {
 
     const [users, setUsers] = useState<User[]>([]);
     const [polls, setPolls] = useState<Poll[]>([]);
@@ -40,7 +40,7 @@ export default function AdminVoteForm(props : VoteFormProps) {
         result: z.boolean({message: "Result is required"})
     });
 
-    const form = useForm<VoteFormData>({
+    const form = useForm<AdminVoteFormData>({
         resolver: zodResolver(schema)
     });
 
@@ -103,7 +103,7 @@ export default function AdminVoteForm(props : VoteFormProps) {
 
     }
 
-    function onSubmit(values : VoteFormData) {
+    function onSubmit(values : AdminVoteFormData) {
         props.onSubmit?.(values);
     }
 

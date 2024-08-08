@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export interface RepairFormData {
+export interface AdminRepairFormData {
 
     userId : number;
     apartmentId : number;
@@ -24,14 +24,14 @@ export interface RepairFormData {
 
 }
 
-interface RepairFormProps {
+interface AdminRepairFormProps {
 
     repair ?: Repair;
-    onSubmit?: (values : RepairFormData) => void;
+    onSubmit?: (values : AdminRepairFormData) => void;
 
 }
 
-export default function AdminRepairForm(props : RepairFormProps) {
+export default function AdminRepairForm(props : AdminRepairFormProps) {
 
     const [users, setUsers] = useState<User[]>([]);
     const [apartments, setApartments] = useState<Apartment[]>([]);
@@ -43,7 +43,7 @@ export default function AdminRepairForm(props : RepairFormProps) {
         isRepaired: z.boolean({message: "Is repaired is required"})
     });
 
-    const form = useForm<RepairFormData>({
+    const form = useForm<AdminRepairFormData>({
         resolver: zodResolver(schema)
     });
 
@@ -106,7 +106,7 @@ export default function AdminRepairForm(props : RepairFormProps) {
 
     }
 
-    function onSubmit(values : RepairFormData) {
+    function onSubmit(values : AdminRepairFormData) {
         if(props.onSubmit) {
             props.onSubmit(values);
         }

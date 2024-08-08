@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export interface AdminApartmentFormData {
+export interface ManagerApartmentFormData {
 
     buildingId : number;
     number : number;
@@ -21,14 +21,16 @@ export interface AdminApartmentFormData {
 
 }
 
-interface AdminApartmentFormProps {
+interface ManagerApartmentFormProps {
 
     apartment ?: Apartment;
-    onSubmit?: (values : AdminApartmentFormData) => void;
+    buildingId ?: number;
+    managerId : number;
+    onSubmit?: (values : ManagerApartmentFormData) => void;
 
 }
 
-export default function AdminApartmentForm(props : AdminApartmentFormProps) {
+export default function ManagerApartmentForm(props : ManagerApartmentFormProps) {
 
     const [buildings, setBuildings] = useState<Building[]>([]);
 
@@ -39,7 +41,7 @@ export default function AdminApartmentForm(props : AdminApartmentFormProps) {
         numberOfResidents: z.number({message: "Residents is required"}).int("Residents must be an integer").positive("Residents must be positive")
     });
 
-    const form = useForm<AdminApartmentFormData>({
+    const form = useForm<ManagerApartmentFormData>({
         resolver: zodResolver(schema)
     });
 
@@ -48,7 +50,7 @@ export default function AdminApartmentForm(props : AdminApartmentFormProps) {
 
     async function getBuildings() {
 
-        const buildings = await BuildingService.getBuildings("", 1, 1000);
+        const buildings = await BuildingService.getBuildingsByManager(props.managerId, "", 1, 1000);
 
         if(buildings == null) {
             toast.toast({
@@ -74,7 +76,7 @@ export default function AdminApartmentForm(props : AdminApartmentFormProps) {
 
     }
 
-    function onSubmit(values : AdminApartmentFormData) {
+    function onSubmit(values : ManagerApartmentFormData) {
         props.onSubmit?.(values);
     }
 
@@ -84,14 +86,14 @@ export default function AdminApartmentForm(props : AdminApartmentFormProps) {
 
         if(props.apartment != null) {
             form.reset({
-                buildingId: props.apartment.buildingId,
+                buildingId: props.buildingId ?? props.apartment.buildingId,
                 number: props.apartment.number,
                 size: props.apartment.size,
                 numberOfResidents: props.apartment.numberOfResidents
             });
         } else {
             form.reset({
-                buildingId: 0,
+                buildingId: props.buildingId ?? 0,
                 number: 1,
                 size: 0,
                 numberOfResidents: 0
@@ -105,7 +107,7 @@ export default function AdminApartmentForm(props : AdminApartmentFormProps) {
             <FormField control={form.control} name="buildingId" render={({field}) => (
                 <FormItem>
                     <FormLabel>Building: </FormLabel>
-                    <Combobox disabled={props.apartment != null} data={buildings.map(b => ({label: b.address, value: b.id}))} value={field.value} onChange={v => form.setValue(field.name, v)}></Combobox>
+                    <Combobox disabled={props.buildingId != undefined || props.apartment != null} data={buildings.map(b => ({label: b.address, value: b.id}))} value={field.value} onChange={v => form.setValue(field.name, v)}></Combobox>
                     <FormMessage />
                 </FormItem>
             )} />

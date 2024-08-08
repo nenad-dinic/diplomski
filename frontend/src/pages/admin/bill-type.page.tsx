@@ -6,7 +6,7 @@ import { BillType } from "@/models/bill-type.models";
 import { BillTypeService } from "@/services/bill-type.service";
 import { Icon } from "@iconify/react";
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
-import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
+import DeletePopover from "@/components/blocks/popovers/delete.popover";
 import { useRef } from "react";
 import AdminBillTypeDialog from "@/components/blocks/dialogs/admin/bill-type.dialog";
 import { useNavigate } from "react-router";
@@ -102,7 +102,7 @@ export default function AdminBillTypePage() {
                     billType={data}
                     onClose={() => dataViewRef.current.refresh()}
                 />
-                <AdminDeletePopover trigger={
+                <DeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
                 }
                 onDelete={() => deleteBillType(data.id)}

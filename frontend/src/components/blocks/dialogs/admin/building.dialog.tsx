@@ -1,4 +1,4 @@
-import AdminBuildingForm, { BuildingFormData } from "@/components/blocks/forms/admin/building.form";
+import AdminBuildingForm, { AdminBuildingFormData } from "@/components/blocks/forms/admin/building.form";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
@@ -6,7 +6,7 @@ import { Building } from "@/models/building.model";
 import { BuildingService } from "@/services/building.service";
 import { ReactNode, useEffect, useState } from "react";
 
-interface BuildingDialogProps {
+interface AdminBuildingDialogProps {
 
     trigger : ReactNode;
     building ?: Building;
@@ -14,7 +14,7 @@ interface BuildingDialogProps {
 
 }
 
-export default function AdminBuildingDialog(props : BuildingDialogProps) {
+export default function AdminBuildingDialog(props : AdminBuildingDialogProps) {
 
     const [open, setOpen] = useState(false);
 
@@ -99,7 +99,7 @@ export default function AdminBuildingDialog(props : BuildingDialogProps) {
 
     }
 
-    function handleFormSubmit(data : BuildingFormData) {
+    function handleFormSubmit(data : AdminBuildingFormData) {
 
         if(props.building) {
             updateBuilding(props.building.id, data.address, data.managerId);

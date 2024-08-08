@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export interface UserFormData {
+export interface AdminUserFormData {
     username : string;
     password : string;
     fullName : string;
@@ -18,12 +18,12 @@ export interface UserFormData {
     role : Role;
 }
 
-interface UserFormProps {
+interface AdminUserFormProps {
     user ?: User;
-    onSubmit?: (values : UserFormData) => void;
+    onSubmit?: (values : AdminUserFormData) => void;
 }
 
-export default function AdminUserForm(props : UserFormProps) {
+export default function AdminUserForm(props : AdminUserFormProps) {
 
     const schema = z.object({
         username: z.string({message: "Username is required"}).min(1, "Username is required").max(50, "Username is too long"),
@@ -46,11 +46,11 @@ export default function AdminUserForm(props : UserFormProps) {
         role: z.nativeEnum(Role)
     });
 
-    const form = useForm<UserFormData>({
+    const form = useForm<AdminUserFormData>({
         resolver: zodResolver(schema)
     });
 
-    function onSubmit(values : UserFormData) {
+    function onSubmit(values : AdminUserFormData) {
         props.onSubmit?.(values);
     }
 

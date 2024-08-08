@@ -1,4 +1,4 @@
-import AdminResidentForm, { ResidentFormData } from "@/components/blocks/forms/admin/resident.form";
+import AdminResidentForm, { AdminResidentFormData } from "@/components/blocks/forms/admin/resident.form";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
@@ -6,7 +6,7 @@ import { Resident } from "@/models/resident.model";
 import { ResidentService } from "@/services/resident.service";
 import { ReactNode, useEffect, useState } from "react";
 
-interface ResidentDialogProps {
+interface AdminResidentDialogProps {
 
     trigger : ReactNode;
     resident ?: Resident;
@@ -14,7 +14,7 @@ interface ResidentDialogProps {
 
 }
 
-export default function AdminResidentDialog(props : ResidentDialogProps) {
+export default function AdminResidentDialog(props : AdminResidentDialogProps) {
 
     const [open, setOpen] = useState(false);
 
@@ -99,7 +99,7 @@ export default function AdminResidentDialog(props : ResidentDialogProps) {
 
     }
 
-    function handleFormSubmit(data : ResidentFormData) {
+    function handleFormSubmit(data : AdminResidentFormData) {
 
         if(props.resident) {
             updateResident(props.resident.id, data.userId, data.apartmentId, data.expires, data.isOwner);

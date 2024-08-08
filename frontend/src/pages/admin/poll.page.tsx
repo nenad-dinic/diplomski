@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router";
 import { Icon } from "@iconify/react";
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { Progress } from "@/components/ui/progress";
-import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
+import DeletePopover from "@/components/blocks/popovers/delete.popover";
 import { useRef } from "react";
 import AdminPollDialog from "@/components/blocks/dialogs/admin/poll.dialog";
 
@@ -114,7 +114,7 @@ export default function AdminPollPage() {
                     onClose={() => dataViewRef.current.refresh()}
                 />
                 <Button variant="default" size="icon" onClick={() => navigate(`/admin/building/${buildingId}/poll/${data.id}/votes`)}><Icon icon="mdi:vote" fontSize="1.5em"/></Button>
-                <AdminDeletePopover 
+                <DeletePopover 
                     trigger={<Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>}
                     onDelete={() => deletePoll(data.id)}
                 />

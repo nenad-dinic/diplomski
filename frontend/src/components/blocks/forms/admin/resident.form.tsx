@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export interface ResidentFormData {
+export interface AdminResidentFormData {
 
     userId : number;
     apartmentId : number;
@@ -24,14 +24,14 @@ export interface ResidentFormData {
 
 }
 
-interface ResidentFormProps {
+interface AdminResidentFormProps {
 
     resident ?: Resident;
-    onSubmit?: (values : ResidentFormData) => void;
+    onSubmit?: (values : AdminResidentFormData) => void;
 
 }
 
-export default function AdminResidentForm(props : ResidentFormProps) {
+export default function AdminResidentForm(props : AdminResidentFormProps) {
 
     const [users, setUsers] = useState<User[]>([]);
     const [apartments, setApartments] = useState<Apartment[]>([]);
@@ -42,7 +42,7 @@ export default function AdminResidentForm(props : ResidentFormProps) {
         isOwner: z.boolean({message: "Is owner is required"})
     });
 
-    const form = useForm<ResidentFormData>({
+    const form = useForm<AdminResidentFormData>({
         resolver: zodResolver(schema)
     });
 
@@ -107,7 +107,7 @@ export default function AdminResidentForm(props : ResidentFormProps) {
 
     }
 
-    function onSubmit(values : ResidentFormData) {
+    function onSubmit(values : AdminResidentFormData) {
         props.onSubmit?.(values);
     }
 

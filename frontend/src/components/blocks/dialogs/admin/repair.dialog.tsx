@@ -1,4 +1,4 @@
-import AdminRepairForm, { RepairFormData } from "@/components/blocks/forms/admin/repair.form";
+import AdminRepairForm, { AdminRepairFormData } from "@/components/blocks/forms/admin/repair.form";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
@@ -6,13 +6,13 @@ import { Repair } from "@/models/repair.model";
 import { RepairService } from "@/services/repair.service";
 import { ReactNode, useEffect, useState } from "react";
 
-interface RepairDialogProps {
+interface AdminRepairDialogProps {
     trigger : ReactNode;
     repair ?: Repair;
     onClose ?: () => void;
 }
 
-export default function AdminRepairDialog(props : RepairDialogProps) {
+export default function AdminRepairDialog(props : AdminRepairDialogProps) {
 
     const [open, setOpen] = useState(false);
 
@@ -97,7 +97,7 @@ export default function AdminRepairDialog(props : RepairDialogProps) {
 
     }
 
-    function handleFormSubmit(data : RepairFormData) {
+    function handleFormSubmit(data : AdminRepairFormData) {
 
         if(props.repair) {
             updateRepair(props.repair.id, data.userId, data.apartmentId, data.description, data.isRepaired);

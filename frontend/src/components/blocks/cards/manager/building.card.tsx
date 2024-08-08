@@ -20,7 +20,7 @@ export function ManagerBuildingCard(props : ManagerBuildingCardProps) {
             <h2>{props.building.address}</h2>
         </CardContent>
         <CardFooter className="flex flex-col gap-2">
-            <Button className="w-full" onClick={() => navigate(`/manager/building/${props.building.id}/apartments`)}><Icon icon="material-symbols:doorbell-3p" fontSize="1.5em"/> Apartments</Button>
+            <Button className="w-full" onClick={() => navigate(`/manager/building/${props.building.id}/apartments`)}><Icon className="mr-2" icon="material-symbols:doorbell-3p" fontSize="1.5em"/> Apartments</Button>
         </CardFooter>
     </Card>
 

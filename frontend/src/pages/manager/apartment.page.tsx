@@ -1,4 +1,6 @@
 import ManagerApartmentCard from "@/components/blocks/cards/manager/apartment.card";
+import ManagerCreateApartment from "@/components/blocks/cards/manager/create-apartment.card";
+import ManagerApartmentDialog from "@/components/blocks/dialogs/manager/apartment.dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
 import { Apartment } from "@/models/apartment.model";
@@ -57,8 +59,13 @@ export default function ManagerApartmentPage() {
 
     return <div className="flex gap-4 flex-wrap p-8">
         {apartments.map(a => (
-            <ManagerApartmentCard apartment={a}/>
+            <ManagerApartmentCard apartment={a} onEdit={() => getApartments()} onDelete={() => getApartments()}/>
         ))}
+        <ManagerApartmentDialog
+            trigger={<ManagerCreateApartment/>}
+            buildingId={parseInt(buildingId ?? "")}
+            onClose={() => getApartments()}
+        />
     </div>
 
 }

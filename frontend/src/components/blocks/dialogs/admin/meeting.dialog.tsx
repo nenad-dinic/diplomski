@@ -1,4 +1,4 @@
-import AdminMeetingForm, { MeetingFormData } from "@/components/blocks/forms/admin/meeting.form";
+import AdminMeetingForm, { AdminMeetingFormData } from "@/components/blocks/forms/admin/meeting.form";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
@@ -6,7 +6,7 @@ import { Meeting } from "@/models/meeting.model";
 import { MeetingService } from "@/services/meeting.service";
 import { ReactNode, useEffect, useState } from "react";
 
-interface MeetingDialogProps {
+interface AdminMeetingDialogProps {
 
     trigger : ReactNode;
     meeting ?: Meeting;
@@ -14,7 +14,7 @@ interface MeetingDialogProps {
 
 }
 
-export default function AdminMeetingDialog(props : MeetingDialogProps) {
+export default function AdminMeetingDialog(props : AdminMeetingDialogProps) {
 
     const [open, setOpen] = useState(false);
 
@@ -99,7 +99,7 @@ export default function AdminMeetingDialog(props : MeetingDialogProps) {
 
     }
 
-    function handleFormSubmit(data : MeetingFormData) {
+    function handleFormSubmit(data : AdminMeetingFormData) {
 
         if(props.meeting) {
             updateMeeting(props.meeting.id, data.buildingId, data.date, data.length, data.description);

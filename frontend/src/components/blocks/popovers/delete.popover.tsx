@@ -7,7 +7,7 @@ interface DeletePopoverProps {
     onDelete ?: () => void;
 }
 
-export default function AdminDeletePopover(props : DeletePopoverProps) {
+export default function DeletePopover(props : DeletePopoverProps) {
 
     const [open, setOpen] = useState(false);
 

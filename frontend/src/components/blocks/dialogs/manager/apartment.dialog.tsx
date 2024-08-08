@@ -1,38 +1,40 @@
-import AdminBillTypeForm, { AdminBillTypeFormData } from "@/components/blocks/forms/admin/bill-type.form";
+import ManagerApartmentForm, { ManagerApartmentFormData } from "@/components/blocks/forms/manager/apartment.form";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
-import { BillType } from "@/models/bill-type.models";
-import { BillTypeService } from "@/services/bill-type.service";
+import { Apartment } from "@/models/apartment.model";
+import { ApartmentService } from "@/services/apartment.service";
+import { TokenManager } from "@/utils/token.manager";
 import { ReactNode, useEffect, useState } from "react";
 
-interface AdminBillTypeDialogProps {
-
+interface ManagerApartmentDialogProps {
     trigger : ReactNode;
-    billType ?: BillType;
+    apartment ?: Apartment;
+    buildingId ?: number;
     onClose ?: () => void;
-
 }
 
-export default function AdminBillTypeDialog(props : AdminBillTypeDialogProps) {
+export default function ManagerApartmentDialog(props : ManagerApartmentDialogProps) {
 
     const [open, setOpen] = useState(false);
 
     const toast = useToast();
     const logout = useLogout();
+    
+    const user = TokenManager.getUserInfo();
 
-    async function createBillType(name : string) {
+    async function createApartment(buildingId : number, number : number, size : number, residents : number) {
 
-        const billType = await BillTypeService.createBillType(name);
+        const apartment = await ApartmentService.createApartment(buildingId, number, size, residents);
 
-        if(billType == undefined) {
+        if(apartment == undefined) {
             toast.toast({
                 title: "Communication error",
                 description: "Please try again later",
                 variant: "destructive"
             });
-        } else if ("status" in billType) {
-            switch(billType.status) {
+        } else if ("status" in apartment) {
+            switch(apartment.status) {
                 case 401:
                     logout();
                     break;
@@ -52,26 +54,26 @@ export default function AdminBillTypeDialog(props : AdminBillTypeDialogProps) {
             }
         } else {
             toast.toast({
-                title: "Bill Type created",
-                description: "The bill type has been created",
+                title: "Apartment created",
+                description: "The apartment has been created",
             });
             setOpen(false);
         }
 
     }
 
-    async function updateBillType(id : number, name : string) {
+    async function updateApartment(id : number, buildingId : number, number : number, size : number, residents : number) {
 
-        const billType = await BillTypeService.updateBillType(id, name);
+        const apartment = await ApartmentService.updateApartment(id, buildingId, number, size, residents);
 
-        if(billType == undefined) {
+        if(apartment == undefined) {
             toast.toast({
                 title: "Communication error",
                 description: "Please try again later",
                 variant: "destructive"
             });
-        } else if ("status" in billType) {
-            switch(billType.status) {
+        } else if ("status" in apartment) {
+            switch(apartment.status) {
                 case 401:
                     logout();
                     break;
@@ -91,20 +93,20 @@ export default function AdminBillTypeDialog(props : AdminBillTypeDialogProps) {
             }
         } else {
             toast.toast({
-                title: "Bill Type updated",
-                description: "The bill type has been updated",
+                title: "Apartment updated",
+                description: "The apartment has been updated",
             });
             setOpen(false);
         }
 
     }
 
-    function handleFormSubmit(data : AdminBillTypeFormData) {
+    function handleFormSubmit(data : ManagerApartmentFormData) {
 
-        if(props.billType) {
-            updateBillType(props.billType.id, data.name);
+        if(props.apartment != null) {
+            updateApartment(props.apartment.id, data.buildingId, data.number, data.size, data.numberOfResidents);
         } else {
-            createBillType(data.name);
+            createApartment(data.buildingId, data.number, data.size, data.numberOfResidents);
         }
 
     }
@@ -120,7 +122,7 @@ export default function AdminBillTypeDialog(props : AdminBillTypeDialogProps) {
             {props.trigger}
         </DialogTrigger>
         <DialogContent>
-            <AdminBillTypeForm billType={props.billType} onSubmit={handleFormSubmit} />
+            <ManagerApartmentForm managerId={user?.id ?? 0} buildingId={props.buildingId} apartment={props.apartment} onSubmit={handleFormSubmit} />
         </DialogContent>
     </Dialog>
 

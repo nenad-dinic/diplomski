@@ -1,4 +1,4 @@
-import AdminVoteForm, { VoteFormData } from "@/components/blocks/forms/admin/vote.form";
+import AdminVoteForm, { AdminVoteFormData } from "@/components/blocks/forms/admin/vote.form";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
@@ -6,13 +6,13 @@ import { Vote } from "@/models/vote.model";
 import { VoteService } from "@/services/vote.service";
 import { ReactNode, useEffect, useState } from "react";
 
-interface VoteDialogProps {
+interface AdminVoteDialogProps {
     trigger : ReactNode;
     vote ?: Vote;
     onClose ?: () => void;
 }
 
-export default function AdminVoteDialog(props : VoteDialogProps) {
+export default function AdminVoteDialog(props : AdminVoteDialogProps) {
 
     const [open, setOpen] = useState(false);
 
@@ -97,7 +97,7 @@ export default function AdminVoteDialog(props : VoteDialogProps) {
 
     }
 
-    function handleFormSubmit(data : VoteFormData) {
+    function handleFormSubmit(data : AdminVoteFormData) {
 
         if(props.vote) {
             updateVote(props.vote.id, data.pollId, data.userId, data.result);

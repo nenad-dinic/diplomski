@@ -1,5 +1,5 @@
 import AdminUserDialog from "@/components/blocks/dialogs/admin/user.dialog";
-import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
+import DeletePopover from "@/components/blocks/popovers/delete.popover";
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
@@ -105,7 +105,7 @@ export default function AdminUserPage() {
                     user={data} 
                     onClose={() => dataViewRef.current.refresh()}
                 />
-                <AdminDeletePopover trigger={
+                <DeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
                 }
                 onDelete={() => deleteUser(data.id)}

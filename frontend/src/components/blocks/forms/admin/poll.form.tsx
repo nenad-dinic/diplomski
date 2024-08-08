@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export interface PollFormData {
+export interface AdminPollFormData {
 
     buildingId : number;
     title : string;
@@ -21,14 +21,14 @@ export interface PollFormData {
 
 }
 
-interface PollFormProps {
+interface AdminPollFormProps {
 
     poll ?: Poll;
-    onSubmit?: (values : PollFormData) => void;
+    onSubmit?: (values : AdminPollFormData) => void;
 
 }
 
-export default function AdminPollForm(props : PollFormProps) {
+export default function AdminPollForm(props : AdminPollFormProps) {
 
     const [buildings, setBuildings] = useState<Building[]>([]);
 
@@ -38,7 +38,7 @@ export default function AdminPollForm(props : PollFormProps) {
         isActive: z.boolean({message: "Is active is required"})
     });
 
-    const form = useForm<PollFormData>({
+    const form = useForm<AdminPollFormData>({
         resolver: zodResolver(schema)
     });
 
@@ -73,7 +73,7 @@ export default function AdminPollForm(props : PollFormProps) {
 
     }
 
-    function onSubmit(values : PollFormData) {
+    function onSubmit(values : AdminPollFormData) {
         props.onSubmit?.(values);
     }
 

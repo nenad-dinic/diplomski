@@ -1,4 +1,4 @@
-import AdminUserForm, { UserFormData } from "@/components/blocks/forms/admin/user.form";
+import AdminUserForm, { AdminUserFormData } from "@/components/blocks/forms/admin/user.form";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
@@ -98,7 +98,7 @@ export default function AdminUserDialog(props : AdminUserDialogProps) {
 
     }
 
-    function handleFormSubmit(data : UserFormData) {
+    function handleFormSubmit(data : AdminUserFormData) {
 
         if(props.user) {
             updateUser(props.user.id, data.username, data.password, data.fullName, data.email, data.phoneNumber, data.role);

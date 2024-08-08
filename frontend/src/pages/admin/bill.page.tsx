@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router";
 import { Icon } from '@iconify/react';
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
 import { API_URL } from "@/utils/environment";
-import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
+import DeletePopover from "@/components/blocks/popovers/delete.popover";
 import { useRef } from "react";
 import AdminBillDialog from "@/components/blocks/dialogs/admin/bill.dialog";
 
@@ -119,7 +119,7 @@ export default function AdminBillPage() {
                     onClose={() => dataViewRef.current.refresh()}
                 />
                 <Button variant="default" size="icon" onClick={() => downloadBill(data)}><Icon icon="octicon:download-16" fontSize="1.5em"/></Button>
-                <AdminDeletePopover trigger={
+                <DeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
                 }
                 onDelete={() => deleteBill(data.id)}

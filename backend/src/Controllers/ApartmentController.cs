@@ -47,7 +47,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
     }
 
     [HttpPost]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Manager)]
     public async Task<IActionResult> CreateApartment([FromBody] CreateApartmentBody body) {
 
         Apartment? apartment = await apartmentService.CreateApartment(body.BuildingId, body.Number, body.Size, body.NumberOfResidents);
@@ -61,7 +61,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
     }
 
     [HttpPut("{id:int}")]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Manager)]
     public async Task<IActionResult> UpdateApartment([FromRoute] int id, [FromBody] UpdateApartmentBody body) {
 
         Apartment? apartment = await apartmentService.UpdateApartment(id, body.BuildingId, body.Number, body.Size, body.NumberOfResidents);
@@ -75,7 +75,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
     }
 
     [HttpDelete("{id:int}")]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Manager)]
     public async Task<IActionResult> DeleteApartment([FromRoute] int id) {
 
         Apartment? apartment = await apartmentService.DeleteApartment(id);

@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export interface BillFormData {
+export interface AdminBillFormData {
 
     billTypeId : number;
     apartmentId : number;
@@ -24,12 +24,12 @@ export interface BillFormData {
 
 }
 
-interface BillFormProps {
+interface AdminBillFormProps {
     bill?: Bill;
-    onSubmit?: (values: BillFormData) => void;
+    onSubmit?: (values: AdminBillFormData) => void;
 }
 
-export default function AdminBillForm(props : BillFormProps) {
+export default function AdminBillForm(props : AdminBillFormProps) {
 
     const [billTypes, setBillTypes] = useState<BillType[]>([]);
     const [apartments, setApartments] = useState<Apartment[]>([]);
@@ -48,7 +48,7 @@ export default function AdminBillForm(props : BillFormProps) {
         })
     });
 
-    const form = useForm<BillFormData>({
+    const form = useForm<AdminBillFormData>({
         resolver: zodResolver(schema)
     });
 
@@ -113,7 +113,7 @@ export default function AdminBillForm(props : BillFormProps) {
 
     }
 
-    function onSubmit(values : BillFormData) {
+    function onSubmit(values : AdminBillFormData) {
         props.onSubmit?.(values);
     } 
 

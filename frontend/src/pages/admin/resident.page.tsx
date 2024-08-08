@@ -7,7 +7,7 @@ import { ResidentService } from "@/services/resident.service";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
-import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
+import DeletePopover from "@/components/blocks/popovers/delete.popover";
 import { useRef } from "react";
 import AdminResidentDialog from "@/components/blocks/dialogs/admin/resident.dialog";
 
@@ -108,7 +108,7 @@ export default function AdminResidentPage() {
                     resident={data}
                     onClose={() => dataViewRef.current.refresh()}
                 />
-                <AdminDeletePopover trigger={
+                <DeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
                 }
                 onDelete={() => deleteResident(data.id)}

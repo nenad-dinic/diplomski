@@ -1,4 +1,4 @@
-import AdminApartmentForm, { ApartmentFormData } from "@/components/blocks/forms/admin/apartment.form";
+import AdminApartmentForm, { AdminApartmentFormData } from "@/components/blocks/forms/admin/apartment.form";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
@@ -6,13 +6,13 @@ import { Apartment } from "@/models/apartment.model";
 import { ApartmentService } from "@/services/apartment.service";
 import { ReactNode, useEffect, useState } from "react";
 
-interface ApartmentDialogProps {
+interface AdminApartmentDialogProps {
     trigger : ReactNode;
     apartment ?: Apartment;
     onClose ?: () => void;
 }
 
-export default function AdminApartmentDialog(props : ApartmentDialogProps) {
+export default function AdminApartmentDialog(props : AdminApartmentDialogProps) {
 
     const [open, setOpen] = useState(false);
 
@@ -97,7 +97,7 @@ export default function AdminApartmentDialog(props : ApartmentDialogProps) {
 
     }
 
-    function handleFormSubmit(data : ApartmentFormData) {
+    function handleFormSubmit(data : AdminApartmentFormData) {
 
         if(props.apartment != null) {
             updateApartment(props.apartment.id, data.buildingId, data.number, data.size, data.numberOfResidents);

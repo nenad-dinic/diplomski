@@ -12,21 +12,21 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export interface BuildingFormData {
+export interface AdminBuildingFormData {
 
     address : string;
     managerId : number;
 
 }
 
-interface BuildingFormProps {
+interface AdminBuildingFormProps {
 
     building?: Building;
-    onSubmit?: (values: BuildingFormData) => void;
+    onSubmit?: (values: AdminBuildingFormData) => void;
 
 }
 
-export default function AdminBuildingForm(props : BuildingFormProps) {
+export default function AdminBuildingForm(props : AdminBuildingFormProps) {
 
     const [managers, setManagers] = useState<User[]>([]);
 
@@ -35,7 +35,7 @@ export default function AdminBuildingForm(props : BuildingFormProps) {
         managerId: z.number({message: "Manager is required"}).int("Manager must be an integer").positive("Manager must be positive")
     });
 
-    const form = useForm<BuildingFormData>({
+    const form = useForm<AdminBuildingFormData>({
         resolver: zodResolver(schema)
     });
 
@@ -70,7 +70,7 @@ export default function AdminBuildingForm(props : BuildingFormProps) {
 
     }
 
-    function onSubmit(values : BuildingFormData) {
+    function onSubmit(values : AdminBuildingFormData) {
         props.onSubmit?.(values);
     }
 

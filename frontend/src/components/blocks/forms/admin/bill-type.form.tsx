@@ -7,30 +7,30 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export interface BillTypeFormData {
+export interface AdminBillTypeFormData {
 
     name : string;
 
 }
 
-interface BillTypeFormProps {
+interface AdminBillTypeFormProps {
 
     billType ?: BillType;
-    onSubmit?: (values : BillTypeFormData) => void;
+    onSubmit?: (values : AdminBillTypeFormData) => void;
 
 }
 
-export default function AdminBillTypeForm(props : BillTypeFormProps) {
+export default function AdminBillTypeForm(props : AdminBillTypeFormProps) {
 
     const schema = z.object({
         name: z.string({message: "Name is required"}).min(1, "Name is required").max(100, "Name is too long")
     });
 
-    const form = useForm<BillTypeFormData>({
+    const form = useForm<AdminBillTypeFormData>({
         resolver: zodResolver(schema)
     });
 
-    function onSubmit(values : BillTypeFormData) {
+    function onSubmit(values : AdminBillTypeFormData) {
         props.onSubmit?.(values);
     }
 

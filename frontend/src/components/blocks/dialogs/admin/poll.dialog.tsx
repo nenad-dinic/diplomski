@@ -1,4 +1,4 @@
-import AdminPollForm, { PollFormData } from "@/components/blocks/forms/admin/poll.form";
+import AdminPollForm, { AdminPollFormData } from "@/components/blocks/forms/admin/poll.form";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
@@ -6,13 +6,13 @@ import { Poll } from "@/models/poll.model";
 import { PollService } from "@/services/poll.service";
 import { ReactNode, useEffect, useState } from "react";
 
-interface PollDialogProps {
+interface AdminPollDialogProps {
     trigger : ReactNode;
     poll ?: Poll;
     onClose ?: () => void;
 }
 
-export default function AdminPollDialog(props : PollDialogProps) {
+export default function AdminPollDialog(props : AdminPollDialogProps) {
 
     const [open, setOpen] = useState(false);
 
@@ -97,7 +97,7 @@ export default function AdminPollDialog(props : PollDialogProps) {
 
     }
 
-    function handleFormSubmit(data : PollFormData) {
+    function handleFormSubmit(data : AdminPollFormData) {
 
         if(props.poll) {
             updatePoll(props.poll.id, props.poll.buildingId, data.title, data.isActive);

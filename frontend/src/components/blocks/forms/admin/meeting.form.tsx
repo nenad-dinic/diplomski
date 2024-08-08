@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-export interface MeetingFormData {
+export interface AdminMeetingFormData {
 
     buildingId : number;
     date : Date;
@@ -23,14 +23,14 @@ export interface MeetingFormData {
 
 }
 
-interface MeetingFormProps {
+interface AdminMeetingFormProps {
 
     meeting ?: Meeting;
-    onSubmit?: (values : MeetingFormData) => void;
+    onSubmit?: (values : AdminMeetingFormData) => void;
 
 }
 
-export default function AdminMeetingForm(props : MeetingFormProps) {
+export default function AdminMeetingForm(props : AdminMeetingFormProps) {
 
     const [buildings, setBuildings] = useState<Building[]>([]);
 
@@ -41,7 +41,7 @@ export default function AdminMeetingForm(props : MeetingFormProps) {
         description: z.string({message: "Description is required"}).min(1, "Description is required").max(1000, "Description is too long")
     });
 
-    const form = useForm<MeetingFormData>({
+    const form = useForm<AdminMeetingFormData>({
         resolver: zodResolver(schema)
     });
     
@@ -76,7 +76,7 @@ export default function AdminMeetingForm(props : MeetingFormProps) {
 
     }
 
-    function onSubmit(values : MeetingFormData) {
+    function onSubmit(values : AdminMeetingFormData) {
         props.onSubmit?.(values);
     }
 

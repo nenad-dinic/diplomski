@@ -7,7 +7,7 @@ import { RepairService } from "@/services/repair.service";
 import { useNavigate, useParams } from "react-router";
 import { Icon } from '@iconify/react';
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
-import AdminDeletePopover from "@/components/blocks/popovers/admin/delete.popover";
+import DeletePopover from "@/components/blocks/popovers/delete.popover";
 import { useRef } from "react";
 import AdminRepairDialog from "@/components/blocks/dialogs/admin/repair.dialog";
 
@@ -108,7 +108,7 @@ export default function AdminRepairPage() {
                     repair={data}
                     onClose={() => dataViewRef.current.refresh()}
                 />
-                <AdminDeletePopover trigger={
+                <DeletePopover trigger={
                     <Button variant="destructive" size="icon"><Icon icon="mdi:delete" fontSize="1.5em"/></Button>
                 }
                 onDelete={() => deleteRepair(data.id)}

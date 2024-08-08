@@ -1,4 +1,4 @@
-import AdminBillForm, { BillFormData } from "@/components/blocks/forms/admin/bill.form";
+import AdminBillForm, { AdminBillFormData } from "@/components/blocks/forms/admin/bill.form";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
@@ -6,7 +6,7 @@ import { Bill } from "@/models/bill.model";
 import { BillService } from "@/services/bill.service";
 import { ReactNode, useEffect, useState } from "react";
 
-interface BillDialogProps {
+interface AdminBillDialogProps {
 
     trigger : ReactNode;
     bill: Bill;
@@ -14,7 +14,7 @@ interface BillDialogProps {
 
 }
 
-export default function AdminBillDialog(props : BillDialogProps) {
+export default function AdminBillDialog(props : AdminBillDialogProps) {
 
     const [open, setOpen] = useState(false);
 
@@ -103,7 +103,7 @@ export default function AdminBillDialog(props : BillDialogProps) {
 
     }
 
-    async function handleFormSubmit(data : BillFormData) {
+    async function handleFormSubmit(data : AdminBillFormData) {
 
         if(props.bill) {
             updateBill(props.bill.id, data.billTypeId, data.apartmentId, data.month, data.file);

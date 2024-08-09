@@ -1,12 +1,14 @@
 import CreateCard from "@/components/blocks/cards/create.card";
 import ManagerPollCard from "@/components/blocks/cards/manager/poll.card";
 import ManagerPollDialog from "@/components/blocks/dialogs/manager/poll.dialog";
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
 import { Poll } from "@/models/poll.model";
 import { PollService } from "@/services/poll.service";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function ManagerPollPage() {
 
@@ -55,15 +57,32 @@ export default function ManagerPollPage() {
         getPolls();
     }, []); 
 
-    return <div className="flex gap-4 flex-wrap p-8">
-        {polls.length > 0 && polls.map(p => (
-            <ManagerPollCard poll={p} onEdit={() => getPolls()}/>
-        ))}
-        <ManagerPollDialog
-            trigger={<CreateCard className="w-[250px] h-[262px]"/>}
-            buildingId={parseInt(buildingId ?? "")}
-            onClose={() => getPolls()}
-        />
-    </div>
+    return <div className="p-8">
+        <Breadcrumb className="mb-4">
+            <BreadcrumbList>
+                <BreadcrumbItem>
+                    <Link to="/manager/buildings">Buildings</Link>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator/>
+                <BreadcrumbItem>
+                    <p>{buildingId}</p>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator/>
+                <BreadcrumbItem>
+                    <Link to={`/manager/building/${buildingId}/polls`}>Polls</Link>
+                </BreadcrumbItem>
+            </BreadcrumbList>
+        </Breadcrumb>
+        <div className="flex gap-4 flex-wrap">
+            {polls.length > 0 && polls.map(p => (
+                <ManagerPollCard poll={p} onEdit={() => getPolls()}/>
+            ))}
+            <ManagerPollDialog
+                trigger={<CreateCard className="w-[250px] h-[262px]"/>}
+                buildingId={parseInt(buildingId ?? "")}
+                onClose={() => getPolls()}
+                />
+        </div>
+    </div> 
 
 }

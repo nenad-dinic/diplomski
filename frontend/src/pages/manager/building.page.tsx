@@ -1,4 +1,5 @@
 import ManagerBuildingCard from "@/components/blocks/cards/manager/building.card";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
 import { Building } from "@/models/building.model";
@@ -6,6 +7,7 @@ import { BuildingService } from "@/services/building.service";
 import { TokenManager } from "@/utils/token.manager";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function ManagerBuildingPage() {
 
@@ -57,10 +59,19 @@ export default function ManagerBuildingPage() {
         getBuildings();
     }, []);
 
-    return <div className="flex gap-4 flex-wrap p-8">
-        {buildings.map(b => (
-            <ManagerBuildingCard building={b} />
-        ))}
+    return <div className="p-8">
+        <Breadcrumb className="mb-4">
+            <BreadcrumbList>
+                <BreadcrumbItem>
+                    <Link to="/manager">Buildings</Link>
+                </BreadcrumbItem>
+            </BreadcrumbList>
+        </Breadcrumb>
+        <div className="flex gap-4 flex-wrap">
+            {buildings.map(b => (
+                <ManagerBuildingCard building={b} />
+            ))}
+        </div>
     </div>
 
 }

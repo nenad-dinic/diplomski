@@ -7,6 +7,8 @@ import { Apartment } from "@/models/apartment.model";
 import { ApartmentService } from "@/services/apartment.service";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Link } from "react-router-dom";
 
 export default function ManagerApartmentPage() {
 
@@ -57,15 +59,32 @@ export default function ManagerApartmentPage() {
 
     }, []);
 
-    return <div className="flex gap-4 flex-wrap p-8">
-        {apartments.map(a => (
-            <ManagerApartmentCard apartment={a} onEdit={() => getApartments()} onDelete={() => getApartments()}/>
-        ))}
-        <ManagerApartmentDialog
-            trigger={<CreateCard className="w-[250px] h-[220px]"/>}
-            buildingId={parseInt(buildingId ?? "")}
-            onClose={() => getApartments()}
-        />
+    return <div className="p-8">
+        <Breadcrumb className="mb-4">
+            <BreadcrumbList>
+                <BreadcrumbItem>
+                    <Link to="/manager/buildings">Buildings</Link>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator/>
+                <BreadcrumbItem>
+                    <p>{buildingId}</p>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator/>
+                <BreadcrumbItem>
+                    <Link to={`/manager/building/${buildingId}/apartments`}>Apartments</Link>
+                </BreadcrumbItem>
+            </BreadcrumbList>
+        </Breadcrumb>
+        <div className="flex gap-4 flex-wrap">
+            {apartments.map(a => (
+                <ManagerApartmentCard apartment={a} onEdit={() => getApartments()} onDelete={() => getApartments()}/>
+            ))}
+            <ManagerApartmentDialog
+                trigger={<CreateCard className="w-[250px] h-[220px]"/>}
+                buildingId={parseInt(buildingId ?? "")}
+                onClose={() => getApartments()}
+                />
+        </div>
     </div>
 
 }

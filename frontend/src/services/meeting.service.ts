@@ -20,11 +20,11 @@ export class MeetingService extends Service {
 
     }
 
-    static async createMeeting(buildingId : number, date : Date, length : number, description : string) {
+    static async createMeeting(buildingId : number, dateTime : Date, length : number, description : string) {
 
         const response = await this.axios.post<Meeting | APIError>("/api/meeting", {
             buildingId,
-            date,
+            dateTime,
             length,
             description
         });

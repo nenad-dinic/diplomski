@@ -63,8 +63,10 @@ export default function MainPage() {
     }
 
     useEffect(() => {
-        getIdentity();
-    }, []);
+        if(location.pathname == "/" || loading == true) {
+            getIdentity();
+        }
+    }, [location.pathname]);
 
     return !loading && <>
         <Outlet></Outlet>

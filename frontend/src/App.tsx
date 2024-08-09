@@ -20,6 +20,7 @@ import ManagerBuildingPage from "@/pages/manager/building.page";
 import ManagerApartmentPage from "@/pages/manager/apartment.page";
 import ManagerResidentPage from "@/pages/manager/resident.page";
 import ManagerPollPage from "@/pages/manager/poll.page";
+import ManagerMeetingPage from "@/pages/manager/meeting.page";
 
 export default function App() {
 
@@ -48,6 +49,7 @@ export default function App() {
                         <Route path="building/:buildingId/apartments" element={<ManagerApartmentPage/>} />
                         <Route path="building/:buildingId/apartment/:apartmentId/residents" element={<ManagerResidentPage/>} />
                         <Route path="building/:buildingId/polls" element={<ManagerPollPage/>} />
+                        <Route path="building/:buildingId/meetings" element={<ManagerMeetingPage/>} />
                         <Route path="*" element={<Navigate to="/manager/buildings"/>}/>
                         <Route path="" element={<Navigate to="/manager/buildings"/>}/>
                     </Route>

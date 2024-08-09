@@ -37,7 +37,7 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
     }
 
     [HttpGet("building/{buildingId:int}")]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Manager)]
     public async Task<IActionResult> GetMeetingsByBuilding([FromRoute] int buildingId, [FromQuery] PageableQuery query) {
 
         Page<Meeting> meetings = await meetingService.GetMeetingsByBuilding(buildingId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
@@ -47,7 +47,7 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
     }
 
     [HttpPost]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Manager)]
     public async Task<IActionResult> CreateMeeting([FromBody] CreateMeetingBody body) {
 
         Meeting? meeting = await meetingService.CreateMeeting(body.BuildingId, body.DateTime, body.Length, body.Description);
@@ -61,7 +61,7 @@ public class MeetingController(MeetingService meetingService) : ControllerBase {
     }
 
     [HttpPut("{id:int}")]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Manager)]
     public async Task<IActionResult> UpdateMeeting([FromRoute] int id, [FromBody] UpdateMeetingBody body) {
 
         Meeting? meeting = await meetingService.UpdateMeeting(id, body.BuildingId, body.DateTime, body.Length, body.Description);

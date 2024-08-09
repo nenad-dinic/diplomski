@@ -24,7 +24,7 @@ export default function DateTimePicker(props : DateTimePickerProps) {
             <FormControl>
                 <Button disabled={props.disabled} type="button" variant="outline" className={cn("pl-3 text-left font-normal", !props.value && "text-muted-foreground")}>
                     {props.value ? (
-                        (props.dateOnly ? format(props.value, "PPP") : format(props.value, "Pp"))
+                        (props.dateOnly ? format(props.value, "dd.MM.yyyy") : format(props.value, "dd.MM.yyyy HH:mm"))
                       ) : (
                         <span>Pick a date</span>
                       )}

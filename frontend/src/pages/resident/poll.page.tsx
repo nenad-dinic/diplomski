@@ -1,36 +1,36 @@
-import ResidentApartmentCard from "@/components/blocks/cards/resident/apartment.card";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList } from "@/components/ui/breadcrumb";
+import ResidentPollCard from "@/components/blocks/cards/resident/poll.card";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
-import { Apartment } from "@/models/apartment.model";
-import { ApartmentService } from "@/services/apartment.service";
+import { Poll } from "@/models/poll.model";
+import { PollService } from "@/services/poll.service";
 import { TokenManager } from "@/utils/token.manager";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
-export default function ResidentApartmentPage() {
+export default function ResidentPollPage() {
 
     const user = TokenManager.getUserInfo();
 
-    const [apartments, setApartments] = useState<Apartment[]>([]);
+    const [polls, setPolls] = useState<Poll[]>([]);
 
     const toast = useToast();
     const logout = useLogout();
     const navigate = useNavigate();
 
-    async function getApartments() {
+    async function getActivePolls() {
 
-        const apartments = await ApartmentService.getApartmentsByUser(user?.id ?? 0, "", 1, 1000);
+        const polls = await PollService.getActivePollsByUser(user?.id ?? 0, "", 1, 1000);
 
-        if(apartments == undefined) {
+        if(polls == undefined) {
             toast.toast({
                 title: "Communication error",
                 description: "Please try again later",
                 variant: "destructive"
             });
-        } else if ("status" in apartments) {
-            switch(apartments.status) {
+        } else if ("status" in polls) {
+            switch(polls.status) {
                 case 401:
                     logout();
                     break;
@@ -45,28 +45,32 @@ export default function ResidentApartmentPage() {
                     });
             }
         } else {
-            setApartments(apartments.items);
+            setPolls(polls.items);
         }
 
     }
 
     useEffect(() => {
-        getApartments();
+        getActivePolls();
     }, []);
 
     return <div className="p-8">
         <Breadcrumb className="mb-4">
             <BreadcrumbList>
                 <BreadcrumbItem>
-                    <Link to="/">Apartments</Link>
+                    <Link to="/">Home</Link>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator/>
+                <BreadcrumbItem>
+                    <Link to="/polls">Polls</Link>
                 </BreadcrumbItem>
             </BreadcrumbList>
         </Breadcrumb>
         <div className="flex gap-4 flex-wrap">
-            {apartments.map(a => (
-                <ResidentApartmentCard apartment={a}/>
+            {polls.length > 0 && polls.map(p => (
+                <ResidentPollCard poll={p} onVote={() => getActivePolls()}></ResidentPollCard>
             ))}
-            {apartments.length == 0 && <div className="text-center w-full">No apartments found</div>}
+            {polls.length == 0 && <p className="text-center w-full">No active polls</p>}
         </div>
     </div>
 

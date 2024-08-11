@@ -23,6 +23,7 @@ import ManagerPollPage from "@/pages/manager/poll.page";
 import ManagerMeetingPage from "@/pages/manager/meeting.page";
 import ResidentPageShell from "@/pages/resident/shell";
 import ResidentApartmentPage from "@/pages/resident/apartment.page";
+import ResidentPollPage from "@/pages/resident/poll.page";
 
 export default function App() {
 
@@ -57,6 +58,7 @@ export default function App() {
                     </Route>
                     <Route path="" element={<ResidentPageShell/>}>
                         <Route path="" element={<ResidentApartmentPage/>}/>
+                        <Route path="polls" element={<ResidentPollPage/>}/>
                     </Route>
                 </Route>
             </Routes>

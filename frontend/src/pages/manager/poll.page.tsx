@@ -74,7 +74,7 @@ export default function ManagerPollPage() {
             </BreadcrumbList>
         </Breadcrumb>
         <div className="flex gap-4 flex-wrap">
-            {polls.length > 0 && polls.map(p => (
+            {polls.map(p => (
                 <ManagerPollCard poll={p} onEdit={() => getPolls()}/>
             ))}
             <ManagerPollDialog

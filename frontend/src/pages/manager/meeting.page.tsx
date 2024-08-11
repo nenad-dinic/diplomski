@@ -74,7 +74,7 @@ export default function ManagerMeetingPage() {
             </BreadcrumbList>
         </Breadcrumb>
         <div className="flex gap-4 flex-wrap">
-            {meetings.length > 0 && meetings.map(m => (
+            {meetings.map(m => (
                 <ManagerMeetingCard meeting={m} onEdit={() => getMeetings()}/>
             ))}
             <ManagerMeetingDialog

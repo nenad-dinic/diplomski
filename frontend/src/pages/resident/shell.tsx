@@ -11,6 +11,7 @@ export default function ResidentPageShell() {
     return <div>
         <nav className="w-full flex border-b bg-background p-2">
             <Button className="justify-start" variant="ghost" onClick={() => navigate('/')}><Icon className="mr-1" icon="mdi:home" fontSize="1.5em" /> Home</Button>
+            <Button className="justify-start" variant="ghost" onClick={() => navigate('/polls')}><Icon className="mr-1" icon="mdi:poll" fontSize="1.5em" /> Polls</Button>
             <Button className="ml-auto hover:text-destructive text-destructive" variant="outline" onClick={() => logout()}><Icon className="mr-1" icon="material-symbols:logout" fontSize="1.5em" /> Logout</Button>
         </nav>
         <Outlet></Outlet>

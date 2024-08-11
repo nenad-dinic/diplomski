@@ -83,7 +83,7 @@ export default function ManagerResidentPage() {
             {residents.length > 0 && residents.map(r => (
                 <ManagerResidentCard resident={r}/>
             ))}
-            {residents.length == 0 && <div className="text-center w-full">No residents found</div>}
+            {residents.length == 0 && <p className="text-center w-full">No residents found</p>}
         </div>
     </div> 
 

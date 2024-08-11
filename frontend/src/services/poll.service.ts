@@ -33,6 +33,20 @@ export class PollService extends Service {
         return response.data;
 
     }
+    
+    static async getActivePollsByUser(userId : number, filter : string, page : number, limit : number) {
+
+        const response = await this.axios.get<Page<Poll> | APIError>(`/api/poll/user/${userId}/active`, {
+            params: {
+                filter,
+                page,
+                limit
+            }
+        });
+
+        return response.data;
+
+    }
 
     static async createPoll(buildingId : number, title : string) {
 

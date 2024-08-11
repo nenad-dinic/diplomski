@@ -48,7 +48,7 @@ public class VoteController(VoteService voteService) : ControllerBase {
     }
 
     [HttpPost]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Resident)]
     public async Task<IActionResult> CreateVote([FromBody] CreateVoteBody body) {
         
         Vote? vote = await voteService.CreateVote(body.UserId, body.PollId, body.Result);

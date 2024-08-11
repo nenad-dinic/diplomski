@@ -66,7 +66,7 @@ export default function ResidentApartmentPage() {
             {apartments.map(a => (
                 <ResidentApartmentCard apartment={a}/>
             ))}
-            {apartments.length == 0 && <div className="text-center w-full">No apartments found</div>}
+            {apartments.length == 0 && <p className="text-center w-full">No apartments found</p>}
         </div>
     </div>
 

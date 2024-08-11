@@ -37,7 +37,7 @@ public class ResidentController(ResidentService residentService) : ControllerBas
     }
 
     [HttpGet("apartment/{apartmentId:int}")]
-    [AllowedRoles(Role.Admin, Role.Manager)]
+    [AllowedRoles(Role.Admin, Role.Manager, Role.Resident)]
     public async Task<IActionResult> GetResidentsByApartment([FromRoute] int apartmentId, [FromQuery] PageableQuery query) {
 
         Page<Resident> residents = await residentService.GetResidentsByApartment(apartmentId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
@@ -75,7 +75,7 @@ public class ResidentController(ResidentService residentService) : ControllerBas
     }
 
     [HttpDelete("{id:int}")]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Resident)]
     public async Task<IActionResult> DeleteResident([FromRoute] int id) {
 
         Resident? resident = await residentService.DeleteResident(id);

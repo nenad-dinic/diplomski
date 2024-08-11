@@ -81,7 +81,7 @@ export default function ManagerPollPage() {
                 trigger={<CreateCard className="w-[250px] h-[262px]"/>}
                 buildingId={parseInt(buildingId ?? "")}
                 onClose={() => getPolls()}
-                />
+            />
         </div>
     </div> 
 

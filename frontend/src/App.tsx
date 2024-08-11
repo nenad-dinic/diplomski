@@ -21,6 +21,8 @@ import ManagerApartmentPage from "@/pages/manager/apartment.page";
 import ManagerResidentPage from "@/pages/manager/resident.page";
 import ManagerPollPage from "@/pages/manager/poll.page";
 import ManagerMeetingPage from "@/pages/manager/meeting.page";
+import ResidentPageShell from "@/pages/resident/shell";
+import ResidentApartmentPage from "@/pages/resident/apartment.page";
 
 export default function App() {
 
@@ -52,6 +54,9 @@ export default function App() {
                         <Route path="building/:buildingId/meetings" element={<ManagerMeetingPage/>} />
                         <Route path="*" element={<Navigate to="/manager/buildings"/>}/>
                         <Route path="" element={<Navigate to="/manager/buildings"/>}/>
+                    </Route>
+                    <Route path="" element={<ResidentPageShell/>}>
+                        <Route path="" element={<ResidentApartmentPage/>}/>
                     </Route>
                 </Route>
             </Routes>

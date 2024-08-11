@@ -17,10 +17,25 @@ public class ApartmentRepository(ApplicationDBContext context) : Repository<Apar
         predicate = predicate.And(t => t.BuildingId == buildingId);
         predicate = predicate.And(t => EF.Functions.Like(t.Number.ToString(), $"%{filter}%"));
 
-        List<Apartment> buildings = await context.Apartments.Where(predicate).Skip(offset).Take(limit).ToListAsync();
+        List<Apartment> apartments = await context.Apartments.Where(predicate).Skip(offset).Take(limit).ToListAsync();
         int total = await context.Apartments.Where(predicate).CountAsync();
 
-        return new Page<Apartment>(buildings, total, page, limit);
+        return new Page<Apartment>(apartments, total, page, limit);
+    }
+
+    public async Task<Page<Apartment>> GetByUserId(int userId, string filter, int page, int limit)
+    {
+        int offset = (page - 1) * limit;
+
+        var predicate = PredicateBuilder.True<Apartment>();
+
+        predicate = predicate.And(t => t.Residents.Any(r => r.UserId == userId));
+        predicate = predicate.And(t => EF.Functions.Like(t.Number.ToString(), $"%{filter}%"));
+
+        List<Apartment> apartments = await context.Apartments.Where(predicate).Include(a => a.Building).Include(a => a.Residents.Where(r => r.IsOwner)).Skip(offset).Take(limit).ToListAsync();
+        int total = await context.Apartments.Where(predicate).CountAsync();
+
+        return new Page<Apartment>(apartments, total, page, limit);
     }
 
     public async Task<int> GetNumberOfApartments()

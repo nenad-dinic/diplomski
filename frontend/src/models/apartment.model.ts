@@ -1,4 +1,5 @@
 import { Building } from "@/models/building.model";
+import { Resident } from "@/models/resident.model";
 
 export interface Apartment {
 
@@ -9,5 +10,6 @@ export interface Apartment {
     numberOfResidents : number;
 
     building ?: Building;
+    residents ?: Resident[];
 
 }

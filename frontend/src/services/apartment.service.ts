@@ -20,6 +20,34 @@ export class ApartmentService extends Service {
 
     }
 
+    static async getApartmentsByBuilding(buildingId : number, filter : string, page : number, limit : number) {
+
+        const response = await this.axios.get<Page<Apartment> | APIError>(`/api/apartment/building/${buildingId}`, {
+            params: {
+                filter,
+                page,
+                limit
+            }
+        });
+
+        return response.data;
+
+    }
+
+    static async getApartmentsByUser(userId : number, filter : string, page : number, limit : number) {
+    
+        const response = await this.axios.get<Page<Apartment> | APIError>(`/api/apartment/user/${userId}`, {
+            params: {
+                filter,
+                page,
+                limit
+            }
+        });
+
+        return response.data;
+
+    }
+
     static async createApartment(buildingId: number, number: number, size: number, numberOfResidents: number) {
 
         const response = await this.axios.post<Apartment | APIError>("/api/apartment", {
@@ -40,20 +68,6 @@ export class ApartmentService extends Service {
             number,
             size,
             numberOfResidents
-        });
-
-        return response.data;
-
-    }
-
-    static async getApartmentsByBuilding(buildingId : number, filter : string, page : number, limit : number) {
-
-        const response = await this.axios.get<Page<Apartment> | APIError>(`/api/apartment/building/${buildingId}`, {
-            params: {
-                filter,
-                page,
-                limit
-            }
         });
 
         return response.data;

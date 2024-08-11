@@ -46,6 +46,16 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
 
     }
 
+    [HttpGet("user/{userId:int}")]
+    [AllowedRoles(Role.Admin, Role.Resident)]
+    public async Task<IActionResult> GetApartmentsByUser([FromRoute] int userId, [FromQuery] PageableQuery query) {
+
+        Page<Apartment> apartments = await apartmentService.GetApartmentsByUser(userId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
+
+        return Ok(apartments);
+
+    }
+
     [HttpPost]
     [AllowedRoles(Role.Admin, Role.Manager)]
     public async Task<IActionResult> CreateApartment([FromBody] CreateApartmentBody body) {

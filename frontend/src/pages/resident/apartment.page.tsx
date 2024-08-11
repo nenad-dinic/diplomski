@@ -1,41 +1,36 @@
-import ManagerBuildingCard from "@/components/blocks/cards/manager/building.card";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList } from "@/components/ui/breadcrumb";
+import ResidentApartmentCard from "@/components/blocks/cards/resident/apartment.card";
+import { Breadcrumb, BreadcrumbLink } from "@/components/ui/breadcrumb";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
-import { Building } from "@/models/building.model";
-import { BuildingService } from "@/services/building.service";
+import { Apartment } from "@/models/apartment.model";
+import { ApartmentService } from "@/services/apartment.service";
 import { TokenManager } from "@/utils/token.manager";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
-export default function ManagerBuildingPage() {
+export default function ResidentApartmentPage() {
 
-    const [buildings, setBuildings] = useState<Building[]>([]);
+    const user = TokenManager.getUserInfo();
+
+    const [apartments, setApartments] = useState<Apartment[]>([]);
 
     const toast = useToast();
     const logout = useLogout();
     const navigate = useNavigate();
 
-    const user = TokenManager.getUserInfo();
+    async function getApartments() {
 
-    async function getBuildings() {
+        const apartments = await ApartmentService.getApartmentsByUser(user?.id ?? 0, "", 1, 1000);
 
-        if(user == null) {
-            logout();
-            return;
-        }
-
-        const buildings = await BuildingService.getBuildingsByManager(user.id, "", 1, 1000);
-
-        if(buildings == undefined) {
+        if(apartments == undefined) {
             toast.toast({
                 title: "Communication error",
                 description: "Please try again later",
                 variant: "destructive"
             });
-        } else if ("status" in buildings) {
-            switch(buildings.status) {
+        } else if ("status" in apartments) {
+            switch(apartments.status) {
                 case 401:
                     logout();
                     break;
@@ -50,28 +45,26 @@ export default function ManagerBuildingPage() {
                     });
             }
         } else {
-            setBuildings(buildings.items);
+            setApartments(apartments.items);
         }
 
     }
 
     useEffect(() => {
-        getBuildings();
+        getApartments();
     }, []);
 
     return <div className="p-8">
         <Breadcrumb className="mb-4">
-            <BreadcrumbList>
-                <BreadcrumbItem>
-                    <Link to="/manager">Buildings</Link>
-                </BreadcrumbItem>
-            </BreadcrumbList>
+            <BreadcrumbLink>
+                <Link to="/">Apartments</Link>
+            </BreadcrumbLink>
         </Breadcrumb>
         <div className="flex gap-4 flex-wrap">
-            {buildings.map(b => (
-                <ManagerBuildingCard building={b} />
+            {apartments.map(a => (
+                <ResidentApartmentCard apartment={a}/>
             ))}
-            {buildings.length == 0 && <div className="text-center w-full">No buildings found</div>}
+            {apartments.length == 0 && <div className="text-center w-full">No apartments found</div>}
         </div>
     </div>
 

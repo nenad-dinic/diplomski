@@ -20,6 +20,20 @@ export class MeetingService extends Service {
 
     }
 
+    static async getActiveMeetingsForUser(userId : number, filter : string, page : number, limit : number) {
+
+        const response = await this.axios.get<Page<Meeting> | APIError>(`/api/meeting/user/${userId}/active`, {
+            params: {
+                filter,
+                page,
+                limit
+            }
+        });
+
+        return response.data;
+
+    }
+
     static async createMeeting(buildingId : number, dateTime : Date, length : number, description : string) {
 
         const response = await this.axios.post<Meeting | APIError>("/api/meeting", {

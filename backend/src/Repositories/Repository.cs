@@ -76,7 +76,19 @@ public abstract class Repository<T>(ApplicationDBContext context) : IRepository<
     }
 
     public virtual async Task<T?> GetById(int id) {
-        return await context.Set<T>().FindAsync(id);
+
+        List<string> includeFields = GetAutoIncludeFields();
+
+        IQueryable<T> query = context.Set<T>();
+        foreach (string field in includeFields) {
+            query = query.Include(field);
+        }
+
+        string primaryKey = context.Model.FindEntityType(typeof(T))?.FindPrimaryKey()?.Properties[0].Name ?? "";
+
+        query = query.Where(t => EF.Property<int>(t, primaryKey) == id);
+
+        return await query.FirstOrDefaultAsync();
     }
 
     public virtual async Task<T> Create(T entity) {

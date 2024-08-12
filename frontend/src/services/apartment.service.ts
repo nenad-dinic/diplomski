@@ -48,6 +48,12 @@ export class ApartmentService extends Service {
 
     }
 
+    static async getApartmentById(id : number) {
+        const response = await this.axios.get<Apartment | APIError>(`/api/apartment/${id}`);
+
+        return response.data;
+    }
+
     static async createApartment(buildingId: number, number: number, size: number, numberOfResidents: number) {
 
         const response = await this.axios.post<Apartment | APIError>("/api/apartment", {

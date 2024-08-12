@@ -13,7 +13,7 @@ namespace API.Controllers;
 public class BillTypeController(BillTypeService billTypeService) : ControllerBase {
 
     [HttpGet]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Resident)]
     public async Task<IActionResult> GetAllBillTypes([FromQuery] PageableQuery query) {
 
         Page<BillType> billTypes = await billTypeService.GetAll(query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);

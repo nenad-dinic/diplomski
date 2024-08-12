@@ -7,7 +7,7 @@ import { BillService } from "@/services/bill.service";
 import { useNavigate, useParams } from "react-router";
 import { Icon } from '@iconify/react';
 import DataView, { DataViewRef } from "@/components/blocks/views/data.view";
-import { API_URL } from "@/utils/environment";
+import { API_PUBLIC_URL } from "@/utils/environment";
 import DeletePopover from "@/components/blocks/popovers/delete.popover";
 import { useRef } from "react";
 import AdminBillDialog from "@/components/blocks/dialogs/admin/bill.dialog";
@@ -99,7 +99,7 @@ export default function AdminBillPage() {
     function downloadBill(bill : Bill) {
 
         const link = document.createElement("a");
-        link.href = `${API_URL}/public/${bill.filePath}`;
+        link.href = `${API_PUBLIC_URL}/${bill.filePath}`;
         link.download = bill.fileName;
         link.click();
 

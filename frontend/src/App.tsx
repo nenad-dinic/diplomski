@@ -26,6 +26,7 @@ import ResidentApartmentPage from "@/pages/resident/apartment.page";
 import ResidentPollPage from "@/pages/resident/poll.page";
 import ResidentResidentPage from "@/pages/resident/resident.page";
 import ResidentMeetingPage from "@/pages/resident/meeting.page";
+import ResidentBillPage from "@/pages/resident/bill.page";
 
 export default function App() {
 
@@ -63,6 +64,7 @@ export default function App() {
                         <Route path="polls" element={<ResidentPollPage/>}/>
                         <Route path="meetings" element={<ResidentMeetingPage/>}/>
                         <Route path="apartment/:apartmentId/residents" element={<ResidentResidentPage/>}/>
+                        <Route path="apartment/:apartmentId/bills" element={<ResidentBillPage/>}/>
                     </Route>
                 </Route>
             </Routes>

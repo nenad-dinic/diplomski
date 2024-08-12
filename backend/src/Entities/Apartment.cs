@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using API.Attributes;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Entities;
@@ -26,6 +27,7 @@ public class Apartment {
 
     public List<Bill> Bills {get; set;} = [];
 
+    [AutoInclude]
     public List<Resident> Residents {get; set;} = [];
 
     public List<Repair> Repairs {get; set;} = [];

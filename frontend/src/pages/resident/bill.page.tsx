@@ -92,7 +92,7 @@ export default function ResidentBillPage() {
 
     function isOwner() {
 
-        return apartment?.residents?.some(r => r.id == user?.id && r.isOwner) ?? false;
+        return apartment?.residents?.some(r => r.userId == user?.id && r.isOwner) ?? false;
 
     }
 

@@ -29,7 +29,6 @@ export default function ResidentRepairForm(props : ResidentRepairFormProps) {
         userId: z.number({message: "User is required"}).int("User must be an integer").positive("User must be positive"),
         apartmentId: z.number({message: "Apartment is required"}).int("Apartment must be an integer").positive("Apartment must be positive"),
         description: z.string({message: "Description is required"}).min(1, "Description must not be empty"),
-        isRepaired: z.boolean({message: "Is repaired is required"})
     });
 
     const form = useForm<ResidentRepairFormData>({

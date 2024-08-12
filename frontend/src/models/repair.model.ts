@@ -6,6 +6,7 @@ export interface Repair {
     id : number;
     userId : number;
     apartmentId : number;
+    createdAt : string;
     description : string;
     isRepaired : boolean;
 

@@ -1,43 +1,43 @@
 import CreateCard from "@/components/blocks/cards/create.card";
-import ResidentBillCard from "@/components/blocks/cards/resident/bill.card";
-import ResidentBillDialog from "@/components/blocks/dialogs/resident/bill.dialog";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import ResidentRepairCard from "@/components/blocks/cards/resident/repair.card";
+import ResidentRepairDialog from "@/components/blocks/dialogs/resident/repair.dialog";
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
 import { Apartment } from "@/models/apartment.model";
-import { Bill } from "@/models/bill.model";
+import { Repair } from "@/models/repair.model";
 import { ApartmentService } from "@/services/apartment.service";
-import { BillService } from "@/services/bill.service";
+import { RepairService } from "@/services/repair.service";
 import { TokenManager } from "@/utils/token.manager";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 
-export default function ResidentBillPage() {
+export default function ResidentRepairPage() {
 
     const {apartmentId} = useParams();
 
-    const [apartment, setApartment] = useState<Apartment>();
-    const [bills, setBills] = useState<Bill[]>([]);
-
     const user = TokenManager.getUserInfo();
+
+    const [repairs, setRepairs] = useState<Repair[]>([]);
+    const [apartment, setApartment] = useState<Apartment>();
 
     const toast = useToast();
     const logout = useLogout();
     const navigate = useNavigate();
 
-    async function getBills() {
+    async function getRepairs() {
 
-        const bills = await BillService.getBillsByApartment(parseInt(apartmentId ?? ""), "", 1, 1000);
+        const repairs = await RepairService.getRepairsByApartment(parseInt(apartmentId ?? "0"), "", 1, 1000);
 
-        if(bills == undefined) {
+        if(repairs == undefined) {
             toast.toast({
                 title: "Communication error",
                 description: "Please try again later",
                 variant: "destructive"
             });
-        } else if ("status" in bills) {
-            switch(bills.status) {
+        } else if ("status" in repairs) {
+            switch(repairs.status) {
                 case 401:
                     logout();
                     break;
@@ -52,7 +52,7 @@ export default function ResidentBillPage() {
                     });
             }
         } else {
-            setBills(bills.items);
+            setRepairs(repairs.items);
         }
 
     }
@@ -95,8 +95,10 @@ export default function ResidentBillPage() {
     }
 
     useEffect(() => {
+
         getApartment();
-        getBills();
+        getRepairs();
+
     }, []);
 
     return <div className="p-8">
@@ -111,20 +113,21 @@ export default function ResidentBillPage() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator/>
                 <BreadcrumbItem>
-                    <Link to={`/apartment/${apartmentId}/bills`}>Bills</Link>
+                    <Link to={`/apartment/${apartmentId}/repairs`}>Repairs</Link>
                 </BreadcrumbItem>
             </BreadcrumbList>
         </Breadcrumb>
         <div className="flex gap-4 flex-wrap">
-            {bills.length > 0 && bills.map(b => (
-                <ResidentBillCard bill={b}/>
+            {repairs.length > 0 && repairs.map(r => (
+                <ResidentRepairCard isOwner={isOwner()} repair={r} onRepair={() => getRepairs()}/>
             ))}
-            {!isOwner() && <ResidentBillDialog
+            {!isOwner() && <ResidentRepairDialog
                 trigger={<CreateCard className="w-[250px] h-[205px]"/>}
                 apartmentId={parseInt(apartmentId ?? "0")}
-                onClose={() => getBills()}
+                userId={user?.id ?? 0}
+                onClose={() => getRepairs()}
             />}
-            {bills.length == 0 && isOwner() && <p className="text-center w-full">No bills found</p>}
+            {repairs.length == 0 && isOwner() && <p className="text-center w-full">No repairs found</p>}
         </div>
     </div>
 

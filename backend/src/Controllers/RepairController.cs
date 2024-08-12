@@ -24,7 +24,7 @@ public class RepairController(RepairService repairService) : ControllerBase {
     }
 
     [HttpGet("apartment/{apartmentId:int}")]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Resident)]
     public async Task<IActionResult> GetRepairsByApartment([FromRoute] int apartmentId, [FromQuery] PageableQuery query) {
 
         Page<Repair> repairs = await repairService.GetRepairsByApartment(apartmentId, query.Filter ?? "", query.Page ?? 1, query.Limit ?? 10);
@@ -48,7 +48,7 @@ public class RepairController(RepairService repairService) : ControllerBase {
     }
 
     [HttpPost]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Resident)]
     public async Task<IActionResult> CreateRepair([FromBody] CreateRepairBody body) {
 
         Repair? repair = await repairService.CreateRepair(body.UserId, body.ApartmentId, body.Description, false);
@@ -62,7 +62,7 @@ public class RepairController(RepairService repairService) : ControllerBase {
     }
 
     [HttpPut("{id:int}")]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Resident)]
     public async Task<IActionResult> UpdateRepair([FromRoute] int id, [FromBody] UpdateRepairBody body) {
 
         Repair? repair = await repairService.UpdateRepair(id, body.UserId, body.ApartmentId, body.Description, body.IsRepaired);

@@ -9,12 +9,15 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Link } from "react-router-dom";
+import { Building } from "@/models/building.model";
+import { BuildingService } from "@/services/building.service";
 
 export default function ManagerApartmentPage() {
 
     const {buildingId} = useParams();
 
     const [apartments, setApartments] = useState<Apartment[]>([]);
+    const [building, setBuilding] = useState<Building>();
 
     const toast = useToast();
     const logout = useLogout();
@@ -53,8 +56,41 @@ export default function ManagerApartmentPage() {
 
     }
 
-    useEffect(() => {
+    async function getBuilding() {
 
+        const id = parseInt(buildingId ?? "0");
+
+        const building = await BuildingService.getBuildingById(id);
+
+        if(building == undefined) {
+            toast.toast({
+                title: "Communication error",
+                description: "Please try again later",
+                variant: "destructive"
+            });
+        } else if ("status" in building) {
+            switch(building.status) {
+                case 401:
+                    logout();
+                    break;
+                case 403:
+                    navigate("/");
+                    break;
+                default:
+                    toast.toast({
+                        title: "Error",
+                        description: "An error occurred, please try again later",
+                        variant: "destructive"
+                    });
+            }
+        } else {
+            setBuilding(building);
+        }
+
+    }
+
+    useEffect(() => {
+        getBuilding();
         getApartments();
 
     }, []);
@@ -67,7 +103,7 @@ export default function ManagerApartmentPage() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator/>
                 <BreadcrumbItem>
-                    <p>{buildingId}</p>
+                    <p>{building?.address ?? "?"}</p>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator/>
                 <BreadcrumbItem>

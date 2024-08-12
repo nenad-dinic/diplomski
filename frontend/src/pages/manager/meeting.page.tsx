@@ -4,7 +4,9 @@ import ManagerMeetingDialog from "@/components/blocks/dialogs/manager/meeting.di
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
+import { Building } from "@/models/building.model";
 import { Meeting } from "@/models/meeting.model";
+import { BuildingService } from "@/services/building.service";
 import { MeetingService } from "@/services/meeting.service";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -15,6 +17,7 @@ export default function ManagerMeetingPage() {
     const {buildingId} = useParams();
 
     const [meetings, setMeetings] = useState<Meeting[]>([]);
+    const [building, setBuilding] = useState<Building>();
 
     const toast = useToast();
     const logout = useLogout();
@@ -53,7 +56,41 @@ export default function ManagerMeetingPage() {
 
     }
 
+    async function getBuilding() {
+
+        const id = parseInt(buildingId ?? "0");
+
+        const building = await BuildingService.getBuildingById(id);
+
+        if(building == undefined) {
+            toast.toast({
+                title: "Communication error",
+                description: "Please try again later",
+                variant: "destructive"
+            });
+        } else if ("status" in building) {
+            switch(building.status) {
+                case 401:
+                    logout();
+                    break;
+                case 403:
+                    navigate("/");
+                    break;
+                default:
+                    toast.toast({
+                        title: "Error",
+                        description: "An error occurred, please try again later",
+                        variant: "destructive"
+                    });
+            }
+        } else {
+            setBuilding(building);
+        }
+
+    }
+
     useEffect(() => {
+        getBuilding();
         getMeetings();
     }, []);
 
@@ -65,7 +102,7 @@ export default function ManagerMeetingPage() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator/>
                 <BreadcrumbItem>
-                    <p>{buildingId}</p>
+                    <p>{building?.address ?? "?"}</p>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator/>
                 <BreadcrumbItem>

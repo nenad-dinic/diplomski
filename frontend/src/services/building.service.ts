@@ -34,6 +34,14 @@ export class BuildingService extends Service {
 
     }
 
+    static async getBuildingById(id : number) {
+
+        const response = await this.axios.get<Building | APIError>(`/api/building/${id}`);
+
+        return response.data;
+
+    }
+
     static async createBuilding(managerId : number, address : string) {
 
         const response = await this.axios.post<Building | APIError>('/api/building', {

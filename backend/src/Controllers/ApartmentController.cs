@@ -23,7 +23,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
     }
 
     [HttpGet("{id:int}")]
-    [AllowedRoles(Role.Admin, Role.Resident)]
+    [AllowedRoles(Role.Admin, Role.Manager, Role.Resident)]
     public async Task<IActionResult> GetApartmentById([FromRoute] int id) {
 
         Apartment? apartment = await apartmentService.GetApartmentById(id);

@@ -17,7 +17,7 @@ export default function ResidentBillPage() {
 
     const {apartmentId} = useParams();
 
-    const [apartment, setApartment] = useState<Apartment | undefined>(undefined);
+    const [apartment, setApartment] = useState<Apartment>();
     const [bills, setBills] = useState<Bill[]>([]);
 
     const user = TokenManager.getUserInfo();

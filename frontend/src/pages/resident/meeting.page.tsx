@@ -1,5 +1,5 @@
 import ResidentMeetingCard from "@/components/blocks/cards/resident/meeting.card";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
 import { Meeting } from "@/models/meeting.model";
@@ -57,10 +57,6 @@ export default function ResidentMeetingPage() {
     return <div className="p-8">
         <Breadcrumb className="mb-4">
             <BreadcrumbList>
-                <BreadcrumbItem>
-                    <Link to="/">Apartments</Link>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator/>
                 <BreadcrumbItem>
                     <Link to="/meetings">Meetings</Link>
                 </BreadcrumbItem>

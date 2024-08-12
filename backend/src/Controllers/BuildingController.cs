@@ -23,7 +23,7 @@ public class BuildingController(BuildingService buildingService) : ControllerBas
     }
 
     [HttpGet("{id:int}")]
-    [AllowedRoles(Role.Admin)]
+    [AllowedRoles(Role.Admin, Role.Manager)]
     public async Task<IActionResult> GetBuildingById([FromRoute] int id) {
 
         Building? building = await buildingService.GetBuildingById(id);

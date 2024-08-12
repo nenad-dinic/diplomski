@@ -1,5 +1,5 @@
 import ResidentPollCard from "@/components/blocks/cards/resident/poll.card";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList } from "@/components/ui/breadcrumb";
 import { useToast } from "@/components/ui/use-toast";
 import { useLogout } from "@/hooks/logout.hook";
 import { Poll } from "@/models/poll.model";
@@ -57,10 +57,6 @@ export default function ResidentPollPage() {
     return <div className="p-8">
         <Breadcrumb className="mb-4">
             <BreadcrumbList>
-                <BreadcrumbItem>
-                    <Link to="/">Home</Link>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator/>
                 <BreadcrumbItem>
                     <Link to="/polls">Polls</Link>
                 </BreadcrumbItem>

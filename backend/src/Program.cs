@@ -40,6 +40,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<VoteService>();
 
 builder.Services.AddScoped<FileService>();
+builder.Services.AddScoped<MailService>();
 
 // Repositories
 builder.Services.AddScoped<IApartmentRepository, ApartmentRepository>();

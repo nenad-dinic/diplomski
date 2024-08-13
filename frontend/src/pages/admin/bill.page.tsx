@@ -110,6 +110,7 @@ export default function AdminBillPage() {
         return <TableRow>
             <TableCell className="min-w-[150px]">{data.billType?.name ?? "Unknown"}</TableCell>
             <TableCell className="min-w-[75px]">{data.month}</TableCell>
+            <TableCell className="min-w-[75px]">{data.year}</TableCell>
             <TableCell className="min-w-[300px]">{data.fileName}</TableCell>
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
@@ -132,7 +133,7 @@ export default function AdminBillPage() {
     return <>
         <DataView<Bill>
             ref={dataViewRef}
-            headers={["Type", "Month", "File Name", "", "Actions"]}
+            headers={["Type", "Month", "Year", "File Name", "", "Actions"]}
             rowRenderer={renderBillRow}
             fetchCallback={getBills}
         />

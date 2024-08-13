@@ -20,13 +20,14 @@ export class BillService extends Service {
 
     }
 
-    static async createBill(billTypeId : number, apartmentId : number, month : number, file : File) {
+    static async createBill(billTypeId : number, apartmentId : number, month : number, year : number, file : File) {
 
         const formData = new FormData();
 
         formData.append("billTypeId", billTypeId.toString());
         formData.append("apartmentId", apartmentId.toString());
         formData.append("month", month.toString());
+        formData.append("year", year.toString());
 
         if(file) {
             formData.append("file", file);
@@ -38,7 +39,7 @@ export class BillService extends Service {
 
     }
 
-    static async updateBill(id : number, billTypeId : optional<number>, apartmentId : optional<number>, month : optional<number>, file : optional<File>) {
+    static async updateBill(id : number, billTypeId : optional<number>, apartmentId : optional<number>, month : optional<number>, year : optional<number>, file : optional<File>) {
 
         const formData = new FormData();
 
@@ -52,6 +53,10 @@ export class BillService extends Service {
 
         if(month) {
             formData.append("month", month.toString());
+        }
+
+        if(year) {
+            formData.append("year", year.toString());
         }
 
         if(file) {

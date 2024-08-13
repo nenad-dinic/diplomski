@@ -20,6 +20,7 @@ export interface AdminBillFormData {
     billTypeId : number;
     apartmentId : number;
     month : number;
+    year : number;
     file : File | null;
 
 }
@@ -38,6 +39,7 @@ export default function AdminBillForm(props : AdminBillFormProps) {
         billTypeId: z.number({message: "Bill type is required"}).int("Bill type must be an integer").positive("Bill type must be positive"),
         apartmentId: z.number({message: "Apartment is required"}).int("Apartment must be an integer").positive("Apartment must be positive"),
         month: z.number({message: "Month is required"}).int("Month must be an integer").min(1, "Month must be between 1 and 12").max(12, "Month must be between 1 and 12"),
+        year: z.number({message: "Year is required"}).int("Year must be an integer").min(2000, "Year must be between 2000 and 2999").max(2999, "Year must be between 2000 and 2999"),
         file: z.instanceof(File, {message: "File is required"}).nullable().superRefine((f, ctx) => {
             if(props.bill == null && f == null) {
                 return ctx.addIssue({
@@ -127,6 +129,7 @@ export default function AdminBillForm(props : AdminBillFormProps) {
                 billTypeId: props.bill.billTypeId,
                 apartmentId: props.bill.apartmentId,
                 month: props.bill.month,
+                year: props.bill.year,
                 file: null
             });
         } else {
@@ -134,6 +137,7 @@ export default function AdminBillForm(props : AdminBillFormProps) {
                 billTypeId: 0,
                 apartmentId: 0,
                 month: 1,
+                year: new Date().getFullYear(),
                 file: null
             });
         }
@@ -178,6 +182,13 @@ export default function AdminBillForm(props : AdminBillFormProps) {
                             <SelectItem value="12">December</SelectItem>
                         </SelectContent>
                     </Select>
+                    <FormMessage />
+                </FormItem>
+            )}/>
+            <FormField control={form.control} name="year" render={({field}) => (
+                <FormItem>
+                    <FormLabel>Year: </FormLabel>
+                    <Input type="number" value={field.value?.toString()} onChange={v => field.onChange(parseInt(v.target.value ?? "0"))} />
                     <FormMessage />
                 </FormItem>
             )}/>

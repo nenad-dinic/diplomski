@@ -14,6 +14,9 @@ public class UpdateBillBody {
     [Range(1, 12)]
     public int? Month {get; set;}
 
+    [Range(2000, 2999)]
+    public int? Year {get; set;}
+
     [MaxFileSize(1024 * 1024 * 10)] // 10 MB
     [AllowedFileExtensions(["doc", "docx", "pdf"])]
     public IFormFile? File {get; set;}

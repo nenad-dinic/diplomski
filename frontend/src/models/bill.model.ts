@@ -6,6 +6,7 @@ export interface Bill {
     billTypeId : number;
     apartmentId : number;
     month : number;
+    year: number;
     fileName : string;
     filePath : string;
 

@@ -66,7 +66,7 @@ public class BillController(IConfiguration config, BillService billService, File
             return BadRequest();
         }
 
-        Bill? bill = await billService.CreateBill(body.BillTypeId, body.ApartmentId, body.Month, fileName, filePath);
+        Bill? bill = await billService.CreateBill(body.BillTypeId, body.ApartmentId, body.Month, body.Year, fileName, filePath);
 
         if(bill == null) {
             return BadRequest();
@@ -108,7 +108,7 @@ public class BillController(IConfiguration config, BillService billService, File
             }
         }
 
-        bill = await billService.UpdateBill(id, body.BillTypeId, body.ApartmentId, body.Month, fileName, filePath);
+        bill = await billService.UpdateBill(id, body.BillTypeId, body.ApartmentId, body.Month, body.Year, fileName, filePath);
 
         if(bill == null) {
             return BadRequest();

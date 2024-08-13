@@ -22,7 +22,7 @@ export default function ResidentBillCard(props : ResidentBillCardProps) {
             <Icon icon="mdi:invoice-list" fontSize={"4em"}/>
             <h2 className="text-xl">{props.bill.billType?.name}</h2>
             <div className="px-3 w-full text-center text-sm text-gray-500">
-                <p>Month: {props.bill.month}</p>
+                <p>Date: {props.bill.year}-{props.bill.month}</p>
             </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-2">

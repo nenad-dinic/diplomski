@@ -18,6 +18,10 @@ public class CreateBillBody {
     public required int Month {get; set;}
 
     [Required]
+    [Range(2000, 2999)]
+    public required int Year {get; set;}
+
+    [Required]
     [MaxFileSize(1024 * 1024 * 10)] // 10 MB
     [AllowedFileExtensions(["doc", "docx", "pdf"])]
     public required IFormFile File {get; set;} = null!;

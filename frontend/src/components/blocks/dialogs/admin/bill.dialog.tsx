@@ -21,13 +21,13 @@ export default function AdminBillDialog(props : AdminBillDialogProps) {
     const toast = useToast();
     const logout = useLogout();
 
-    async function createBill(billTypeId : number, apartmentId : number, month : number, file : File | null) {
+    async function createBill(billTypeId : number, apartmentId : number, month : number, year : number, file : File | null) {
 
         if(file == null) {
             return;
         }
 
-        const bill = await BillService.createBill(billTypeId, apartmentId, month, file);
+        const bill = await BillService.createBill(billTypeId, apartmentId, month, year, file);
 
         if(bill == undefined) {
             toast.toast({
@@ -64,9 +64,9 @@ export default function AdminBillDialog(props : AdminBillDialogProps) {
 
     }
 
-    async function updateBill(id : number, billTypeId : number, apartmentId : number, month : number, file : File | null) {
+    async function updateBill(id : number, billTypeId : number, apartmentId : number, month : number, year : number, file : File | null) {
 
-        const bill = await BillService.updateBill(id, billTypeId, apartmentId, month, file);
+        const bill = await BillService.updateBill(id, billTypeId, apartmentId, month, year, file);
 
         if(bill == undefined) {
             toast.toast({
@@ -106,9 +106,9 @@ export default function AdminBillDialog(props : AdminBillDialogProps) {
     async function handleFormSubmit(data : AdminBillFormData) {
 
         if(props.bill) {
-            updateBill(props.bill.id, data.billTypeId, data.apartmentId, data.month, data.file);
+            updateBill(props.bill.id, data.billTypeId, data.apartmentId, data.month, data.year, data.file);
         } else {
-            createBill(data.billTypeId, data.apartmentId, data.month, data.file);
+            createBill(data.billTypeId, data.apartmentId, data.month, data.year, data.file);
         }
 
     }

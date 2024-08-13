@@ -20,6 +20,9 @@ public class Bill {
     [Column("month", TypeName = "int")]
     public int Month {get; set;}
 
+    [Column("year", TypeName = "int")]
+    public int Year {get; set;}
+
     [Column("file_name", TypeName = "varchar")]
     [Searchable]
     public string FileName {get; set;} = string.Empty;

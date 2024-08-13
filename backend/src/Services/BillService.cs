@@ -30,12 +30,13 @@ public class BillService(IBillRepository billRepository) {
 
     }
 
-    public async Task<Bill?> CreateBill(int billTypeId, int apartmentId, int month, string fileName, string filePath) {
+    public async Task<Bill?> CreateBill(int billTypeId, int apartmentId, int month, int year, string fileName, string filePath) {
 
         Bill bill = new() {
             BillTypeId = billTypeId,
             ApartmentId = apartmentId,
             Month = month,
+            Year = year,
             FileName = fileName,
             FilePath = filePath
         };
@@ -48,7 +49,7 @@ public class BillService(IBillRepository billRepository) {
 
     }
 
-    public async Task<Bill?> UpdateBill(int id, int? billTypeId, int? apartmentId, int? month, string? fileName, string? filePath) {
+    public async Task<Bill?> UpdateBill(int id, int? billTypeId, int? apartmentId, int? month, int? year, string? fileName, string? filePath) {
 
         Bill? bill = await billRepository.GetById(id);
 
@@ -59,6 +60,7 @@ public class BillService(IBillRepository billRepository) {
         bill.BillTypeId = billTypeId ?? bill.BillTypeId;
         bill.ApartmentId = apartmentId ?? bill.ApartmentId;
         bill.Month = month ?? bill.Month;
+        bill.Year = year ?? bill.Year;
         bill.FileName = fileName ?? bill.FileName;
         bill.FilePath = filePath ?? bill.FilePath;
 

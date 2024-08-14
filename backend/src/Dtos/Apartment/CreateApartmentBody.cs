@@ -17,7 +17,7 @@ public class CreateApartmentBody {
     public required int Size {get; set;}
 
     [Required]
-    [Range(1, int.MaxValue)]
+    [Range(0, int.MaxValue)]
     public required int NumberOfResidents {get; set;}
 
 }

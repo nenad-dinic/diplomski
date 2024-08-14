@@ -38,7 +38,7 @@ export default function ManagerApartmentForm(props : ManagerApartmentFormProps) 
         buildingId: z.number({message: "Building is required"}).int("Building must be an integer").positive("Building must be positive"),
         number: z.number({message: "Number is required"}).int("Number must be an integer").positive("Number must be positive"),
         size: z.number({message: "Size is required"}).int("Size must be an integer").positive("Size must be positive"),
-        numberOfResidents: z.number({message: "Residents is required"}).int("Residents must be an integer").positive("Residents must be positive")
+        numberOfResidents: z.number({message: "Residents is required"}).int("Residents must be an integer").gte(0, "Residents must be positive")
     });
 
     const form = useForm<ManagerApartmentFormData>({

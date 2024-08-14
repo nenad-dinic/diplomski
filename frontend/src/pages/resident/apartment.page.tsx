@@ -64,7 +64,7 @@ export default function ResidentApartmentPage() {
         </Breadcrumb>
         <div className="flex gap-4 flex-wrap">
             {apartments.map(a => (
-                <ResidentApartmentCard apartment={a}/>
+                <ResidentApartmentCard apartment={a} onEdit={() => getApartments()}/>
             ))}
             {apartments.length == 0 && <p className="text-center w-full">No apartments found</p>}
         </div>

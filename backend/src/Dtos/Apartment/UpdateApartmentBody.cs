@@ -13,7 +13,7 @@ public class UpdateApartmentBody {
     [Range(1, int.MaxValue)]
     public int? Size {get; set;}
 
-    [Range(1, int.MaxValue)]
+    [Range(0, int.MaxValue)]
     public int? NumberOfResidents {get; set;}
 
 }

@@ -71,7 +71,7 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
     }
 
     [HttpPut("{id:int}")]
-    [AllowedRoles(Role.Admin, Role.Manager)]
+    [AllowedRoles(Role.Admin, Role.Manager, Role.Resident)]
     public async Task<IActionResult> UpdateApartment([FromRoute] int id, [FromBody] UpdateApartmentBody body) {
 
         Apartment? apartment = await apartmentService.UpdateApartment(id, body.BuildingId, body.Number, body.Size, body.NumberOfResidents);

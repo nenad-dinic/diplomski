@@ -6,7 +6,6 @@ import { format } from "date-fns";
 interface ResidentMeetingCardProps {
 
     meeting : Meeting;
-    onEdit ?: () => void;
 
 }
 

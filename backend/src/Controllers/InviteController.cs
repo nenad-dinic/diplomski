@@ -45,4 +45,109 @@ public class InviteController(IConfiguration config, UserService userService, Bu
 
     }
 
+    [HttpPost("check")]
+    public async Task<IActionResult> CheckInvite([FromBody] CheckInviteBody body) {
+
+        string issuer = config.GetValue<string>("JWT:Issuer") ?? "";
+        string secret = config.GetValue<string>("JWT:Secret") ?? "";
+
+        InviteJWT? invite = JsonWebTokenUtils.DecodeInviteToken(body.Token, secret);
+
+        if(invite == null) {
+            return BadRequest();
+        }
+
+        if(invite.Issuer != issuer) {
+            return BadRequest();
+        }
+
+        if(invite.IssuedAt > DateTime.UtcNow) {
+            return BadRequest();
+        }
+
+        if(invite.ExpiresAt < DateTime.UtcNow) {
+            return BadRequest();
+        }
+
+        User? user = await userService.GetUserByEmail(invite.Subject);
+
+        if(user == null) {
+            return BadRequest();
+        }
+
+        if(invite.Type == "manager") {
+
+            Building? building = await buildingService.GetBuildingById(invite.Target);
+
+            if(building == null) {
+                return BadRequest();
+            }
+
+            if(building.ManagerId != null) {
+                return BadRequest();
+            }
+
+        }
+
+        return Ok(invite);
+
+    }
+
+    [HttpPost("accept")]
+    [AllowedRoles(Role.Admin, Role.Manager, Role.Resident)]
+    public async Task<IActionResult> AcceptInvite([FromBody] AcceptInvitationBody body) {
+
+        string issuer = config.GetValue<string>("JWT:Issuer") ?? "";
+        string secret = config.GetValue<string>("JWT:Secret") ?? "";
+    
+        InviteJWT? invite = JsonWebTokenUtils.DecodeInviteToken(body.Token, secret);
+
+        if(invite == null) {
+            return BadRequest();
+        }
+
+        if(invite.Issuer != issuer) {
+            return BadRequest();
+        }
+
+        if(invite.IssuedAt > DateTime.UtcNow) {
+            return BadRequest();
+        }
+
+        if(invite.ExpiresAt < DateTime.UtcNow) {
+            return BadRequest();
+        }
+
+        User? user = await userService.GetUserByEmail(invite.Subject);
+
+        if(user == null) {
+            return BadRequest();
+        }
+
+        if(invite.Type == "manager") {
+
+            Building? building = await buildingService.GetBuildingById(invite.Target);
+
+            if(building == null) {
+                return BadRequest();
+            }
+
+            if(building.ManagerId != null) {
+                return BadRequest();
+            }
+
+            Building? updatedBuilding = await buildingService.UpdateBuilding(building.Id, user.Id, null);
+
+            if(updatedBuilding == null) {
+                return BadRequest();
+            }
+
+            return Ok(new object{});
+
+        }
+
+        return BadRequest();
+
+    }
+
 }

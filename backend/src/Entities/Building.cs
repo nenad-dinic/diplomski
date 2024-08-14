@@ -12,7 +12,7 @@ public class Building {
     public int Id { get; set;}
 
     [Column("manager_id", TypeName = "int")]
-    public int ManagerId {get; set;}
+    public int? ManagerId {get; set;}
 
     [Column("address", TypeName = "varchar")]
     [Searchable]

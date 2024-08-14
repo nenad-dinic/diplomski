@@ -1,6 +1,5 @@
 using API.Attributes;
 using API.Dtos.Authentication;
-using API.Dtos.Invite;
 using API.Entities;
 using API.Services;
 using API.Types;
@@ -125,33 +124,6 @@ public class AuthenticationController(IConfiguration config, UserService userSer
         }
 
         return Ok(user);
-
-    }
-
-    [HttpPost("checkInvite")]
-    public IActionResult CheckInvite([FromBody] CheckInviteBody body) {
-
-        string secret = config.GetValue<string>("JWT:Secret") ?? "";
-
-        InviteJWT? invite = JsonWebTokenUtils.DecodeInviteToken(body.Token, secret);
-
-        if(invite == null) {
-            return BadRequest();
-        }
-
-        if(invite.Issuer != config.GetValue<string>("JWT:Issuer")) {
-            return BadRequest();
-        }
-
-        if(invite.IssuedAt > DateTime.UtcNow) {
-            return BadRequest();
-        }
-
-        if(invite.ExpiresAt < DateTime.UtcNow) {
-            return BadRequest();
-        }
-
-        return Ok(invite);
 
     }
 

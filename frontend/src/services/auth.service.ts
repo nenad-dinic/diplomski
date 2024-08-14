@@ -1,5 +1,4 @@
 import { APIError } from "@/models/api-error.models";
-import { Invite } from "@/models/invite.model";
 import { Tokens } from "@/models/tokens.model";
 import { User } from "@/models/user.model";
 import { Service } from "@/services/service";
@@ -20,16 +19,6 @@ export class AuthenticationService extends Service {
     public static async identity() {
 
         const response = await this.axios.get<User | APIError>("/auth/identity");
-
-        return response.data;
-
-    }
-
-    public static async checkInvite(inviteToken : string) {
-
-        const response = await this.axios.post<Invite | APIError>(`/auth/checkInvite`, {
-            token: inviteToken
-        });
 
         return response.data;
 

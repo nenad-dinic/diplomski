@@ -25,7 +25,7 @@ export default function ManagerMeetingCard(props : ManagerMeetingCardProps) {
         </CardContent>
         <CardFooter className="flex flex-col w-full gap-2">
             <ManagerMeetingDialog
-                trigger={<Button className="w-full"><Icon className="mr-2" icon="mdi:edit" fontSize="1.5em"/> Edit</Button>}
+                trigger={<Button className="w-[200px]"><Icon className="mr-2" icon="mdi:edit" fontSize="1.5em"/> Edit</Button>}
                 meeting={props.meeting}
                 onClose={props.onEdit}
             />

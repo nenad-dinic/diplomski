@@ -27,7 +27,7 @@ export default function ManagerPollCard(props : ManagerPollCardProps) {
         <CardFooter className="flex flex-col w-full gap-2">
             <ManagerPollDialog
                 poll={props.poll}
-                trigger={<Button className="w-full"><Icon className="mr-2" icon="mdi:edit" fontSize="1.5em"/> Edit</Button>}
+                trigger={<Button className="w-[200px]"><Icon className="mr-2" icon="mdi:edit" fontSize="1.5em"/> Edit</Button>}
                 onClose={props.onEdit}
             />
         </CardFooter>

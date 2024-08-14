@@ -58,7 +58,7 @@ builder.Services.AddTransient((_) => new AuthenticationMiddleware([
     new ExcludeRoute{Method = "POST", Path = "/auth/login"},
     new ExcludeRoute{Method = "POST", Path = "/auth/refresh"},
     new ExcludeRoute{Method = "POST", Path = "/auth/register"},
-    new ExcludeRoute{Method = "POST", Path = "/invite/check"},
+    new ExcludeRoute{Method = "POST", Path = "/api/invite/check"},
     new ExcludeRoute{Method = "GET", Path = "/public/*"}
 ]));
 

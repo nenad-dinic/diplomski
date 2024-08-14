@@ -1,4 +1,5 @@
 import ManagerApartmentDialog from "@/components/blocks/dialogs/manager/apartment.dialog";
+import ManagerInviteOwnerDialog from "@/components/blocks/dialogs/manager/invite-owner.dialog";
 import DeletePopover from "@/components/blocks/popovers/delete.popover";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -72,6 +73,10 @@ export default function ManagerApartmentCard(props : ManagerApartmentCardProps) 
             </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-2">
+            <ManagerInviteOwnerDialog
+                trigger={<Button className="w-full grow"><Icon className="mr-2" icon="mdi:account-plus" fontSize="1.5em"/> Invite Owner</Button>}
+                apartmentId={props.apartment.id}
+            />
             <Button className="w-full" onClick={() => navigate(`/manager/building/${props.apartment.buildingId}/apartment/${props.apartment.id}/residents`)}><Icon className="mr-2" icon="ic:round-family-restroom" fontSize="1.5em"/> Residents</Button>
             <div className="flex gap-2 w-full">
                 <ManagerApartmentDialog 

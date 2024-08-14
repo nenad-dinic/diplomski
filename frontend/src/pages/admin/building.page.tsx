@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import DeletePopover from "@/components/blocks/popovers/delete.popover";
 import { useRef } from "react";
 import AdminBuildingDialog from "@/components/blocks/dialogs/admin/building.dialog";
+import AdminInviteManagerDialog from "@/components/blocks/dialogs/admin/invite-manager.dialog";
 
 
 export default function AdminBuildingPage() {
@@ -99,6 +100,11 @@ export default function AdminBuildingPage() {
             <TableCell className="min-w-[200px]">{data.manager?.fullName ?? "No manager"}</TableCell>
             <TableCell className="w-full"></TableCell>
             <TableCell className="w-fit flex gap-1">
+                <AdminInviteManagerDialog
+                    trigger={<Button variant="default" size="icon"><Icon icon="mdi:account-plus" fontSize="1.5em"/></Button>}
+                    buildingId={data.id}
+                    onClose={() => dataViewRef.current.refresh()}
+                />
                 <AdminBuildingDialog
                     trigger={<Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>}
                     building={data}

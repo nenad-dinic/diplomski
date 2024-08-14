@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { Icon } from "@iconify/react";
 import ResidentApartmentDialog from "@/components/blocks/dialogs/resident/apartment.dialog";
 import { TokenManager } from "@/utils/token.manager";
+import ResidentInviteResidentDialog from "@/components/blocks/dialogs/resident/invite-resident.dialog";
 
 interface ResidentApartmentCardProps {
     apartment : Apartment;
@@ -34,6 +35,11 @@ export default function ResidentApartmentCard(props : ResidentApartmentCardProps
             {isOwner() && <ResidentApartmentDialog
                 trigger={<Button className="w-full"><Icon className="mr-2" icon="mdi:edit" fontSize="1.5em"/> Edit</Button>}
                 apartment={props.apartment}
+                onClose={() => props.onEdit?.()}
+            />}
+            {isOwner() && <ResidentInviteResidentDialog
+                trigger={<Button className="w-full"><Icon className="mr-2" icon="mdi:account-plus" fontSize="1.5em"/> Invite Resident</Button>}
+                apartmentId={props.apartment.id}
                 onClose={() => props.onEdit?.()}
             />}
             <Button className="w-full" onClick={() => navigate(`/apartment/${props.apartment.id}/residents`)}><Icon className="mr-2" icon="ic:round-family-restroom" fontSize="1.5em"/> Residents</Button>

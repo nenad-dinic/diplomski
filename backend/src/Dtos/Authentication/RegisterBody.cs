@@ -26,4 +26,6 @@ public class RegisterBody {
     [Length(1, 20)]
     public required string PhoneNumber {get; set;}
 
+    public string? Token {get; set;}
+
 }

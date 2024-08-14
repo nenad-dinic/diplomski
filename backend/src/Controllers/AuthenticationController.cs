@@ -1,5 +1,6 @@
 using API.Attributes;
 using API.Dtos.Authentication;
+using API.Dtos.Invite;
 using API.Entities;
 using API.Services;
 using API.Types;
@@ -34,7 +35,7 @@ public class AuthenticationController(IConfiguration config, UserService userSer
         int refreshTokenDuration = config.GetValue<int>("JWT:RefreshDuration");
         string secret = config.GetValue<string>("JWT:Secret") ?? "";
 
-        User? user = await userService.GetUserByUsername(body.Username);
+        User? user = await userService.GetUserByUsernameOrEmail(body.Username);
 
         if(user == null) {
             return BadRequest();
@@ -44,8 +45,8 @@ public class AuthenticationController(IConfiguration config, UserService userSer
             return BadRequest();
         }
 
-        string accessToken = JsonWebTokenUtils.CreateToken(issuer, user.Id, "access", DateTime.UtcNow, user.JTI, accessTokenDuration, secret);
-        string refreshToken = JsonWebTokenUtils.CreateToken(issuer, user.Id, "refresh", DateTime.UtcNow, user.JTI, refreshTokenDuration, secret);
+        string accessToken = JsonWebTokenUtils.CreateAuthToken(issuer, user.Id, "access", user.JTI, accessTokenDuration, secret);
+        string refreshToken = JsonWebTokenUtils.CreateAuthToken(issuer, user.Id, "refresh", user.JTI, refreshTokenDuration, secret);
 
         return Ok(new LoginResponse(accessToken, refreshToken));
 
@@ -57,7 +58,7 @@ public class AuthenticationController(IConfiguration config, UserService userSer
         string secret = config.GetValue<string>("JWT:Secret") ?? "";
         string issuer = config.GetValue<string>("JWT:Issuer") ?? "";
 
-        JsonWebToken? token = JsonWebTokenUtils.DecodeToken(body.Token, secret);
+        AuthJWT? token = JsonWebTokenUtils.DecodeAuthToken(body.Token, secret);
 
         if(token == null) {
             return BadRequest();
@@ -92,8 +93,8 @@ public class AuthenticationController(IConfiguration config, UserService userSer
         int accessTokenDuration = config.GetValue<int>("JWT:AccessDuration");
         int refreshTokenDuration = config.GetValue<int>("JWT:RefreshDuration");
 
-        string accessToken = JsonWebTokenUtils.CreateToken(issuer, user.Id, "access", DateTime.UtcNow, user.JTI, accessTokenDuration, secret);
-        string refreshToken = JsonWebTokenUtils.CreateToken(issuer, user.Id, "refresh", DateTime.UtcNow, user.JTI, refreshTokenDuration, secret);
+        string accessToken = JsonWebTokenUtils.CreateAuthToken(issuer, user.Id, "access", user.JTI, accessTokenDuration, secret);
+        string refreshToken = JsonWebTokenUtils.CreateAuthToken(issuer, user.Id, "refresh", user.JTI, refreshTokenDuration, secret);
 
         return Ok(new RefreshResponse(accessToken, refreshToken));
 
@@ -102,13 +103,55 @@ public class AuthenticationController(IConfiguration config, UserService userSer
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterBody body) {
 
-        User? user = await userService.CreateUser(body.Username, body.Password, body.FullName, body.Email, body.PhoneNumber, Role.Resident);
+        Role role = Role.Resident;
+
+        if(body.Token != null) {
+
+            string secret = config.GetValue<string>("JWT:Secret") ?? "";
+            InviteJWT? invite = JsonWebTokenUtils.DecodeInviteToken(body.Token, secret);
+
+            if(invite != null) {
+                if(invite.Type == "manager") {
+                    role = Role.Manager;
+                }
+            }
+
+        }
+
+        User? user = await userService.CreateUser(body.Username, body.Password, body.FullName, body.Email, body.PhoneNumber, role);
 
         if(user == null) {
             return BadRequest();
         }
 
         return Ok(user);
+
+    }
+
+    [HttpPost("checkInvite")]
+    public IActionResult CheckInvite([FromBody] CheckInviteBody body) {
+
+        string secret = config.GetValue<string>("JWT:Secret") ?? "";
+
+        InviteJWT? invite = JsonWebTokenUtils.DecodeInviteToken(body.Token, secret);
+
+        if(invite == null) {
+            return BadRequest();
+        }
+
+        if(invite.Issuer != config.GetValue<string>("JWT:Issuer")) {
+            return BadRequest();
+        }
+
+        if(invite.IssuedAt > DateTime.UtcNow) {
+            return BadRequest();
+        }
+
+        if(invite.ExpiresAt < DateTime.UtcNow) {
+            return BadRequest();
+        }
+
+        return Ok(invite);
 
     }
 

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../ui/form";
 import { Input } from "../../ui/input";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 
 export interface RegistrationFormData {
     username : string;
@@ -14,6 +15,7 @@ export interface RegistrationFormData {
 }
 
 interface RegistrationFormProps {
+    email?: string;
     onSubmit?: (values : RegistrationFormData) => void;
 }
 
@@ -43,6 +45,19 @@ export default function RegistrationForm(props : RegistrationFormProps) {
         delete (values as Partial<typeof values>).confirmPassword;
         props.onSubmit?.(values);
     }
+
+    useEffect(() => {
+
+        form.reset({
+            username: "",
+            password: "",
+            confirmPassword: "",
+            fullName: "",
+            email: props.email ?? "",
+            phoneNumber: ""
+        });
+
+    }, []);
 
     return <Form {...form}>
         <form className="flex flex-col gap-2" onSubmit={form.handleSubmit(onSubmit)}>
@@ -86,7 +101,7 @@ export default function RegistrationForm(props : RegistrationFormProps) {
                 <FormItem>
                     <FormLabel>Email: </FormLabel>
                     <FormControl>
-                        <Input type="text" placeholder="Enter email" {...field}></Input>
+                        <Input disabled={props.email != undefined} type="text" placeholder="Enter email" {...field}></Input>
                     </FormControl>
                     <FormMessage />
                 </FormItem>

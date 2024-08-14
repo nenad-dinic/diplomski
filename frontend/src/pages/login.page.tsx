@@ -7,15 +7,18 @@ import { AuthenticationService } from "@/services/auth.service";
 import { TokenManager } from "@/utils/token.manager";
 import { TabsContent } from "@radix-ui/react-tabs";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 export default function LoginPage() {
 
     const [loading, setLoading] = useState(true);
     const [tab, setTab] = useState("login");
 
+    const location = useLocation();
     const toast = useToast();
     const navigate = useNavigate();
+
+    const inviteData = location.state?.data;
 
     async function handleLogin(values: LoginFormData) {
         const tokens = await AuthenticationService.login(values.username, values.password);
@@ -34,14 +37,18 @@ export default function LoginPage() {
             });
         } else {
             TokenManager.setTokens(tokens.accessToken, tokens.refreshToken);
-            navigate("/");
+            if(inviteData?.token) {
+                navigate(`/invite?token=${inviteData.token}`);
+            } else {
+                navigate("/");
+            }
         }
 
     }
 
     async function handleRegister(values : RegistrationFormData) {
-        
-        const response = await AuthenticationService.register(values.username, values.password, values.fullName, values.email, values.phoneNumber);
+
+        const response = await AuthenticationService.register(values.username, values.password, values.fullName, values.email, values.phoneNumber, inviteData?.token);
 
         if(response == undefined) {
             toast.toast({
@@ -85,7 +92,7 @@ export default function LoginPage() {
                 <Card className="w-full">
                     <CardTitle className="my-4 text-center text-xl">Login</CardTitle>
                     <CardContent>
-                        <LoginForm onSubmit={handleLogin}/>
+                        <LoginForm username={inviteData?.email} onSubmit={handleLogin}/>
                     </CardContent>
                 </Card>
             </TabsContent>
@@ -93,7 +100,7 @@ export default function LoginPage() {
                 <Card>
                     <CardTitle className="my-4 text-center text-xl">Register</CardTitle>
                     <CardContent>
-                        <RegistrationForm onSubmit={handleRegister}></RegistrationForm>
+                        <RegistrationForm email={inviteData?.email} onSubmit={handleRegister}></RegistrationForm>
                     </CardContent>
                 </Card>
             </TabsContent>

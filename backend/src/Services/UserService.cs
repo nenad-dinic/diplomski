@@ -32,6 +32,22 @@ public class UserService(IUserRepository userRepository)
 
     }
 
+    public async Task<User?> GetUserByUsernameOrEmail(string usernameOrEmail) {
+
+        User? user = await userRepository.GetByUsernameOrEmail(usernameOrEmail);
+
+        return user;
+
+    }
+
+    public async Task<User?> GetUserByEmail(string email) {
+
+        User? user = await userRepository.GetByEmail(email);
+
+        return user;
+
+    }
+
     public async Task<User?> GetUserByUsername(string username) {
 
         User? user = await userRepository.GetByUsername(username);

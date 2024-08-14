@@ -4,6 +4,7 @@ import { Input } from "../../ui/input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 
 export interface LoginFormData {
     username : string;
@@ -11,6 +12,7 @@ export interface LoginFormData {
 }
 
 interface LoginFormProps {
+    username ?: string;
     onSubmit?: (values : LoginFormData) => void;
 };
 
@@ -29,13 +31,22 @@ export default function LoginForm(props : LoginFormProps) {
         props.onSubmit?.(values);
     }
 
+    useEffect(() => {
+
+        form.reset({
+            username: props.username ?? "",
+            password: ""
+        });
+
+    }, []);
+
     return <Form {...form}>
         <form className="flex flex-col gap-2" onSubmit={form.handleSubmit(onSubmit)}>
             <FormField control={form.control} name="username" render={({ field }) => (
                 <FormItem>
                     <FormLabel>Username: </FormLabel>
                     <FormControl>
-                        <Input type="text" placeholder="Enter your username" {...field}></Input>
+                        <Input disabled={props.username != undefined} type="text" placeholder="Enter your username" {...field}></Input>
                     </FormControl>
                     <FormMessage />
                 </FormItem>

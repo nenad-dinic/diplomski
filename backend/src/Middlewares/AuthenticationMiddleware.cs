@@ -32,7 +32,7 @@ public class AuthenticationMiddleware(List<ExcludeRoute> excludeRoutes) : Middle
             return;
         }
 
-        JsonWebToken? token = JsonWebTokenUtils.DecodeToken(parts[1], secret);
+        AuthJWT? token = JsonWebTokenUtils.DecodeAuthToken(parts[1], secret);
         
         if(token == null) {
             await SendHttpStatus(context, 401, "Unauthorized");

@@ -9,8 +9,17 @@ namespace API.Repositories;
 public class UserRepository(ApplicationDBContext context) : Repository<User>(context), IUserRepository
 {
 
+    public async Task<User?> GetByUsernameOrEmail(string usernameOrEmail)
+    {
+        return await context.Users.FirstOrDefaultAsync(u => u.Username == usernameOrEmail || u.Email == usernameOrEmail);
+    }
+
     public async Task<User?> GetByUsername(string username) {
         return await context.Users.FirstOrDefaultAsync(u => u.Username == username);
+    }
+
+    public async Task<User?> GetByEmail(string email) {
+        return await context.Users.FirstOrDefaultAsync(u => u.Email == email);
     }
 
     public async Task<Page<User>> GetAllManagers(string filter, int page, int limit)

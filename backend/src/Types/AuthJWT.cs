@@ -1,6 +1,6 @@
 namespace API.Types;
 
-public class JsonWebToken(string issuer, int subject, string type, DateTime issuedAt, DateTime expiresAt, string jwtId) {
+public class AuthJWT(string issuer, int subject, string type, DateTime issuedAt, DateTime expiresAt, string jwtId) {
 
     public string Issuer { get; private set; } = issuer;
     public int Subject {get; private set; } = subject;

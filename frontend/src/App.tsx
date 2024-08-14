@@ -28,6 +28,7 @@ import ResidentResidentPage from "@/pages/resident/resident.page";
 import ResidentMeetingPage from "@/pages/resident/meeting.page";
 import ResidentBillPage from "@/pages/resident/bill.page";
 import ResidentRepairPage from "@/pages/resident/repair.page";
+import InvitePage from "@/pages/invite.page";
 
 export default function App() {
 
@@ -35,6 +36,7 @@ export default function App() {
         <BrowserRouter>
             <Routes>
                 <Route path='/login' element={<LoginPage/>}/>
+                <Route path='/invite' element={<InvitePage/>}></Route>
                 <Route path='/' element={<MainPage/>}>
                     <Route path='admin' element={<AdminPageShell/>}>
                         <Route path="dashboard" element={<AdminDashboardPage/>}/>

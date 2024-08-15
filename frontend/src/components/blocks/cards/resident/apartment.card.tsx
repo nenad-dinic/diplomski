@@ -6,6 +6,7 @@ import { Icon } from "@iconify/react";
 import ResidentApartmentDialog from "@/components/blocks/dialogs/resident/apartment.dialog";
 import { TokenManager } from "@/utils/token.manager";
 import ResidentInviteResidentDialog from "@/components/blocks/dialogs/resident/invite-resident.dialog";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 interface ResidentApartmentCardProps {
     apartment : Apartment;
@@ -29,6 +30,15 @@ export default function ResidentApartmentCard(props : ResidentApartmentCardProps
                 <p>Residents: {props.apartment.numberOfResidents}</p>
                 <p>Address: {props.apartment.building?.address}</p>
                 <p>Size: {props.apartment.size} m<sup>2</sup></p>
+                {props.apartment.building?.manager && <HoverCard>
+                    <HoverCardTrigger>
+                        <p>Manager: <u className="cursor-pointer">{props.apartment.building.manager.fullName}</u></p>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="flex flex-col w-fit">
+                        <p>Email: {props.apartment.building.manager.email}</p>
+                        <p>Phone: {props.apartment.building.manager.phoneNumber}</p>
+                    </HoverCardContent>
+                </HoverCard>}
             </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-2">

@@ -64,6 +64,10 @@ export default function ManagerApartmentCard(props : ManagerApartmentCardProps) 
         }
     }
 
+    function hasOwner() {
+        return props.apartment.residents?.some(r => r.isOwner);
+    }
+
     return <Card className="w-[250px]">
         <CardContent className="p-4 flex flex-col items-center gap-4">
             <h2 className="w-full text-center text-xl">No. {props.apartment.number}</h2>
@@ -73,10 +77,10 @@ export default function ManagerApartmentCard(props : ManagerApartmentCardProps) 
             </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-2">
-            <ManagerInviteOwnerDialog
+            {!hasOwner() && <ManagerInviteOwnerDialog
                 trigger={<Button className="w-full grow"><Icon className="mr-2" icon="mdi:account-plus" fontSize="1.5em"/> Invite Owner</Button>}
                 apartmentId={props.apartment.id}
-            />
+            />}
             <Button className="w-full" onClick={() => navigate(`/manager/building/${props.apartment.buildingId}/apartment/${props.apartment.id}/residents`)}><Icon className="mr-2" icon="ic:round-family-restroom" fontSize="1.5em"/> Residents</Button>
             <div className="flex gap-2 w-full">
                 <ManagerApartmentDialog 

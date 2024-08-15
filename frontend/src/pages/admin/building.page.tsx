@@ -99,12 +99,12 @@ export default function AdminBuildingPage() {
             <TableCell className="min-w-[200px]">{data.address}</TableCell>
             <TableCell className="min-w-[200px]">{data.manager?.fullName ?? "No manager"}</TableCell>
             <TableCell className="w-full"></TableCell>
-            <TableCell className="w-fit flex gap-1">
-                <AdminInviteManagerDialog
+            <TableCell className="w-full flex gap-1 justify-end">
+                {data.managerId == null && <AdminInviteManagerDialog
                     trigger={<Button variant="default" size="icon"><Icon icon="mdi:account-plus" fontSize="1.5em"/></Button>}
                     buildingId={data.id}
                     onClose={() => dataViewRef.current.refresh()}
-                />
+                />}
                 <AdminBuildingDialog
                     trigger={<Button variant="default" size="icon"><Icon icon="ic:round-edit" fontSize="1.5em"/></Button>}
                     building={data}

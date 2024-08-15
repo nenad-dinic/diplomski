@@ -30,7 +30,7 @@ public class BuildingService(IBuildingRepository buildingRepository) {
 
     }
 
-    public async Task<Building?> CreateBuilding(int managerId, string address) {
+    public async Task<Building?> CreateBuilding(int? managerId, string address) {
 
         Building building = new() {
             ManagerId = managerId,

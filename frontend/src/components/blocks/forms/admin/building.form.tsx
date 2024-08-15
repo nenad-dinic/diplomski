@@ -32,7 +32,7 @@ export default function AdminBuildingForm(props : AdminBuildingFormProps) {
 
     const schema = z.object({
         address: z.string({message: "Address is required"}).min(1, "Address cannot be empty"),
-        managerId: z.number({message: "Manager is required"}).int("Manager must be an integer").positive("Manager must be positive")
+        managerId: z.number({message: "Manager is required"}).int("Manager must be an integer").positive("Manager must be positive").optional()
     });
 
     const form = useForm<AdminBuildingFormData>({
@@ -81,12 +81,12 @@ export default function AdminBuildingForm(props : AdminBuildingFormProps) {
         if(props.building) {
             form.reset({
                 address: props.building.address,
-                managerId: props.building.managerId
+                managerId: props.building.managerId ?? undefined
             });
         } else {
             form.reset({
                 address: "",
-                managerId: 0
+                managerId: undefined
             });
         }
 

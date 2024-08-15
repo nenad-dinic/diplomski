@@ -23,7 +23,7 @@ public class BillRepository(ApplicationDBContext context) : Repository<Bill>(con
 
         predicate = predicate.And(t => t.ApartmentId == apartmentId);
 
-        predicate = predicate.And(t => EF.Functions.Like(t.FileName, $"%{filter}%") || EF.Functions.Like(t.BillType!.Name, $"%{filter}%"));
+        predicate = predicate.And(t => EF.Functions.Like(t.FileName, $"%{filter}%") || EF.Functions.Like(t.BillType!.Name, $"%{filter}%") || EF.Functions.Like(t.Year.ToString() + "-" + t.Month.ToString(), $"%{filter}%"));
 
         List<Bill> bills = await context.Bills.Where(predicate).Skip(offset).Take(limit).Include(t => t.BillType).ToListAsync();
         int total = await context.Bills.Where(predicate).CountAsync();

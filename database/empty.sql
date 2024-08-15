@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `bill` (
   `bill_type_id` int(10) unsigned NOT NULL,
   `apartment_id` int(10) unsigned NOT NULL,
   `month` int(11) unsigned NOT NULL,
+  `year` int(11) unsigned NOT NULL,
   `file_name` varchar(256) NOT NULL,
   `file_path` varchar(256) NOT NULL,
   PRIMARY KEY (`bill_id`),
@@ -68,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `bill_type` (
 DROP TABLE IF EXISTS `building`;
 CREATE TABLE IF NOT EXISTS `building` (
   `building_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `manager_id` int(10) unsigned NOT NULL,
+  `manager_id` int(10) unsigned DEFAULT NULL,
   `address` varchar(100) NOT NULL,
   PRIMARY KEY (`building_id`),
   KEY `fk_building_manager_id` (`manager_id`),

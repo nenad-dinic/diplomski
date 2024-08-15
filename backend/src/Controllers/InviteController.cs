@@ -157,6 +157,12 @@ public class InviteController(IConfiguration config, UserService userService, Bu
             if(invite.Type == "owner" && apartment.Residents.Any(r => r.IsOwner)) {
                 return BadRequest();
             }
+            
+            User? user = await userService.GetUserByEmail(invite.Subject);
+
+            if(user != null && apartment.Residents.Any(r => r.UserId == user.Id)) {
+                return BadRequest();
+            }
 
         }
 

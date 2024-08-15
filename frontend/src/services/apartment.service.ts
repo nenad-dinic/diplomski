@@ -67,6 +67,17 @@ export class ApartmentService extends Service {
 
     }
 
+    static async setApartmentOwner(apartmentId: number, userId: number) {
+
+        const response = await this.axios.post<Apartment | APIError>(`/api/apartment/owner`, {
+            apartmentId,
+            userId
+        });
+
+        return response.data;
+
+    }
+
     static async updateApartment(id : number, buildingId : optional<number>, number : optional<number>, size : optional<number>, numberOfResidents : optional<number>) {
 
         const response = await this.axios.put<Apartment | APIError>(`/api/apartment/${id}`, {

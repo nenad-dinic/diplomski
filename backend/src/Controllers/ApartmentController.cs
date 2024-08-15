@@ -70,6 +70,20 @@ public class ApartmentController(ApartmentService apartmentService) : Controller
 
     }
 
+    [HttpPost("owner")]
+    [AllowedRoles(Role.Admin, Role.Manager)]
+    public async Task<IActionResult> SetOwner([FromBody] SetApartmentOwnerBody body) {
+
+        Apartment? apartment = await apartmentService.SetNewOwner(body.ApartmentId, body.UserId);
+
+        if(apartment == null) {
+            return BadRequest();
+        }
+
+        return Ok(apartment);
+
+    }
+
     [HttpPut("{id:int}")]
     [AllowedRoles(Role.Admin, Role.Manager, Role.Resident)]
     public async Task<IActionResult> UpdateApartment([FromRoute] int id, [FromBody] UpdateApartmentBody body) {

@@ -155,7 +155,7 @@ export default function ManagerResidentPage() {
         </Breadcrumb>
         <div className="flex gap-4 flex-wrap">
             {residents.length > 0 && residents.map(r => (
-                <ManagerResidentCard resident={r}/>
+                <ManagerResidentCard resident={r} onEdit={() => getResidents()}/>
             ))}
             {residents.length == 0 && <p className="text-center w-full">No residents found</p>}
         </div>

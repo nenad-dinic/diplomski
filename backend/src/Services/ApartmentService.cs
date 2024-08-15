@@ -76,6 +76,14 @@ public class ApartmentService(IApartmentRepository apartmentRepository) {
 
     }
 
+    public async Task<Apartment?> SetNewOwner(int apartmentId, int ownerId) {
+
+        Apartment? apartment = await apartmentRepository.SetOwner(apartmentId, ownerId);
+
+        return apartment;
+
+    }
+
     public async Task<Apartment?> DeleteApartment(int id) {
 
         Apartment? apartment = await apartmentRepository.GetById(id);

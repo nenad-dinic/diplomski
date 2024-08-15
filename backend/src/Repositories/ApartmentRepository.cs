@@ -42,4 +42,25 @@ public class ApartmentRepository(ApplicationDBContext context) : Repository<Apar
     {
         return await context.Apartments.CountAsync();
     }
+
+    public async Task<Apartment?> SetOwner(int apartmentId, int userId)
+    {
+        
+        Apartment? apartment = await context.Apartments.Include(a => a.Residents).FirstOrDefaultAsync(a => a.Id == apartmentId);
+
+        if(apartment == null) {
+            return null;
+        }
+
+        if(apartment.Residents.All(r => r.UserId != userId)) {
+            return null;
+        }
+
+        apartment.Residents.ForEach(r => r.IsOwner = r.UserId == userId);
+
+        await context.SaveChangesAsync();
+
+        return apartment;
+
+    }
 }
